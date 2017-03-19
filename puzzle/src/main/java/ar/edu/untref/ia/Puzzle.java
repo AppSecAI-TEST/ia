@@ -26,9 +26,7 @@ public class Puzzle {
 			nodoInicial.setVisitado(true);
 			recorrido.add(nodoInicial);
 
-			int j = 0;
-			
-			while (!colaDeVisitas.isEmpty() && !resuelto && j < 100) {
+			while (!colaDeVisitas.isEmpty() || !resuelto) {
 
 				Nodo desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
@@ -43,7 +41,6 @@ public class Puzzle {
 						}
 					}
 				}
-				j++;
 			}
 		}
 
