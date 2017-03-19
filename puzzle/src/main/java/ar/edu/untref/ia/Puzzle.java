@@ -15,8 +15,9 @@ public class Puzzle {
 
 	private List<Nodo> recorrido = new ArrayList<Nodo>();
 
-	public List<Nodo> resolver(Nodo nodoInicial) {
+	public Integer resolver(Nodo nodoInicial) {
 
+		Integer cantidadMovimientos = 0;
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
 		boolean resuelto = estaResuelto(nodoInicial);
 		recorrido.add(nodoInicial);
@@ -28,12 +29,13 @@ public class Puzzle {
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
 
+				cantidadMovimientos++;
 				Nodo desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
 
 				Iterator<Nodo> adyacentesIt = adyacentes.iterator();
-				
-				while(adyacentesIt.hasNext() && !resuelto) {
+
+				while (adyacentesIt.hasNext() && !resuelto) {
 					Nodo nodoActual = adyacentesIt.next();
 					if (!nodoActual.fueVisitado()) {
 						nodoActual.setVisitado(true);
@@ -41,17 +43,13 @@ public class Puzzle {
 						if (!fueRecorrido(nodoActual)) {
 							recorrido.add(nodoActual);
 							resuelto = estaResuelto(nodoActual);
-							if (resuelto) {
-								System.out.println("TERMINO \n");
-								imprimirRecorrido();
-							}
 						}
 					}
 				}
 			}
 		}
 
-		return recorrido;
+		return cantidadMovimientos;
 	}
 
 	private boolean estaResuelto(Nodo estadoJuego) {
@@ -99,9 +97,12 @@ public class Puzzle {
 
 		for (int i = 0; i < recorrido.size(); i++) {
 
-			System.out.println(recorrido.get(i).getEstadoJuego().get(0) + " " + recorrido.get(i).getEstadoJuego().get(1) + " " + recorrido.get(i).getEstadoJuego().get(2));
-			System.out.println(recorrido.get(i).getEstadoJuego().get(3) + " " + recorrido.get(i).getEstadoJuego().get(4) + " " + recorrido.get(i).getEstadoJuego().get(5));
-			System.out.println(recorrido.get(i).getEstadoJuego().get(6) + " " + recorrido.get(i).getEstadoJuego().get(7) + " " + recorrido.get(i).getEstadoJuego().get(8));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(0) + " " + recorrido.get(i).getEstadoJuego().get(1)
+					+ " " + recorrido.get(i).getEstadoJuego().get(2));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(3) + " " + recorrido.get(i).getEstadoJuego().get(4)
+					+ " " + recorrido.get(i).getEstadoJuego().get(5));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(6) + " " + recorrido.get(i).getEstadoJuego().get(7)
+					+ " " + recorrido.get(i).getEstadoJuego().get(8));
 			System.out.println("\n");
 		}
 	}

@@ -9,21 +9,15 @@ public class Program {
 
 		List<Integer> instanciaJuego = new ArrayList<>();
 
-		instanciaJuego.add(Integer.parseInt(arg[0]));
-		instanciaJuego.add(Integer.parseInt(arg[1]));
-		instanciaJuego.add(Integer.parseInt(arg[2]));
-		instanciaJuego.add(Integer.parseInt(arg[3]));
-		instanciaJuego.add(Integer.parseInt(arg[4]));
-		instanciaJuego.add(Integer.parseInt(arg[5]));
-		instanciaJuego.add(Integer.parseInt(arg[6]));
-		instanciaJuego.add(Integer.parseInt(arg[7]));
-		instanciaJuego.add(Integer.parseInt(arg[8]));
+		for (int i = 0; i < 9; i++) {
+			instanciaJuego.add(Integer.parseInt(arg[i]));
+		}
+		Nodo nodoInicial = new Nodo(instanciaJuego);
 
 		Puzzle puzzle = new Puzzle();
-		Nodo nodoInicial = new Nodo(instanciaJuego);
-		puzzle.resolver(nodoInicial);
+		Integer cantidadDeMovimientos = puzzle.resolver(nodoInicial);
 
-//		puzzle.imprimirRecorrido();
-
+		puzzle.imprimirRecorrido();
+		System.out.println("Cantidad de movimientos minimos: " + cantidadDeMovimientos);
 	}
 }
