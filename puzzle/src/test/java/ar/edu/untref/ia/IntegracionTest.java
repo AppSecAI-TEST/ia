@@ -20,7 +20,7 @@ public class IntegracionTest {
 		cantidadDePosicionesEvaluadas = puzzle.resolver(instanciaDeJuego);
 
 		// comprobación
-		assertTrue(cantidadDePosicionesEvaluadas == 0);
+		assertTrue(cantidadDePosicionesEvaluadas == 1);
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class IntegracionTest {
 		cantidadDePosicionesEvaluadas = puzzle.resolver(instanciaDeJuego);
 
 		// comprobación
-		assertTrue(cantidadDePosicionesEvaluadas == 1);
+		assertTrue(cantidadDePosicionesEvaluadas == 2);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class IntegracionTest {
 		cantidadDePosicionesEvaluadas = puzzle.resolver(instanciaDeJuego);
 
 		// comprobación
-		assertTrue(cantidadDePosicionesEvaluadas == 2);
+		assertTrue(cantidadDePosicionesEvaluadas == 4);
 	}
 
 	@Test
@@ -59,7 +59,6 @@ public class IntegracionTest {
 		cantidadDePosicionesEvaluadas = puzzle.resolver(instanciaDeJuego);
 
 		// comprobación
-		assertTrue(cantidadDePosicionesEvaluadas == 5);
+		assertTrue(cantidadDePosicionesEvaluadas == 10);
 	}
-
 }

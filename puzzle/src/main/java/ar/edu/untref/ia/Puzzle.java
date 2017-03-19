@@ -17,7 +17,6 @@ public class Puzzle {
 
 	public Integer resolver(Nodo nodoInicial) {
 
-		Integer cantidadPosicionesEvaluadas = 0;
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
 		boolean resuelto = estaResuelto(nodoInicial);
 		recorrido.add(nodoInicial);
@@ -29,7 +28,6 @@ public class Puzzle {
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
 
-				cantidadPosicionesEvaluadas++;
 				Nodo desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
 
@@ -49,7 +47,7 @@ public class Puzzle {
 			}
 		}
 
-		return cantidadPosicionesEvaluadas;
+		return recorrido.size();
 	}
 
 	private boolean estaResuelto(Nodo estadoJuego) {
