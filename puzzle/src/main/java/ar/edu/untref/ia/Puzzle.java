@@ -26,7 +26,9 @@ public class Puzzle {
 			nodoInicial.setVisitado(true);
 			recorrido.add(nodoInicial);
 
-			while (!colaDeVisitas.isEmpty() && !resuelto) {
+			int j = 0;
+			
+			while (!colaDeVisitas.isEmpty() && !resuelto && j < 100) {
 
 				Nodo desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
@@ -41,6 +43,7 @@ public class Puzzle {
 						}
 					}
 				}
+				j++;
 			}
 		}
 
@@ -90,25 +93,11 @@ public class Puzzle {
 
 	public void imprimirRecorrido() {
 
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 100; i++) {
 
-			System.out.println(recorrido.get(i).getEstadoJuego().get(0));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(1));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(2));
-			System.out.println("\n");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(3));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(4));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(5));
-			System.out.println("\n");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(6));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(7));
-			System.out.println(" ");
-			System.out.println(recorrido.get(i).getEstadoJuego().get(8));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(0) + " " + recorrido.get(i).getEstadoJuego().get(1) + " " + recorrido.get(i).getEstadoJuego().get(2));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(3) + " " + recorrido.get(i).getEstadoJuego().get(4) + " " + recorrido.get(i).getEstadoJuego().get(5));
+			System.out.println(recorrido.get(i).getEstadoJuego().get(6) + " " + recorrido.get(i).getEstadoJuego().get(7) + " " + recorrido.get(i).getEstadoJuego().get(8));
 			System.out.println("\n");
 		}
 	}
