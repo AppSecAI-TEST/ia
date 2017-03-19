@@ -18,7 +18,7 @@ public class Nodo {
 	}
 
 	private void cargarMapaMovimientosPosibles() {
-		
+
 		movimientosPosibles.put(0, Arrays.asList(1, 3));
 		movimientosPosibles.put(1, Arrays.asList(0, 2, 4));
 		movimientosPosibles.put(2, Arrays.asList(1, 5));
@@ -43,26 +43,26 @@ public class Nodo {
 	}
 
 	public int obtenerPosicionLibre() {
-		
+
 		boolean encontrado = false;
 		int i = 0;
 		int posicionLibre = 0;
-		
-		while(i < 9 && !encontrado) {
+
+		while (i < 9 && !encontrado) {
 			if (estadoJuego.get(i) == 0) {
 				posicionLibre = i;
 				encontrado = true;
 			}
 			i++;
 		}
-		
+
 		return posicionLibre;
 	}
-	
+
 	public List<Integer> obtenerMovimientosPosibles(int posicionLibre) {
 		return movimientosPosibles.get(posicionLibre);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
