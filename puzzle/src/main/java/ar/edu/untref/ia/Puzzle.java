@@ -19,14 +19,14 @@ public class Puzzle {
 
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
 		boolean resuelto = estaResuelto(nodoInicial);
+		recorrido.add(nodoInicial);
 
 		if (!resuelto) {
 
 			colaDeVisitas.add(nodoInicial);
 			nodoInicial.setVisitado(true);
-			recorrido.add(nodoInicial);
 
-			while (!colaDeVisitas.isEmpty() || !resuelto) {
+			while (!colaDeVisitas.isEmpty() || resuelto) {
 
 				Nodo desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
