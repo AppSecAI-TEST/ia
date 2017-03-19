@@ -41,20 +41,13 @@ public class Puzzle {
 						if (!fueRecorrido(nodoActual)) {
 							recorrido.add(nodoActual);
 							resuelto = estaResuelto(nodoActual);
+							if (resuelto) {
+								System.out.println("TERMINO \n");
+								imprimirRecorrido();
+							}
 						}
 					}
 				}
-				
-//				for (Nodo nodoActual : adyacentes) {
-//					if (!nodoActual.fueVisitado()) {
-//						nodoActual.setVisitado(true);
-//						colaDeVisitas.add(nodoActual);
-//						if (!fueRecorrido(nodoActual)) {
-//							recorrido.add(nodoActual);
-//							resuelto = estaResuelto(nodoActual);
-//						}
-//					}
-//				}
 			}
 		}
 

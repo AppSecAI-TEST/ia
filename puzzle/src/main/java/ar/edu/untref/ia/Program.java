@@ -23,7 +23,7 @@ public class Program {
 		Nodo nodoInicial = new Nodo(instanciaJuego);
 		puzzle.resolver(nodoInicial);
 
-		puzzle.imprimirRecorrido();
+//		puzzle.imprimirRecorrido();
 
 	}
 }
