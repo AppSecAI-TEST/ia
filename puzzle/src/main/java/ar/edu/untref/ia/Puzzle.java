@@ -20,6 +20,7 @@ public class Puzzle {
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
 		boolean resuelto = estaResuelto(nodoInicial);
 		recorrido.add(nodoInicial);
+		Nodo desacolado = null;
 
 		if (!resuelto) {
 
@@ -28,9 +29,8 @@ public class Puzzle {
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
 
-				Nodo desacolado = colaDeVisitas.remove();
+				desacolado = colaDeVisitas.remove();
 				agregarAdyacentes(desacolado);
-
 				Iterator<Nodo> adyacentesIt = adyacentes.iterator();
 
 				while (adyacentesIt.hasNext() && !resuelto) {
@@ -38,9 +38,9 @@ public class Puzzle {
 					if (!nodoActual.fueVisitado()) {
 						nodoActual.setVisitado(true);
 						colaDeVisitas.add(nodoActual);
-						if (!fueRecorrido(nodoActual)) {
+						resuelto = estaResuelto(nodoActual);
+						if (!recorrido.contains(nodoActual)) {
 							recorrido.add(nodoActual);
-							resuelto = estaResuelto(nodoActual);
 						}
 					}
 				}
@@ -57,13 +57,18 @@ public class Puzzle {
 	private void agregarAdyacentes(Nodo estadoJuego) {
 
 		adyacentes = new ArrayList<Nodo>();
+		//Obtiene la posicion del 0 en la instancia del juego
 		int posicionLibre = estadoJuego.obtenerPosicionLibre();
+		
+		//Obtiene los movimientos posibles que se pueden realizar
 		List<Integer> movimientosPosibles = estadoJuego.obtenerMovimientosPosibles(posicionLibre);
+		
 		Iterator<Integer> movimientosPosiblesIt = movimientosPosibles.iterator();
 		while (movimientosPosiblesIt.hasNext()) {
 
 			int indiceAReemplazar = movimientosPosiblesIt.next();
 
+			//Genera una copia del estado del juego para poder reemplazar segun los movimientos posibles
 			List<Integer> copiaEstadoJuego = new ArrayList<>();
 			for (int i = 0; i < estadoJuego.getEstadoJuego().size(); i++) {
 				copiaEstadoJuego.add(estadoJuego.getEstadoJuego().get(i));
@@ -72,23 +77,10 @@ public class Puzzle {
 			Nodo nodo = new Nodo(copiaEstadoJuego);
 			nodo.getEstadoJuego().set(posicionLibre, nodo.getEstadoJuego().get(indiceAReemplazar));
 			nodo.getEstadoJuego().set(indiceAReemplazar, 0);
-			if (!fueRecorrido(nodo)) {
+			if (!recorrido.contains(nodo)) {
 				adyacentes.add(nodo);
 			}
 		}
-	}
-
-	private boolean fueRecorrido(Nodo nodo) {
-
-		boolean fueRecorrido = false;
-
-		for (int i = 0; i < recorrido.size(); i++) {
-			if (recorrido.get(i).equals(nodo)) {
-				fueRecorrido = true;
-			}
-		}
-
-		return fueRecorrido;
 	}
 
 	public void imprimirRecorrido() {

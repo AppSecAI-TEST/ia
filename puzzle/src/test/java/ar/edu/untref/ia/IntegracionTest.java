@@ -11,7 +11,7 @@ public class IntegracionTest {
 	private Integer cantidadDePosicionesEvaluadas;
 
 	@Test
-	public void deberiaDevolverQueNoEvaluoNingunaPosicion() {
+	public void deberiaEvaluarSolo1Posicion() {
 
 		// inicialización
 		Puzzle puzzle = new Puzzle();
@@ -24,7 +24,7 @@ public class IntegracionTest {
 	}
 
 	@Test
-	public void deberiaDevolverQueEvaluoUnaPosicion() {
+	public void deberiaEvaluar2Posiciones() {
 
 		// inicialización
 		Puzzle puzzle = new Puzzle();
@@ -37,7 +37,7 @@ public class IntegracionTest {
 	}
 
 	@Test
-	public void deberiaDevolverQueEvaluoDosPosiciones() {
+	public void deberiaEvaluar4Posiciones() {
 
 		// inicialización
 		Puzzle puzzle = new Puzzle();
@@ -50,7 +50,7 @@ public class IntegracionTest {
 	}
 
 	@Test
-	public void deberiaDevolverQueEvaluoCincoPosiciones() {
+	public void deberiaEvaluar10Posiciones() {
 
 		// inicialización
 		Puzzle puzzle = new Puzzle();
@@ -61,4 +61,17 @@ public class IntegracionTest {
 		// comprobación
 		assertTrue(cantidadDePosicionesEvaluadas == 10);
 	}
+
+//	@Test
+//	public void deberia() {
+//
+//		// inicialización
+//		Puzzle puzzle = new Puzzle();
+//		Nodo instanciaDeJuego = new Nodo(Arrays.asList(1, 2, 6, 3, 4, 5, 0, 7, 8));
+//
+//		cantidadDePosicionesEvaluadas = puzzle.resolver(instanciaDeJuego);
+//	
+//		// comprobación
+//		assertTrue(cantidadDePosicionesEvaluadas == 10);
+//	}
 }
