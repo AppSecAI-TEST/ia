@@ -15,17 +15,19 @@ public class Puzzle {
 
 	private List<Nodo> recorrido = new ArrayList<Nodo>();
 
-	public Integer resolver(Nodo nodoInicial) {
+	public Nodo resolver(Nodo nodoInicial) {
 
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
 		boolean resuelto = estaResuelto(nodoInicial);
 		recorrido.add(nodoInicial);
 		Nodo desacolado = null;
+		Nodo nodo = null;
 
 		if (!resuelto) {
 
 			colaDeVisitas.add(nodoInicial);
 			nodoInicial.setVisitado(true);
+			nodoInicial.setPadre(null);
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
 
@@ -34,66 +36,83 @@ public class Puzzle {
 				Iterator<Nodo> adyacentesIt = adyacentes.iterator();
 
 				while (adyacentesIt.hasNext() && !resuelto) {
-					Nodo nodoActual = adyacentesIt.next();
-					if (!nodoActual.fueVisitado()) {
-						nodoActual.setVisitado(true);
-						colaDeVisitas.add(nodoActual);
-						resuelto = estaResuelto(nodoActual);
-						if (!recorrido.contains(nodoActual)) {
-							recorrido.add(nodoActual);
+					nodo = adyacentesIt.next();
+					if (!nodo.fueVisitado()) {
+						nodo.setVisitado(true);
+						colaDeVisitas.add(nodo);
+						resuelto = estaResuelto(nodo);
+						if (!recorrido.contains(nodo)) {
+							recorrido.add(nodo);
 						}
 					}
 				}
 			}
 		}
 
-		return recorrido.size();
+		return nodo;
 	}
 
 	private boolean estaResuelto(Nodo estadoJuego) {
 		return SOLUCION.equals(estadoJuego);
 	}
 
-	private void agregarAdyacentes(Nodo estadoJuego) {
+	private void agregarAdyacentes(Nodo nodoPadre) {
 
 		adyacentes = new ArrayList<Nodo>();
-		//Obtiene la posicion del 0 en la instancia del juego
-		int posicionLibre = estadoJuego.obtenerPosicionLibre();
-		
-		//Obtiene los movimientos posibles que se pueden realizar
-		List<Integer> movimientosPosibles = estadoJuego.obtenerMovimientosPosibles(posicionLibre);
-		
+		// Obtiene la posicion del 0 en la instancia del juego
+		int posicionLibre = nodoPadre.obtenerPosicionLibre();
+
+		// Obtiene los movimientos posibles que se pueden realizar
+		List<Integer> movimientosPosibles = nodoPadre.obtenerMovimientosPosibles(posicionLibre);
+
 		Iterator<Integer> movimientosPosiblesIt = movimientosPosibles.iterator();
 		while (movimientosPosiblesIt.hasNext()) {
 
 			int indiceAReemplazar = movimientosPosiblesIt.next();
 
-			//Genera una copia del estado del juego para poder reemplazar segun los movimientos posibles
+			// Genera una copia del estado del juego para poder reemplazar segun
+			// los movimientos posibles
 			List<Integer> copiaEstadoJuego = new ArrayList<>();
-			for (int i = 0; i < estadoJuego.getEstadoJuego().size(); i++) {
-				copiaEstadoJuego.add(estadoJuego.getEstadoJuego().get(i));
+			for (int i = 0; i < nodoPadre.getEstadoJuego().size(); i++) {
+				copiaEstadoJuego.add(nodoPadre.getEstadoJuego().get(i));
 			}
 
 			Nodo nodo = new Nodo(copiaEstadoJuego);
 			nodo.getEstadoJuego().set(posicionLibre, nodo.getEstadoJuego().get(indiceAReemplazar));
 			nodo.getEstadoJuego().set(indiceAReemplazar, 0);
+			nodo.setPadre(nodoPadre);
 			if (!recorrido.contains(nodo)) {
 				adyacentes.add(nodo);
 			}
 		}
 	}
 
-	public void imprimirRecorrido() {
+	public Integer imprimirRecorrido(Nodo nodoInicial) {
 
-		for (int i = 0; i < recorrido.size(); i++) {
+		List<Nodo> listaAImprimir = new LinkedList<Nodo>();
+		Nodo nodoSolucion = resolver(nodoInicial);
+		Nodo nodoRecorrido = nodoSolucion;
 
-			System.out.println(recorrido.get(i).getEstadoJuego().get(0) + " " + recorrido.get(i).getEstadoJuego().get(1)
-					+ " " + recorrido.get(i).getEstadoJuego().get(2));
-			System.out.println(recorrido.get(i).getEstadoJuego().get(3) + " " + recorrido.get(i).getEstadoJuego().get(4)
-					+ " " + recorrido.get(i).getEstadoJuego().get(5));
-			System.out.println(recorrido.get(i).getEstadoJuego().get(6) + " " + recorrido.get(i).getEstadoJuego().get(7)
-					+ " " + recorrido.get(i).getEstadoJuego().get(8));
+		while (nodoRecorrido.getPadre() != null) {
+
+			listaAImprimir.add(nodoRecorrido);
+			nodoRecorrido = nodoRecorrido.getPadre();
+		}
+
+		for (int i = listaAImprimir.size() - 1; i >= 0; i--) {
+
+			System.out.println(
+					listaAImprimir.get(i).getEstadoJuego().get(0) + " " + listaAImprimir.get(i).getEstadoJuego().get(1)
+							+ " " + listaAImprimir.get(i).getEstadoJuego().get(2));
+			System.out.println(
+					listaAImprimir.get(i).getEstadoJuego().get(3) + " " + listaAImprimir.get(i).getEstadoJuego().get(4)
+							+ " " + listaAImprimir.get(i).getEstadoJuego().get(5));
+			System.out.println(
+					listaAImprimir.get(i).getEstadoJuego().get(6) + " " + listaAImprimir.get(i).getEstadoJuego().get(7)
+							+ " " + listaAImprimir.get(i).getEstadoJuego().get(8));
 			System.out.println("\n");
 		}
+
+		return listaAImprimir.size();
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Nodo {
 
+	private Nodo padre;
 	private List<Integer> estadoJuego;
 	private Boolean visitado;
 	private Map<Integer, List<Integer>> movimientosPosibles = new HashMap<>();
@@ -61,6 +62,14 @@ public class Nodo {
 
 	public List<Integer> obtenerMovimientosPosibles(int posicionLibre) {
 		return movimientosPosibles.get(posicionLibre);
+	}
+
+	public Nodo getPadre() {
+		return padre;
+	}
+
+	public void setPadre(Nodo padre) {
+		this.padre = padre;
 	}
 
 	@Override

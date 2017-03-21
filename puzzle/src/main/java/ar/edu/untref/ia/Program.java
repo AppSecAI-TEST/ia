@@ -15,9 +15,6 @@ public class Program {
 		Nodo nodoInicial = new Nodo(instanciaJuego);
 
 		Puzzle puzzle = new Puzzle();
-		Integer cantidadDePosicionesEvaluadas = puzzle.resolver(nodoInicial);
-
-		puzzle.imprimirRecorrido();
-		System.out.println("Cantidad de posiciones evaluadas hasta encontrar la solución: " + cantidadDePosicionesEvaluadas);
+		puzzle.imprimirRecorrido(nodoInicial);
 	}
 }
