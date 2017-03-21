@@ -89,30 +89,37 @@ public class Puzzle {
 
 	public Integer imprimirRecorrido(Nodo nodoInicial) {
 
+		int movimientosOptimos = 0;
 		List<Nodo> listaAImprimir = new LinkedList<Nodo>();
 		Nodo nodoSolucion = resolver(nodoInicial);
 		Nodo nodoRecorrido = nodoSolucion;
 
-		while (nodoRecorrido.getPadre() != null) {
-
-			listaAImprimir.add(nodoRecorrido);
-			nodoRecorrido = nodoRecorrido.getPadre();
+		if (nodoSolucion != null) {
+		
+			while (nodoRecorrido.getPadre() != null) {
+	
+				listaAImprimir.add(nodoRecorrido);
+				nodoRecorrido = nodoRecorrido.getPadre();
+			}
+	
+			for (int i = listaAImprimir.size() - 1; i >= 0; i--) {
+	
+				System.out.println(
+						listaAImprimir.get(i).getEstadoJuego().get(0) + " " + listaAImprimir.get(i).getEstadoJuego().get(1)
+								+ " " + listaAImprimir.get(i).getEstadoJuego().get(2));
+				System.out.println(
+						listaAImprimir.get(i).getEstadoJuego().get(3) + " " + listaAImprimir.get(i).getEstadoJuego().get(4)
+								+ " " + listaAImprimir.get(i).getEstadoJuego().get(5));
+				System.out.println(
+						listaAImprimir.get(i).getEstadoJuego().get(6) + " " + listaAImprimir.get(i).getEstadoJuego().get(7)
+								+ " " + listaAImprimir.get(i).getEstadoJuego().get(8));
+				System.out.println("\n");
+			}
+			movimientosOptimos = listaAImprimir.size();
+		} else {
+			System.out.println("El juego ya está resuelto.");
 		}
-
-		for (int i = listaAImprimir.size() - 1; i >= 0; i--) {
-
-			System.out.println(
-					listaAImprimir.get(i).getEstadoJuego().get(0) + " " + listaAImprimir.get(i).getEstadoJuego().get(1)
-							+ " " + listaAImprimir.get(i).getEstadoJuego().get(2));
-			System.out.println(
-					listaAImprimir.get(i).getEstadoJuego().get(3) + " " + listaAImprimir.get(i).getEstadoJuego().get(4)
-							+ " " + listaAImprimir.get(i).getEstadoJuego().get(5));
-			System.out.println(
-					listaAImprimir.get(i).getEstadoJuego().get(6) + " " + listaAImprimir.get(i).getEstadoJuego().get(7)
-							+ " " + listaAImprimir.get(i).getEstadoJuego().get(8));
-			System.out.println("\n");
-		}
-
-		return listaAImprimir.size();
+			
+		return movimientosOptimos;
 	}
 }
