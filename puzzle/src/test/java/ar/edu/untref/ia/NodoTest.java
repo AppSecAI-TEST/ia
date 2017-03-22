@@ -7,7 +7,29 @@ import org.junit.Test;
 
 public class NodoTest {
 
+	@Test
+	public void comparaDosNodosIguales() {
+		
+		Nodo nodo1 = new Nodo(Arrays.asList(0,1,2,3,4,5,6,7,8));
+		Nodo nodo2 = new Nodo(Arrays.asList(0,1,2,3,4,5,6,7,8));
+		
+		boolean iguales = nodo1.equals(nodo2);
+		
+		Assert.assertTrue(iguales);
+	}
+	
+	@Test
+	public void comparaDosNodosDistintos() {
+		
+		Nodo nodo1 = new Nodo(Arrays.asList(1,0,2,3,6,5,4,7,8));
+		Nodo nodo2 = new Nodo(Arrays.asList(0,1,2,3,4,5,6,7,8));
+		
+		boolean iguales = nodo1.equals(nodo2);
+		
+		Assert.assertTrue(!iguales);
+	}
 
+	
 	@Test
 	public void devuelveCorrectamenteLaPosicionLibre0() {
 		
