@@ -54,20 +54,18 @@ public class Puzzle {
 
 	private void agregarAdyacentes(Nodo nodoPadre) {
 
-		adyacentes = new ArrayList<Nodo>();
-		// Obtiene la posicion del 0 en la instancia del juego
-		int posicionLibre = nodoPadre.obtenerPosicionLibre();
+		int indiceAReemplazar;
+		this.adyacentes = null;
+		this.adyacentes = new ArrayList<Nodo>();
 
-		// Obtiene los movimientos posibles que se pueden realizar
+		int posicionLibre = nodoPadre.obtenerPosicionLibre();
 		List<Integer> movimientosPosibles = nodoPadre.obtenerMovimientosPosibles(posicionLibre);
 
 		Iterator<Integer> movimientosPosiblesIt = movimientosPosibles.iterator();
 		while (movimientosPosiblesIt.hasNext()) {
 
-			int indiceAReemplazar = movimientosPosiblesIt.next();
+			indiceAReemplazar = movimientosPosiblesIt.next();
 
-			// Genera una copia del estado del juego para poder reemplazar segun
-			// los movimientos posibles
 			List<Integer> copiaEstadoJuego = new ArrayList<>();
 			for (int i = 0; i < nodoPadre.getEstadoJuego().size(); i++) {
 				copiaEstadoJuego.add(nodoPadre.getEstadoJuego().get(i));
