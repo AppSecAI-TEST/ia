@@ -18,7 +18,19 @@ public class IntegracionTest {
 
 		Assert.assertTrue(cantidadDeMovimientos == 0);
 	}
-	
+
+	@Test
+	public void deberiaResolverElJuegoEn7Movimientos() {
+
+		// inicialización
+		Puzzle puzzle = new Puzzle();
+		Nodo instanciaDeJuego = new Nodo(Arrays.asList(1, 4, 2, 0, 3, 8, 6, 5, 7));
+
+		int cantidadDeMovimientos = puzzle.imprimirRecorrido(instanciaDeJuego);
+
+		Assert.assertTrue(cantidadDeMovimientos == 7);
+	}
+
 	@Test
 	public void deberiaResolverElJuegoEn8Movimientos() {
 
@@ -30,5 +42,4 @@ public class IntegracionTest {
 
 		Assert.assertTrue(cantidadDeMovimientos == 8);
 	}
-
 }
