@@ -26,7 +26,6 @@ public class Puzzle {
 		if (!resuelto) {
 
 			colaDeVisitas.add(nodoInicial);
-			nodoInicial.setVisitado(true);
 			nodoInicial.setPadre(null);
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
@@ -37,13 +36,10 @@ public class Puzzle {
 
 				while (adyacentesIt.hasNext() && !resuelto) {
 					nodo = adyacentesIt.next();
-					if (!nodo.fueVisitado()) {
-						nodo.setVisitado(true);
-						colaDeVisitas.add(nodo);
-						resuelto = estaResuelto(nodo);
-						if (!recorrido.contains(nodo)) {
-							recorrido.add(nodo);
-						}
+					colaDeVisitas.add(nodo);
+					resuelto = estaResuelto(nodo);
+					if (!recorrido.contains(nodo)) {
+						recorrido.add(nodo);
 					}
 				}
 			}

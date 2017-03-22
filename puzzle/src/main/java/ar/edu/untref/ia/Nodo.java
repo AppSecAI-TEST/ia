@@ -9,13 +9,11 @@ public class Nodo {
 
 	private Nodo padre;
 	private List<Integer> estadoJuego;
-	private Boolean visitado;
 	private Map<Integer, List<Integer>> movimientosPosibles = new HashMap<>();
 
 	public Nodo(List<Integer> estadoJuego) {
 		this.estadoJuego = estadoJuego;
-		this.visitado = false;
-		cargarMapaMovimientosPosibles();
+		this.cargarMapaMovimientosPosibles();
 	}
 
 	private void cargarMapaMovimientosPosibles() {
@@ -33,14 +31,6 @@ public class Nodo {
 
 	public List<Integer> getEstadoJuego() {
 		return estadoJuego;
-	}
-
-	public Boolean fueVisitado() {
-		return visitado;
-	}
-
-	public void setVisitado(Boolean visitado) {
-		this.visitado = visitado;
 	}
 
 	public int obtenerPosicionLibre() {
@@ -74,18 +64,19 @@ public class Nodo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Nodo other = (Nodo) obj;
-		if (estadoJuego == null) {
-			if (other.estadoJuego != null)
-				return false;
-		} else if (!estadoJuego.equals(other.estadoJuego))
-			return false;
-		return true;
+
+		boolean iguales = true;
+		int i = 0;
+		
+		Nodo nodo = (Nodo) obj;
+		
+		while (i < this.estadoJuego.size() && iguales) {
+			if (estadoJuego.get(i) != nodo.estadoJuego.get(i)) {
+				iguales = false;
+			}
+			i++;
+		}
+		
+		return iguales;
 	}
 }
