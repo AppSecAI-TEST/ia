@@ -40,9 +40,6 @@ public class Puzzle {
 					nodo = adyacentesIt.next();
 					colaDeVisitas.add(nodo);
 					resuelto = estaResuelto(nodo);
-					if (!recorrido.contains(nodo)) {
-						recorrido.add(nodo);
-					}
 				}
 			}
 		}
@@ -79,6 +76,7 @@ public class Puzzle {
 			nodo.setPadre(nodoPadre);
 			if (!recorrido.contains(nodo)) {
 				adyacentes.add(nodo);
+				recorrido.add(nodo);
 			}
 		}
 	}
