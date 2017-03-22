@@ -18,15 +18,17 @@ public class Puzzle {
 	public Nodo resolver(Nodo nodoInicial) {
 
 		Queue<Nodo> colaDeVisitas = new LinkedList<Nodo>();
-		boolean resuelto = estaResuelto(nodoInicial);
-		recorrido.add(nodoInicial);
 		Nodo desacolado = null;
 		Nodo nodo = null;
+		boolean resuelto;
+		
+		resuelto = estaResuelto(nodoInicial);
+		recorrido.add(nodoInicial);
 
 		if (!resuelto) {
 
-			colaDeVisitas.add(nodoInicial);
 			nodoInicial.setPadre(null);
+			colaDeVisitas.add(nodoInicial);
 
 			while (!colaDeVisitas.isEmpty() && !resuelto) {
 
