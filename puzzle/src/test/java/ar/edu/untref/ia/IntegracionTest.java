@@ -20,6 +20,30 @@ public class IntegracionTest {
 	}
 
 	@Test
+	public void deberiaResolverElJuegoEn2Movimientos() {
+
+		// inicialización
+		Puzzle puzzle = new Puzzle();
+		Nodo instanciaDeJuego = new Nodo(Arrays.asList(1, 4, 2, 3, 0, 5, 6, 7, 8));
+
+		int cantidadDeMovimientos = puzzle.imprimirRecorrido(instanciaDeJuego);
+
+		Assert.assertTrue(cantidadDeMovimientos == 2);
+	}
+
+	@Test
+	public void deberiaResolverElJuegoEn3Movimientos() {
+
+		// inicialización
+		Puzzle puzzle = new Puzzle();
+		Nodo instanciaDeJuego = new Nodo(Arrays.asList(1, 4, 2, 3, 7, 5, 6, 0, 8));
+
+		int cantidadDeMovimientos = puzzle.imprimirRecorrido(instanciaDeJuego);
+
+		Assert.assertTrue(cantidadDeMovimientos == 3);
+	}
+
+	@Test
 	public void deberiaResolverElJuegoEn7Movimientos() {
 
 		// inicialización
