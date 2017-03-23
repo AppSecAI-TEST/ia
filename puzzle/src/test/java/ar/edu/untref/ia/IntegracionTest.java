@@ -80,6 +80,18 @@ public class IntegracionTest {
 	}
 	
 	@Test
+	public void deberiaResolverElJuegoEn6Movimientos() {
+		
+		// inicialización
+		Puzzle puzzle = new Puzzle();
+		Nodo instanciaDeJuego = new Nodo(Arrays.asList(1, 4, 2, 7, 0, 5, 3, 6, 8));
+		
+		int cantidadDeMovimientos = puzzle.imprimirRecorrido(instanciaDeJuego);
+		
+		Assert.assertTrue(cantidadDeMovimientos == 6);
+	}
+
+	@Test
 	public void deberiaResolverElJuegoEn7Movimientos() {
 
 		// inicialización
