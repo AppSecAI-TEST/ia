@@ -26,4 +26,19 @@ public class TableroTest {
 
 		Assert.assertTrue(posicionLibre);
 	}
+
+	@Test
+	public void elTableroInformaQueUnaPosicionCualquieraEstaLibre() {
+		
+		boolean posicionLibre = true;
+		Tablero tablero = new Tablero();		
+		
+		String posicion = tablero.getPosicion(1, 3);
+		if (posicion != null) {
+			posicionLibre = false;
+		}
+		
+		Assert.assertTrue(posicionLibre);
+	}
+
 }
