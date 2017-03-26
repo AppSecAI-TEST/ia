@@ -87,9 +87,7 @@ public class Tablero {
 	public boolean ganoElJuego(int filaJugada, int columnaJugada, String fichaJugada) {
 		
 		boolean gano = false;
-		
 		boolean horizontal = comprobarHorizontal(filaJugada, columnaJugada, fichaJugada);
-		
 		gano = horizontal;
 		
 		return gano;
@@ -122,6 +120,7 @@ public class Tablero {
 				}
 				indiceDerecha++;
 			}
+			columnaJugada--;
 		}
 		
 		return gano;
