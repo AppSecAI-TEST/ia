@@ -99,9 +99,11 @@ public class Tablero {
 		int cantidadFichasIguales = 0;
 		int indiceIzquierda = columnaJugada;
 		int indiceDerecha = columnaJugada;
+		String fichaEncontrada = fichaJugada;
 		
-		while(indiceIzquierda >= 0 & !gano) {
-			if (getPosicion(filaJugada, indiceIzquierda) == fichaJugada) {
+		while(indiceIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			fichaEncontrada = getPosicion(filaJugada, indiceIzquierda); 
+			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
 					gano = true;
@@ -111,7 +113,9 @@ public class Tablero {
 		}
 		
 		if (!gano) {
-			while(indiceDerecha < 7 & !gano) {
+			fichaEncontrada = fichaJugada;
+			while(indiceDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+				fichaEncontrada = getPosicion(filaJugada, indiceDerecha);
 				if (getPosicion(filaJugada, indiceDerecha) == fichaJugada) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {
