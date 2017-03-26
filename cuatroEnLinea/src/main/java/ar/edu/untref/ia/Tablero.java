@@ -2,7 +2,7 @@ package ar.edu.untref.ia;
 
 public class Tablero {
 
-	private final String ESPACIO_LIBRE = "L";
+	private final String ESPACIO_LIBRE = "_";
 	private final int JUGADOR_UNO = 1;
 	private final String FICHA_JUGADOR_UNO = "O";
 	private final int JUGADOR_DOS = 2;
@@ -82,5 +82,48 @@ public class Tablero {
 		}
 		
 		return estadoTablero;
+	}
+
+	public boolean ganoElJuego(int filaJugada, int columnaJugada, String fichaJugada) {
+		
+		boolean gano = false;
+		
+		boolean horizontal = comprobarHorizontal(filaJugada, columnaJugada, fichaJugada);
+		
+		gano = horizontal;
+		
+		return gano;
+	}
+
+	private boolean comprobarHorizontal(int filaJugada, int columnaJugada, String fichaJugada) {
+		
+		boolean gano = false;
+		int cantidadFichasIguales = 0;
+		int indiceIzquierda = columnaJugada;
+		int indiceDerecha = columnaJugada;
+		
+		while(indiceIzquierda >= 0 & !gano) {
+			if (getPosicion(filaJugada, indiceIzquierda) == fichaJugada) {
+				cantidadFichasIguales++;
+				if (cantidadFichasIguales == 4) {
+					gano = true;
+				}
+			}
+			indiceIzquierda--;
+		}
+		
+		if (!gano) {
+			while(indiceDerecha < 7 & !gano) {
+				if (getPosicion(filaJugada, indiceDerecha) == fichaJugada) {
+					cantidadFichasIguales++;
+					if (cantidadFichasIguales == 4) {
+						gano = true;
+					}
+				}
+				indiceDerecha++;
+			}
+		}
+		
+		return gano;
 	}
 }

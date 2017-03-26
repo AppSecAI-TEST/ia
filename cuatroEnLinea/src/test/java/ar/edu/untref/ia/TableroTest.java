@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class TableroTest {
 
-	private final String ESPACIO_LIBRE = "L";
+	private final String ESPACIO_LIBRE = "_";
 	private final int JUGADOR_UNO = 1;
 	private final String FICHA_JUGADOR_UNO = "O";
 	private final int JUGADOR_DOS = 2;
@@ -91,5 +91,24 @@ public class TableroTest {
 		Assert.assertTrue(tablero.getPosicion(5, 1) == FICHA_JUGADOR_DOS);
 		Assert.assertTrue(tablero.getPosicion(4, 2) == FICHA_JUGADOR_UNO);
 		Assert.assertTrue(tablero.getPosicion(3, 2) == FICHA_JUGADOR_DOS);
+	}
+
+	@Test
+	public void elJugadorUnoAlJugarPorQuintaVezGanaElJuegoEnHorizontal() {
+
+		Tablero tablero = new Tablero();
+
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 4);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 3);
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 6);
+		System.out.println(tablero.estadoTablero());
+
+		Assert.assertTrue(tablero.ganoElJuego(5, 6 - 1, FICHA_JUGADOR_UNO));
 	}
 }
