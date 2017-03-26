@@ -33,8 +33,8 @@ public class Tablero {
 
 	public boolean jugar(int jugador, int columna) {
 
-		boolean jugadaValida = hayEspacioEnLaColumna(columna);
 		int indiceColumna = columna - 1;
+		boolean jugadaValida = hayEspacioEnLaColumna(indiceColumna);
 		
 		if (jugadaValida) {
 		

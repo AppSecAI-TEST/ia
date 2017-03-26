@@ -94,7 +94,7 @@ public class TableroTest {
 	}
 
 	@Test
-	public void elJugadorUnoAlJugarPorQuintaVezGanaElJuegoEnHorizontal() {
+	public void elJugadorUnoGanaEnHorizontal() {
 
 		Tablero tablero = new Tablero();
 
@@ -107,8 +107,30 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_UNO, 5);
 		tablero.jugar(JUGADOR_DOS, 2);
 		tablero.jugar(JUGADOR_UNO, 6);
-		System.out.println(tablero.estadoTablero());
 
 		Assert.assertTrue(tablero.ganoElJuego(5, 6 - 1, FICHA_JUGADOR_UNO));
+	}
+
+	@Test
+	public void elJugadorDosGanaEnHorizontal() {
+
+		Tablero tablero = new Tablero();
+
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 3);
+		tablero.jugar(JUGADOR_UNO, 1);
+		tablero.jugar(JUGADOR_DOS, 5);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 5);
+		tablero.jugar(JUGADOR_UNO, 2);
+		tablero.jugar(JUGADOR_DOS, 6);
+		tablero.jugar(JUGADOR_UNO, 2);
+		tablero.jugar(JUGADOR_DOS, 7);
+		tablero.jugar(JUGADOR_UNO, 1);
+		tablero.jugar(JUGADOR_DOS, 4);
+		
+		Assert.assertTrue(tablero.ganoElJuego(5, 4 - 1, FICHA_JUGADOR_DOS));
 	}
 }
