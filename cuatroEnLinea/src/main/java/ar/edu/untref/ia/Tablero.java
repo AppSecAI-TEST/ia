@@ -75,12 +75,15 @@ public class Tablero {
 		String estadoTablero = "";
 		
 		for (int i = 0; i < 6; i++) {
+			estadoTablero = estadoTablero + i + " ";
 			for (int j = 0; j < 7; j++) {
 				estadoTablero = estadoTablero + " " + getPosicion(i, j);
 			}
 			estadoTablero = estadoTablero + "\n";
 		}
 		
+		estadoTablero = estadoTablero + "\n" + "   1 2 3 4 5 6 7";
+		estadoTablero = estadoTablero + "\n" + "   0 1 2 3 4 5 6";
 		return estadoTablero;
 	}
 
@@ -88,7 +91,28 @@ public class Tablero {
 		
 		boolean gano = false;
 		boolean horizontal = comprobarHorizontal(filaJugada, columnaJugada, fichaJugada);
-		gano = horizontal;
+		boolean vertical = comprobarVertical(filaJugada, columnaJugada, fichaJugada);
+		gano = horizontal || vertical;
+		
+		return gano;
+	}
+
+	private boolean comprobarVertical(int filaJugada, int columnaJugada, String fichaJugada) {
+
+		boolean gano = false;
+		int cantidadFichasIguales = 0;
+		String fichaEncontrada = fichaJugada;
+		
+		while(filaJugada < 6  & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			fichaEncontrada = getPosicion(filaJugada, columnaJugada); 
+			if (fichaEncontrada.equals(fichaJugada)) {
+				cantidadFichasIguales++;
+				if (cantidadFichasIguales == 4) {
+					gano = true;
+				}
+			}
+			filaJugada++;
+		}
 		
 		return gano;
 	}
