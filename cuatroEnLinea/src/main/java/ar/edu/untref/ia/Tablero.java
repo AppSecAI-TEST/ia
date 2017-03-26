@@ -2,13 +2,23 @@ package ar.edu.untref.ia;
 
 public class Tablero {
 
+	private final String ESPACIO_LIBRE = "L";
 	private final int JUGADOR_UNO = 1;
 	private final String FICHA_JUGADOR_UNO = "O";
 	private final int JUGADOR_DOS = 2;
 	private final String FICHA_JUGADOR_DOS = "X";
 	
-	private String[][] posiciones = new String[7][6];
+	private String[][] posiciones = new String[6][7];
 
+	public Tablero() {
+		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				this.setPosicion(i, j, ESPACIO_LIBRE);
+			}
+		}		
+	}
+	
 	public void setPosicion(int i, int j, String ficha) {
 		this.posiciones[i][j] = ficha;
 	}
@@ -44,19 +54,33 @@ public class Tablero {
 	private int obtenerFilaLibre(int columna) {
 		
 		boolean filaEncontrada = false;
-		int filaLibre = 0;
+		int filaLibre = 5;
 		
-		while (filaLibre < 6 && !filaEncontrada) {
-			if (this.getPosicion(filaLibre, columna) != null) {
+		while (filaLibre >= 0 && !filaEncontrada) {
+			if (this.getPosicion(filaLibre, columna) == ESPACIO_LIBRE) {
 				filaEncontrada = true;
 			}
-			filaLibre++;
+			filaLibre--;
 		}
 		
-		return filaLibre - 1;
+		return filaLibre + 1;
 	}
 
 	private boolean hayEspacioEnLaColumna(int columna) {
-		return (getPosicion(0, columna) == null);
+		return (getPosicion(0, columna) == ESPACIO_LIBRE);
+	}
+	
+	public String estadoTablero() {
+		
+		String estadoTablero = "";
+		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				estadoTablero = estadoTablero + " " + getPosicion(i, j);
+			}
+			estadoTablero = estadoTablero + "\n";
+		}
+		
+		return estadoTablero;
 	}
 }

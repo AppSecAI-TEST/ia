@@ -5,6 +5,7 @@ import org.junit.Test;
 
 public class TableroTest {
 
+	private final String ESPACIO_LIBRE = "L";
 	private final int JUGADOR_UNO = 1;
 	private final String FICHA_JUGADOR_UNO = "O";
 	private final int JUGADOR_DOS = 2;
@@ -19,9 +20,9 @@ public class TableroTest {
 
 		Tablero tablero = new Tablero();
 
-		while (i < 7 && posicionLibre) {
-			while (j < 6 && posicionLibre) {
-				if (tablero.getPosicion(i, j) != null) {
+		while (i < 6 && posicionLibre) {
+			while (j < 7 && posicionLibre) {
+				if (tablero.getPosicion(i, j) != ESPACIO_LIBRE) {
 					posicionLibre = false;
 				}
 				j++;
@@ -39,7 +40,7 @@ public class TableroTest {
 		Tablero tablero = new Tablero();
 
 		String posicion = tablero.getPosicion(1, 3);
-		if (posicion != null) {
+		if (posicion != ESPACIO_LIBRE) {
 			posicionLibre = false;
 		}
 
@@ -54,7 +55,7 @@ public class TableroTest {
 		tablero.setPosicion(1, 3, FICHA_JUGADOR_DOS);
 
 		String posicion = tablero.getPosicion(1, 3);
-		if (posicion != null) {
+		if (posicion != ESPACIO_LIBRE) {
 			posicionLibre = false;
 		}
 
@@ -70,5 +71,25 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_UNO, 5);
 
 		Assert.assertTrue(tablero.getPosicion(5, 4) == FICHA_JUGADOR_UNO);
+	}
+
+	@Test
+	public void seJuegaLaSecuenciaYElTableroQuedaSegunLoEsperado() {
+
+		Tablero tablero = new Tablero();
+
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 4);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 3);
+
+		Assert.assertTrue(tablero.getPosicion(5, 3) == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(4, 3) == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(5, 2) == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(5, 1) == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(4, 2) == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(3, 2) == FICHA_JUGADOR_DOS);
 	}
 }
