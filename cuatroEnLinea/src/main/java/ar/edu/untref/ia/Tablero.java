@@ -107,12 +107,12 @@ public class Tablero {
 		int cantidadFichasIguales = 0;
 		int filaHaciaAbajo = filaJugada;
 		int filaHaciaArriba = filaJugada;
-		int columnaIzquierda = columnaJugada;
 		int columnaDerecha = columnaJugada;
+		int columnaIzquierda = columnaJugada;
 		String fichaEncontrada = fichaJugada;
 
-		while (filaHaciaAbajo < 6 & columnaIzquierda < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaIzquierda);
+		while (filaHaciaAbajo < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaDerecha);
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
@@ -120,14 +120,14 @@ public class Tablero {
 				}
 			}
 			filaHaciaAbajo++;
-			columnaIzquierda++;
+			columnaDerecha++;
 		}
 
 		if (!gano) {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
-			while (filaHaciaArriba >= 0 & columnaDerecha >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha);
+			while (filaHaciaArriba >= 0 & columnaIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+				fichaEncontrada = getPosicion(filaHaciaArriba, columnaIzquierda);
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {
@@ -135,7 +135,7 @@ public class Tablero {
 					}
 				}
 				filaHaciaArriba--;
-				columnaDerecha--;
+				columnaIzquierda--;
 			}
 		}
 
