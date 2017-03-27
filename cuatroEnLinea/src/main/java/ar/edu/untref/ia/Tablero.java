@@ -48,6 +48,8 @@ public class Tablero {
 				this.posiciones[filaLibre][indiceColumna] = FICHA_JUGADOR_DOS;
 			}
 		}
+
+		System.out.println(estadoTablero());
 		return jugadaValida;
 	}
 
@@ -92,13 +94,55 @@ public class Tablero {
 		boolean gano = false;
 		boolean horizontal = comprobarHorizontal(filaJugada, columnaJugada, fichaJugada);
 		boolean vertical = comprobarVertical(filaJugada, columnaJugada, fichaJugada);
-		boolean diagonal = comprobarDiagonal(filaJugada, columnaJugada, fichaJugada);
-		gano = horizontal || vertical || diagonal;
+		boolean diagonalArribaDerecha = comprobarDiagonalArribaDerecha(filaJugada, columnaJugada, fichaJugada);
+		boolean diagonalArribaIzquierda = comprobarDiagonalArribaIzquierda(filaJugada, columnaJugada, fichaJugada);
+		gano = horizontal || vertical || diagonalArribaDerecha || diagonalArribaIzquierda;
 
 		return gano;
 	}
 
-	private boolean comprobarDiagonal(int filaJugada, int columnaJugada, String fichaJugada) {
+	private boolean comprobarDiagonalArribaIzquierda(int filaJugada, int columnaJugada, String fichaJugada) {
+
+		boolean gano = false;
+		int cantidadFichasIguales = 0;
+		int filaHaciaAbajo = filaJugada;
+		int filaHaciaArriba = filaJugada;
+		int columnaIzquierda = columnaJugada;
+		int columnaDerecha = columnaJugada;
+		String fichaEncontrada = fichaJugada;
+
+		while (filaHaciaAbajo < 6 & columnaIzquierda < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaIzquierda);
+			if (fichaEncontrada.equals(fichaJugada)) {
+				cantidadFichasIguales++;
+				if (cantidadFichasIguales == 4) {
+					gano = true;
+				}
+			}
+			filaHaciaAbajo++;
+			columnaIzquierda++;
+		}
+
+		if (!gano) {
+			cantidadFichasIguales--;
+			fichaEncontrada = fichaJugada;
+			while (filaHaciaArriba >= 0 & columnaDerecha >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha);
+				if (fichaEncontrada.equals(fichaJugada)) {
+					cantidadFichasIguales++;
+					if (cantidadFichasIguales == 4) {
+						gano = true;
+					}
+				}
+				filaHaciaArriba--;
+				columnaDerecha--;
+			}
+		}
+
+		return gano;
+	}
+
+	private boolean comprobarDiagonalArribaDerecha(int filaJugada, int columnaJugada, String fichaJugada) {
 
 		boolean gano = false;
 		int cantidadFichasIguales = 0;
@@ -121,6 +165,7 @@ public class Tablero {
 		}
 
 		if (!gano) {
+			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
 			while (filaHaciaArriba < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
 				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha);
@@ -131,7 +176,7 @@ public class Tablero {
 					}
 				}
 				filaHaciaArriba++;
-				columnaJugada++;
+				columnaDerecha++;
 			}
 		}
 
@@ -178,6 +223,7 @@ public class Tablero {
 		}
 
 		if (!gano) {
+			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
 			while (indiceDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
 				fichaEncontrada = getPosicion(filaJugada, indiceDerecha);
