@@ -128,7 +128,7 @@ public class TableroTest {
 
 		Assert.assertTrue(tablero.ganoElJuego(5, 4 - 1, FICHA_JUGADOR_UNO));
 	}
-	
+
 	@Test
 	public void elJugadorDosGanaEnHorizontal() {
 
@@ -148,10 +148,10 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 7);
 		tablero.jugar(JUGADOR_UNO, 1);
 		tablero.jugar(JUGADOR_DOS, 4);
-		
+
 		Assert.assertTrue(tablero.ganoElJuego(5, 4 - 1, FICHA_JUGADOR_DOS));
-	}	
-	
+	}
+
 	@Test
 	public void elJugadorDosGanaEnHorizontalConUnaFichaEntreMedio() {
 
@@ -171,7 +171,7 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 7);
 		tablero.jugar(JUGADOR_UNO, 1);
 		tablero.jugar(JUGADOR_DOS, 6);
-		
+
 		Assert.assertTrue(tablero.ganoElJuego(5, 6 - 1, FICHA_JUGADOR_DOS));
 	}
 
@@ -193,7 +193,38 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_UNO, 5);
 		tablero.jugar(JUGADOR_DOS, 4);
 		tablero.jugar(JUGADOR_UNO, 5);
-			
+
 		Assert.assertTrue(tablero.ganoElJuego(2, 5 - 1, FICHA_JUGADOR_UNO));
 	}
+
+	@Test
+	public void elJugadorUnoGanaEnDiagonalHaciaArribaDerecha() {
+
+		Tablero tablero = new Tablero();
+
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 3);
+		tablero.jugar(JUGADOR_UNO, 1);
+		tablero.jugar(JUGADOR_DOS, 5);
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 5);
+		tablero.jugar(JUGADOR_UNO, 2);
+		tablero.jugar(JUGADOR_DOS, 4);
+		tablero.jugar(JUGADOR_UNO, 2);
+		tablero.jugar(JUGADOR_DOS, 7);
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 1);
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 6);
+		tablero.jugar(JUGADOR_DOS, 6);
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 6);
+		tablero.jugar(JUGADOR_UNO, 6);
+
+		Assert.assertTrue(tablero.ganoElJuego(2, 6 - 1, FICHA_JUGADOR_UNO));
+	}
+
 }
