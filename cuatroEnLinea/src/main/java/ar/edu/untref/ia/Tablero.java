@@ -92,45 +92,45 @@ public class Tablero {
 		boolean gano = false;
 		boolean horizontal = comprobarHorizontal(filaJugada, columnaJugada, fichaJugada);
 		boolean vertical = comprobarVertical(filaJugada, columnaJugada, fichaJugada);
-		boolean diagonalDerechaArriba = comprobarDiagonalDerechaArriba(filaJugada, columnaJugada, fichaJugada);
-		gano = horizontal || vertical || diagonalDerechaArriba;
+		boolean diagonal = comprobarDiagonal(filaJugada, columnaJugada, fichaJugada);
+		gano = horizontal || vertical || diagonal;
 
 		return gano;
 	}
 
-	private boolean comprobarDiagonalDerechaArriba(int filaJugada, int columnaJugada, String fichaJugada) {
+	private boolean comprobarDiagonal(int filaJugada, int columnaJugada, String fichaJugada) {
 
 		boolean gano = false;
 		int cantidadFichasIguales = 0;
-		int filaIzquierda = filaJugada;
-		int filaDerecha = filaJugada;
+		int filaHaciaAbajo = filaJugada;
+		int filaHaciaArriba = filaJugada;
 		int columnaIzquierda = columnaJugada;
 		int columnaDerecha = columnaJugada;
 		String fichaEncontrada = fichaJugada;
 
-		while (filaIzquierda < 6 & columnaIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaIzquierda, columnaIzquierda);
+		while (filaHaciaAbajo < 6 & columnaIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaIzquierda);
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
 					gano = true;
 				}
 			}
-			filaIzquierda++;
+			filaHaciaAbajo++;
 			columnaIzquierda--;
 		}
 
 		if (!gano) {
 			fichaEncontrada = fichaJugada;
-			while (filaDerecha < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-				fichaEncontrada = getPosicion(filaDerecha, columnaDerecha);
+			while (filaHaciaArriba < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha);
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {
 						gano = true;
 					}
 				}
-				filaDerecha++;
+				filaHaciaArriba++;
 				columnaJugada++;
 			}
 		}
