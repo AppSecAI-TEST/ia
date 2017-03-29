@@ -34,25 +34,34 @@ public class Program {
 	}
 
 	private static void jugar1VS1() {
-		
+
 		int jugadorActual = 1;
-		
+
 		tablero = new Tablero();
-		
-		while(!tablero.elJuegoTermino()) {
-		
+
+		while (!tablero.elJuegoTermino()) {
+
 			System.out.println("");
 			System.out.println(tablero.estadoTablero());
 			System.out.println("");
-			
-			System.out.println("Inserte su ficha - Jugador: " + jugadorActual);
+
+			System.out.println("Seleccione la columna para su ficha - Jugador: " + jugadorActual);
+
 			tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+
 			if (jugadorActual == 1) {
 				jugadorActual = 2;
 			} else {
 				jugadorActual = 1;
 			}
+
+			limpiarPantalla();
 		}
+	}
+
+	private static void limpiarPantalla() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
 	}
 
 	private static void visualizarMenu() {

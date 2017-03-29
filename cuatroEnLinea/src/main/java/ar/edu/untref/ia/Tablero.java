@@ -82,7 +82,8 @@ public class Tablero {
 			}
 			estadoTablero = estadoTablero + "\n";
 		}
-		
+
+		estadoTablero = estadoTablero + "\n" + " 1 2 3 4 5 6 7";
 		return estadoTablero;
 	}
 
@@ -102,7 +103,7 @@ public class Tablero {
 		estadoTablero = estadoTablero + "\n" + "   0 1 2 3 4 5 6";
 		return estadoTablero;
 	}
-	
+
 	public boolean ganoElJuego(int filaJugada, int columnaJugada, String fichaJugada) {
 
 		boolean gano = false;
@@ -111,9 +112,9 @@ public class Tablero {
 		boolean diagonalArribaDerecha = comprobarDiagonalArribaDerecha(filaJugada, columnaJugada, fichaJugada);
 		boolean diagonalArribaIzquierda = comprobarDiagonalArribaIzquierda(filaJugada, columnaJugada, fichaJugada);
 		gano = horizontal || vertical || diagonalArribaDerecha || diagonalArribaIzquierda;
-		
+
 		this.juegoTerminado = gano;
-		
+
 		return gano;
 	}
 
