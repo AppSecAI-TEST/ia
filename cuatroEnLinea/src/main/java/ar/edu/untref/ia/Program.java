@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Program {
 
 	private static Scanner scanner;
+	private static Tablero tablero;
 
 	public static void main(String[] args) {
 
@@ -18,7 +19,7 @@ public class Program {
 
 			switch (opcionSeleccionada) {
 			case 1:
-				System.out.println("Eligió la opcion 1");
+				jugar1VS1();
 				break;
 			case 2:
 				System.out.println("Eligió la opcion 2");
@@ -28,6 +29,28 @@ public class Program {
 			default:
 				System.out.println("Debe seleccionar una opción valida.");
 				break;
+			}
+		}
+	}
+
+	private static void jugar1VS1() {
+		
+		int jugadorActual = 1;
+		
+		tablero = new Tablero();
+		
+		while(!tablero.elJuegoTermino()) {
+		
+			System.out.println("");
+			System.out.println(tablero.estadoTablero());
+			System.out.println("");
+			
+			System.out.println("Inserte su ficha - Jugador: " + jugadorActual);
+			tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+			if (jugadorActual == 1) {
+				jugadorActual = 2;
+			} else {
+				jugadorActual = 1;
 			}
 		}
 	}

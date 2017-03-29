@@ -9,6 +9,7 @@ public class Tablero {
 	private final String FICHA_JUGADOR_DOS = "X";
 
 	private String[][] posiciones = new String[6][7];
+	private boolean juegoTerminado = false;
 
 	public Tablero() {
 
@@ -49,7 +50,6 @@ public class Tablero {
 			}
 		}
 
-		System.out.println(estadoTablero());
 		return jugadaValida;
 	}
 
@@ -77,6 +77,20 @@ public class Tablero {
 		String estadoTablero = "";
 
 		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				estadoTablero = estadoTablero + " " + getPosicion(i, j);
+			}
+			estadoTablero = estadoTablero + "\n";
+		}
+		
+		return estadoTablero;
+	}
+
+	public String estadoTableroConSubIndices() {
+
+		String estadoTablero = "";
+
+		for (int i = 0; i < 6; i++) {
 			estadoTablero = estadoTablero + i + " ";
 			for (int j = 0; j < 7; j++) {
 				estadoTablero = estadoTablero + " " + getPosicion(i, j);
@@ -88,7 +102,7 @@ public class Tablero {
 		estadoTablero = estadoTablero + "\n" + "   0 1 2 3 4 5 6";
 		return estadoTablero;
 	}
-
+	
 	public boolean ganoElJuego(int filaJugada, int columnaJugada, String fichaJugada) {
 
 		boolean gano = false;
@@ -97,7 +111,9 @@ public class Tablero {
 		boolean diagonalArribaDerecha = comprobarDiagonalArribaDerecha(filaJugada, columnaJugada, fichaJugada);
 		boolean diagonalArribaIzquierda = comprobarDiagonalArribaIzquierda(filaJugada, columnaJugada, fichaJugada);
 		gano = horizontal || vertical || diagonalArribaDerecha || diagonalArribaIzquierda;
-
+		
+		this.juegoTerminado = gano;
+		
 		return gano;
 	}
 
@@ -238,5 +254,9 @@ public class Tablero {
 		}
 
 		return gano;
+	}
+
+	public boolean elJuegoTermino() {
+		return juegoTerminado;
 	}
 }
