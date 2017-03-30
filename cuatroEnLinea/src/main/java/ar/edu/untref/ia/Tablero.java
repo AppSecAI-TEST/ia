@@ -55,6 +55,12 @@ public class Tablero {
 		return jugadaValida;
 	}
 
+	public void jugarPC(int fila, int columna) {
+
+		this.posiciones[fila][columna] = FICHA_JUGADOR_DOS;
+		ganoElJuego(fila, columna, FICHA_JUGADOR_DOS);
+	}
+
 	private int obtenerFilaLibre(int columna) {
 
 		boolean filaEncontrada = false;

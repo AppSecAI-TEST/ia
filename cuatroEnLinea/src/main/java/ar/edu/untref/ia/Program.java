@@ -32,7 +32,8 @@ public class Program {
 			case 3:
 				break;
 			default:
-				System.out.println("Debe seleccionar una opción valida.");
+				System.out.println("Debe seleccionar una opción valida, presione una tecla para continuar...");
+				scanner.nextLine();
 				break;
 			}
 		}
@@ -82,7 +83,9 @@ public class Program {
 
 	private static void jugar1VSPC() {
 
-		int jugadorActual = 1;
+		int fila = 5;
+		int columna = 0;
+
 		int columnaJugada = 0;
 
 		tablero = new Tablero();
@@ -96,23 +99,28 @@ public class Program {
 			System.out.println("Seleccione la columna para su ficha: ");
 
 			columnaJugada = Integer.parseInt(scanner.nextLine());
-			boolean jugadaValida = tablero.jugar(jugadorActual, columnaJugada);
+			boolean jugadaValida = tablero.jugar(JUGADOR_UNO, columnaJugada);
 
 			while (!jugadaValida) {
 				System.out.println("La jugada ingresada no es valida - Ingrese otra columna: ");
-				jugadaValida = tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
-			}
-
-			if (jugadorActual == 1) {
-				jugadorActual = 2;
-			} else {
-				jugadorActual = 1;
+				jugadaValida = tablero.jugar(JUGADOR_UNO, Integer.parseInt(scanner.nextLine()));
 			}
 
 			limpiarPantalla();
 
 			if (tablero.elJuegoTermino()) {
 				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+				System.out.println("Presione una tecla para continuar...");
+				scanner.nextLine();
+				limpiarPantalla();
+				visualizarMenu();
+
+			}
+
+			tablero.jugarPC(fila, columna);
+			fila--;
+			if (tablero.elJuegoTermino()) {
+				System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
 				System.out.println("Presione una tecla para continuar...");
 				scanner.nextLine();
 				limpiarPantalla();
