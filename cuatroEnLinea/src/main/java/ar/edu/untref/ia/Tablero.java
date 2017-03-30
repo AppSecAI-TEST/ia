@@ -1,5 +1,8 @@
 package ar.edu.untref.ia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tablero {
 
 	private final String ESPACIO_LIBRE = "_";
@@ -8,7 +11,7 @@ public class Tablero {
 	private final int JUGADOR_DOS = 2;
 	private final String FICHA_JUGADOR_DOS = "X";
 
-	private String[][] posiciones = new String[6][7];
+	private Casilla[][] posiciones = new Casilla[6][7];
 	private boolean juegoTerminado = false;
 
 	public Tablero() {
@@ -21,14 +24,17 @@ public class Tablero {
 	}
 
 	public void setPosicion(int i, int j, String ficha) {
-		this.posiciones[i][j] = ficha;
+
+		Casilla casilla = new Casilla();
+		casilla.setContenido(ficha);
+		this.posiciones[i][j] = casilla;
 	}
 
-	public String getPosicion(int i, int j) {
+	public Casilla getPosicion(int i, int j) {
 		return this.posiciones[i][j];
 	}
 
-	public String[][] getPosiciones() {
+	public Casilla[][] getPosiciones() {
 		return this.posiciones;
 	}
 
@@ -42,12 +48,12 @@ public class Tablero {
 			int filaLibre = obtenerFilaLibre(indiceColumna);
 
 			if (jugador == JUGADOR_UNO) {
-				this.posiciones[filaLibre][indiceColumna] = FICHA_JUGADOR_UNO;
+				this.posiciones[filaLibre][indiceColumna].setContenido(FICHA_JUGADOR_UNO);
 				ganoElJuego(filaLibre, indiceColumna, FICHA_JUGADOR_UNO);
 			}
 
 			if (jugador == JUGADOR_DOS) {
-				this.posiciones[filaLibre][indiceColumna] = FICHA_JUGADOR_DOS;
+				this.posiciones[filaLibre][indiceColumna].setContenido(FICHA_JUGADOR_DOS);
 				ganoElJuego(filaLibre, indiceColumna, FICHA_JUGADOR_DOS);
 			}
 		}
@@ -55,10 +61,8 @@ public class Tablero {
 		return jugadaValida;
 	}
 
-	public void jugarPC(int fila, int columna) {
+	public void jugarPC(Tablero tablero) {
 
-		this.posiciones[fila][columna] = FICHA_JUGADOR_DOS;
-		ganoElJuego(fila, columna, FICHA_JUGADOR_DOS);
 	}
 
 	private int obtenerFilaLibre(int columna) {
@@ -67,7 +71,7 @@ public class Tablero {
 		int filaLibre = 5;
 
 		while (filaLibre >= 0 && !filaEncontrada) {
-			if (this.getPosicion(filaLibre, columna) == ESPACIO_LIBRE) {
+			if (this.getPosicion(filaLibre, columna).getContenido() == ESPACIO_LIBRE) {
 				filaEncontrada = true;
 			}
 			filaLibre--;
@@ -77,7 +81,7 @@ public class Tablero {
 	}
 
 	private boolean hayEspacioEnLaColumna(int columna) {
-		return (getPosicion(0, columna) == ESPACIO_LIBRE);
+		return (getPosicion(0, columna).getContenido() == ESPACIO_LIBRE);
 	}
 
 	public String estadoTablero() {
@@ -86,7 +90,7 @@ public class Tablero {
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				estadoTablero = estadoTablero + " " + getPosicion(i, j);
+				estadoTablero = estadoTablero + " " + getPosicion(i, j).getContenido();
 			}
 			estadoTablero = estadoTablero + "\n";
 		}
@@ -102,7 +106,7 @@ public class Tablero {
 		for (int i = 0; i < 6; i++) {
 			estadoTablero = estadoTablero + i + " ";
 			for (int j = 0; j < 7; j++) {
-				estadoTablero = estadoTablero + " " + getPosicion(i, j);
+				estadoTablero = estadoTablero + " " + getPosicion(i, j).getContenido();
 			}
 			estadoTablero = estadoTablero + "\n";
 		}
@@ -110,6 +114,21 @@ public class Tablero {
 		estadoTablero = estadoTablero + "\n" + "   1 2 3 4 5 6 7";
 		estadoTablero = estadoTablero + "\n" + "   0 1 2 3 4 5 6";
 		return estadoTablero;
+	}
+
+	public List<Casilla> obtenerPosicionesLibres(Tablero tablero) {
+
+		List<Casilla> posicionesLibres = new ArrayList<>();
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				if (this.getPosicion(i, j).getContenido() == ESPACIO_LIBRE) {
+					posicionesLibres.add(new Casilla());
+				}
+			}
+		}
+
+		return posicionesLibres;
 	}
 
 	public boolean ganoElJuego(int filaJugada, int columnaJugada, String fichaJugada) {
@@ -136,7 +155,7 @@ public class Tablero {
 		String fichaEncontrada = fichaJugada;
 
 		while (filaHaciaAbajo < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaDerecha);
+			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaDerecha).getContenido();
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
@@ -151,7 +170,7 @@ public class Tablero {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
 			while (filaHaciaArriba >= 0 & columnaIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-				fichaEncontrada = getPosicion(filaHaciaArriba, columnaIzquierda);
+				fichaEncontrada = getPosicion(filaHaciaArriba, columnaIzquierda).getContenido();
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {
@@ -177,7 +196,7 @@ public class Tablero {
 		String fichaEncontrada = fichaJugada;
 
 		while (filaHaciaAbajo < 6 & columnaIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaIzquierda);
+			fichaEncontrada = getPosicion(filaHaciaAbajo, columnaIzquierda).getContenido();
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
@@ -192,7 +211,7 @@ public class Tablero {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
 			while (filaHaciaArriba < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha);
+				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha).getContenido();
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {
@@ -214,7 +233,7 @@ public class Tablero {
 		String fichaEncontrada = fichaJugada;
 
 		while (filaJugada < 6 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaJugada, columnaJugada);
+			fichaEncontrada = getPosicion(filaJugada, columnaJugada).getContenido();
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
@@ -236,7 +255,7 @@ public class Tablero {
 		String fichaEncontrada = fichaJugada;
 
 		while (indiceIzquierda >= 0 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-			fichaEncontrada = getPosicion(filaJugada, indiceIzquierda);
+			fichaEncontrada = getPosicion(filaJugada, indiceIzquierda).getContenido();
 			if (fichaEncontrada.equals(fichaJugada)) {
 				cantidadFichasIguales++;
 				if (cantidadFichasIguales == 4) {
@@ -250,7 +269,7 @@ public class Tablero {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
 			while (indiceDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
-				fichaEncontrada = getPosicion(filaJugada, indiceDerecha);
+				fichaEncontrada = getPosicion(filaJugada, indiceDerecha).getContenido();
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
 					if (cantidadFichasIguales == 4) {

@@ -22,7 +22,7 @@ public class TableroTest {
 
 		while (i < 6 && posicionLibre) {
 			while (j < 7 && posicionLibre) {
-				if (tablero.getPosicion(i, j) != ESPACIO_LIBRE) {
+				if (tablero.getPosicion(i, j).getContenido() != ESPACIO_LIBRE) {
 					posicionLibre = false;
 				}
 				j++;
@@ -39,7 +39,7 @@ public class TableroTest {
 		boolean posicionLibre = true;
 		Tablero tablero = new Tablero();
 
-		String posicion = tablero.getPosicion(1, 3);
+		String posicion = tablero.getPosicion(1, 3).getContenido();
 		if (posicion != ESPACIO_LIBRE) {
 			posicionLibre = false;
 		}
@@ -54,13 +54,13 @@ public class TableroTest {
 		Tablero tablero = new Tablero();
 		tablero.setPosicion(1, 3, FICHA_JUGADOR_DOS);
 
-		String posicion = tablero.getPosicion(1, 3);
+		String posicion = tablero.getPosicion(1, 3).getContenido();
 		if (posicion != ESPACIO_LIBRE) {
 			posicionLibre = false;
 		}
 
 		Assert.assertTrue(!posicionLibre);
-		Assert.assertTrue(tablero.getPosicion(1, 3) == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(1, 3).getContenido() == FICHA_JUGADOR_DOS);
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class TableroTest {
 
 		tablero.jugar(JUGADOR_UNO, 5);
 
-		Assert.assertTrue(tablero.getPosicion(5, 4) == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(5, 4).getContenido() == FICHA_JUGADOR_UNO);
 	}
 
 	@Test
@@ -85,12 +85,12 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_UNO, 3);
 		tablero.jugar(JUGADOR_DOS, 3);
 
-		Assert.assertTrue(tablero.getPosicion(5, 3) == FICHA_JUGADOR_UNO);
-		Assert.assertTrue(tablero.getPosicion(4, 3) == FICHA_JUGADOR_DOS);
-		Assert.assertTrue(tablero.getPosicion(5, 2) == FICHA_JUGADOR_UNO);
-		Assert.assertTrue(tablero.getPosicion(5, 1) == FICHA_JUGADOR_DOS);
-		Assert.assertTrue(tablero.getPosicion(4, 2) == FICHA_JUGADOR_UNO);
-		Assert.assertTrue(tablero.getPosicion(3, 2) == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(5, 3).getContenido() == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(4, 3).getContenido() == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(5, 2).getContenido() == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(5, 1).getContenido() == FICHA_JUGADOR_DOS);
+		Assert.assertTrue(tablero.getPosicion(4, 2).getContenido() == FICHA_JUGADOR_UNO);
+		Assert.assertTrue(tablero.getPosicion(3, 2).getContenido() == FICHA_JUGADOR_DOS);
 	}
 
 	@Test
