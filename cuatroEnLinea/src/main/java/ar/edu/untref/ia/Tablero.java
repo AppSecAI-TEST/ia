@@ -43,10 +43,12 @@ public class Tablero {
 
 			if (jugador == JUGADOR_UNO) {
 				this.posiciones[filaLibre][indiceColumna] = FICHA_JUGADOR_UNO;
+				ganoElJuego(filaLibre, indiceColumna, FICHA_JUGADOR_UNO);
 			}
 
 			if (jugador == JUGADOR_DOS) {
 				this.posiciones[filaLibre][indiceColumna] = FICHA_JUGADOR_DOS;
+				ganoElJuego(filaLibre, indiceColumna, FICHA_JUGADOR_DOS);
 			}
 		}
 
@@ -114,7 +116,6 @@ public class Tablero {
 		gano = horizontal || vertical || diagonalArribaDerecha || diagonalArribaIzquierda;
 
 		this.juegoTerminado = gano;
-
 		return gano;
 	}
 

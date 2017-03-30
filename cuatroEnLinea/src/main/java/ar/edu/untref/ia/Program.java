@@ -14,11 +14,13 @@ public class Program {
 
 		while (opcionSeleccionada != 3) {
 
+			limpiarPantalla();
 			visualizarMenu();
 			opcionSeleccionada = Integer.parseInt(scanner.nextLine());
 
 			switch (opcionSeleccionada) {
 			case 1:
+				limpiarPantalla();
 				jugar1VS1();
 				break;
 			case 2:
@@ -36,6 +38,7 @@ public class Program {
 	private static void jugar1VS1() {
 
 		int jugadorActual = 1;
+		int columnaJugada = 0;
 
 		tablero = new Tablero();
 
@@ -47,7 +50,13 @@ public class Program {
 
 			System.out.println("Seleccione la columna para su ficha - Jugador: " + jugadorActual);
 
-			tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+			columnaJugada = Integer.parseInt(scanner.nextLine());
+			boolean jugadaValida = tablero.jugar(jugadorActual, columnaJugada);
+
+			while (!jugadaValida) {
+				System.out.println("La jugada ingresada no es valida - Ingrese otra columna: ");
+				jugadaValida = tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+			}
 
 			if (jugadorActual == 1) {
 				jugadorActual = 2;
@@ -56,6 +65,15 @@ public class Program {
 			}
 
 			limpiarPantalla();
+
+			if (tablero.elJuegoTermino()) {
+				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+				System.out.println("Presione una tecla para continuar...");
+				scanner.nextLine();
+				limpiarPantalla();
+				visualizarMenu();
+
+			}
 		}
 	}
 
