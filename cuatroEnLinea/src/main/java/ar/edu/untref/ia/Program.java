@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Program {
 
+	private final static int JUGADOR_UNO = 1;
+	private final static int JUGADOR_DOS = 2;
 	private static Scanner scanner;
 	private static Tablero tablero;
 
@@ -24,7 +26,8 @@ public class Program {
 				jugar1VS1();
 				break;
 			case 2:
-				System.out.println("Eligió la opcion 2");
+				limpiarPantalla();
+				jugar1VSPC();
 				break;
 			case 3:
 				break;
@@ -37,7 +40,7 @@ public class Program {
 
 	private static void jugar1VS1() {
 
-		int jugadorActual = 1;
+		int jugadorActual = JUGADOR_UNO;
 		int columnaJugada = 0;
 
 		tablero = new Tablero();
@@ -49,6 +52,48 @@ public class Program {
 			System.out.println("");
 
 			System.out.println("Seleccione la columna para su ficha - Jugador: " + jugadorActual);
+
+			columnaJugada = Integer.parseInt(scanner.nextLine());
+			boolean jugadaValida = tablero.jugar(jugadorActual, columnaJugada);
+
+			while (!jugadaValida) {
+				System.out.println("La jugada ingresada no es valida - Ingrese otra columna: ");
+				jugadaValida = tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+			}
+
+			if (jugadorActual == JUGADOR_UNO) {
+				jugadorActual = JUGADOR_DOS;
+			} else {
+				jugadorActual = JUGADOR_UNO;
+			}
+
+			limpiarPantalla();
+
+			if (tablero.elJuegoTermino()) {
+				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+				System.out.println("Presione una tecla para continuar...");
+				scanner.nextLine();
+				limpiarPantalla();
+				visualizarMenu();
+
+			}
+		}
+	}
+
+	private static void jugar1VSPC() {
+
+		int jugadorActual = 1;
+		int columnaJugada = 0;
+
+		tablero = new Tablero();
+
+		while (!tablero.elJuegoTermino()) {
+
+			System.out.println("");
+			System.out.println(tablero.estadoTablero());
+			System.out.println("");
+
+			System.out.println("Seleccione la columna para su ficha: ");
 
 			columnaJugada = Integer.parseInt(scanner.nextLine());
 			boolean jugadaValida = tablero.jugar(jugadorActual, columnaJugada);
