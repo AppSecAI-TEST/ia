@@ -147,7 +147,15 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			posicionesLibres.get(indice).setPonderacion(cantidadDeO - cantidadDeX + cantidadDe_);
+			if (cantidadDeO > cantidadDeX) {
+				posicionesLibres.get(indice).setPonderacion(10);
+			}
+			if (cantidadDeO < cantidadDeX) {
+				posicionesLibres.get(indice).setPonderacion(1);
+			}
+			if (cantidadDeO == cantidadDeX) {
+				posicionesLibres.get(indice).setPonderacion(5);
+			}
 		}
 
 	}
