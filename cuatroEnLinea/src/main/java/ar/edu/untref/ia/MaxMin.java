@@ -6,9 +6,14 @@ import java.util.List;
 
 public class MaxMin {
 
+	private final String FICHA_JUGADOR_UNO = "O";
+	private final String FICHA_JUGADOR_DOS = "X";
+	private final String ESPACIO_LIBRE = "_";
+
 	private final Integer PROFUNDIDAD = 6;
+
 	int movimientosExplorados = 0;
-	private String contenido = "O";
+	private String contenido = FICHA_JUGADOR_UNO;
 
 	public Casilla mejorJugadaMax(Tablero tablero) {
 
@@ -25,7 +30,7 @@ public class MaxMin {
 
 			posicionLibreAOcupar = posicionesLibresIt.next();
 
-			ponderarPosicionesLibres(posicionesLibres);
+			ponderarPosicionesLibres(posicionesLibres, tablero);
 
 			valorMinimo = valorMinimo(posicionesLibres, tablero, posicionLibreAOcupar);
 
@@ -38,17 +43,98 @@ public class MaxMin {
 		return mejorJugada;
 	}
 
-	private void ponderarPosicionesLibres(List<Casilla> posicionesLibres) {
+	private void ponderarPosicionesLibres(List<Casilla> posicionesLibres, Tablero tablero) {
+
+		int cantidadDeO;
+		int cantidadDeX;
+		int cantidadDe_;
+		Casilla casillaLindante;
 
 		for (int indice = 0; indice < posicionesLibres.size(); indice++) {
 
-			if (indice % 2 == 0) {
-				posicionesLibres.get(indice).setPonderacion(10);
-			} else {
-				posicionesLibres.get(indice).setPonderacion(5);
+			cantidadDeO = 0;
+			cantidadDeX = 0;
+			cantidadDe_ = 0;
+
+			int fila = posicionesLibres.get(indice).getFila();
+			int columna = posicionesLibres.get(indice).getColumna();
+
+			if (fila - 1 > 0 && columna - 1 > 0) {
+
+				casillaLindante = tablero.getPosicion(fila - 1, columna - 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
+			if (fila - 1 > 0) {
+
+				casillaLindante = tablero.getPosicion(fila - 1, columna);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (fila - 1 > 0 && columna + 1 < 7) {
+				casillaLindante = tablero.getPosicion(fila - 1, columna + 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (columna - 1 > 0) {
+				casillaLindante = tablero.getPosicion(fila, columna - 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (columna + 1 < 7) {
+				casillaLindante = tablero.getPosicion(fila, columna + 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (fila + 1 < 6 && columna - 1 > 0) {
+				casillaLindante = tablero.getPosicion(fila + 1, columna - 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (fila + 1 < 6) {
+				casillaLindante = tablero.getPosicion(fila + 1, columna);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			if (fila + 1 < 6 && columna + 1 < 7) {
+				casillaLindante = tablero.getPosicion(fila + 1, columna + 1);
+				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
+				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
+				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
+			}
+
+			posicionesLibres.get(indice).setPonderacion(cantidadDeO + cantidadDe_ - cantidadDeX);
+			// System.out.println("(" + posicionesLibres.get(indice).getFila() +
+			// ", " +
+			// posicionesLibres.get(indice).getColumna() + "): " +
+			// (cantidadDeO + cantidadDe_ - cantidadDeX) + " ");
 		}
+
+	}
+
+	private int esFicha(Casilla casillaLindante, String contenidoAComparar) {
+
+		int valor = 0;
+
+		if (casillaLindante.getContenido() == contenidoAComparar) {
+			valor = 1;
+		}
+
+		return valor;
 	}
 
 	private int valorMinimo(List<Casilla> posicionesLibres, Tablero tablero, Casilla casilla) {
@@ -78,7 +164,7 @@ public class MaxMin {
 			tableroCopiado = copiarTablero(tablero);
 			tableroCopiado.setPosicion(posibleJugada);
 			posicionesLibresDeLaJugada = tableroCopiado.obtenerPosicionesLibres(tableroCopiado);
-			ponderarPosicionesLibres(posicionesLibresDeLaJugada);
+			ponderarPosicionesLibres(posicionesLibresDeLaJugada, tableroCopiado);
 			mejorJugadaMinimo = minimo(mejorJugadaMinimo,
 					valorMaximo(posicionesLibresDeLaJugada, tableroCopiado, posibleJugada));
 		}
@@ -113,7 +199,7 @@ public class MaxMin {
 			tableroCopiado = copiarTablero(tablero);
 			tableroCopiado.setPosicion(posibleJugada);
 			posicionesLibresDeLaJugada = tableroCopiado.obtenerPosicionesLibres(tableroCopiado);
-			ponderarPosicionesLibres(posicionesLibresDeLaJugada);
+			ponderarPosicionesLibres(posicionesLibresDeLaJugada, tableroCopiado);
 
 			mejorJugadaMaximo = maximo(mejorJugadaMaximo,
 					valorMinimo(posicionesLibresDeLaJugada, tableroCopiado, posibleJugada));
