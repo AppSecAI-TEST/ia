@@ -6,13 +6,12 @@ import java.util.List;
 
 public class MaxMin {
 
-	private final Integer PROFUNDIDAD = 3;
+	private final Integer PROFUNDIDAD = 6;
 	int movimientosExplorados = 0;
-	private final String FICHA_JUGADOR_UNO = "O";
+	private String contenido = "O";
 
 	public Casilla mejorJugadaMax(Tablero tablero) {
 
-		Tablero tableroProbable;
 		List<Casilla> posicionesLibres = new ArrayList<>();
 		Casilla mejorJugada = null;
 		Casilla posicionLibreAOcupar;
@@ -25,11 +24,10 @@ public class MaxMin {
 		while (posicionesLibresIt.hasNext()) {
 
 			posicionLibreAOcupar = posicionesLibresIt.next();
-			tableroProbable = copiarTablero(tablero);
-			posicionLibreAOcupar.setContenido(FICHA_JUGADOR_UNO);
-			posicionesLibres = ponderarPosicionesLibres(tableroProbable, posicionLibreAOcupar);
 
-			valorMinimo = valorMinimo(posicionesLibres, tableroProbable);
+			ponderarPosicionesLibres(posicionesLibres);
+
+			valorMinimo = valorMinimo(posicionesLibres, tablero, posicionLibreAOcupar);
 
 			if (valorMinimo > maximaPonderacion) {
 				maximaPonderacion = valorMinimo;
@@ -40,51 +38,85 @@ public class MaxMin {
 		return mejorJugada;
 	}
 
-	private List<Casilla> ponderarPosicionesLibres(Tablero tablero, Casilla posicionLibreAOcupar) {
+	private void ponderarPosicionesLibres(List<Casilla> posicionesLibres) {
 
-		List<Casilla> posicionesLibresDeLaJugada = new ArrayList<>();
+		for (int indice = 0; indice < posicionesLibres.size(); indice++) {
 
-		tablero.setPosicion(posicionLibreAOcupar);
-		posicionesLibresDeLaJugada = tablero.obtenerPosicionesLibres(tablero);
+			if (indice % 2 == 0) {
+				posicionesLibres.get(indice).setPonderacion(10);
+			} else {
+				posicionesLibres.get(indice).setPonderacion(5);
+			}
 
-		for (int indice = 0; indice < posicionesLibresDeLaJugada.size(); indice++) {
-
-			posicionesLibresDeLaJugada.get(indice).setPonderacion(10);
 		}
-
-		return posicionesLibresDeLaJugada;
 	}
 
-	private int valorMinimo(List<Casilla> posicionesLibres, Tablero tablero) {
+	private int valorMinimo(List<Casilla> posicionesLibres, Tablero tablero, Casilla casilla) {
 
 		int mejorJugadaMinimo = 11;
+		Tablero tableroCopiado;
 		Casilla posibleJugada;
+		List<Casilla> posicionesLibresDeLaJugada;
+		boolean iterar = true;
+
+		movimientosExplorados++;
+		if (movimientosExplorados >= PROFUNDIDAD) {
+			mejorJugadaMinimo = casilla.getPonderacion();
+			iterar = false;
+		}
+
+		if (contenido.equals("O")) {
+			contenido = "X";
+		} else {
+			contenido = "O";
+		}
 
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
-
-		while (posicionesLibresIt.hasNext() && movimientosExplorados <= PROFUNDIDAD) {
-
+		while (posicionesLibresIt.hasNext() && iterar) {
 			posibleJugada = posicionesLibresIt.next();
-			movimientosExplorados++;
+			posibleJugada.setContenido(contenido);
+			tableroCopiado = copiarTablero(tablero);
+			tableroCopiado.setPosicion(posibleJugada);
+			posicionesLibresDeLaJugada = tableroCopiado.obtenerPosicionesLibres(tableroCopiado);
+			ponderarPosicionesLibres(posicionesLibresDeLaJugada);
 			mejorJugadaMinimo = minimo(mejorJugadaMinimo,
-					valorMaximo(ponderarPosicionesLibres(tablero, posibleJugada), tablero));
+					valorMaximo(posicionesLibresDeLaJugada, tableroCopiado, posibleJugada));
 		}
 
 		return mejorJugadaMinimo;
 	}
 
-	private int valorMaximo(List<Casilla> posicionesLibres, Tablero tablero) {
+	private int valorMaximo(List<Casilla> posicionesLibres, Tablero tablero, Casilla casilla) {
 
 		int mejorJugadaMaximo = 0;
+		Tablero tableroCopiado;
 		Casilla posibleJugada;
+		List<Casilla> posicionesLibresDeLaJugada;
+		boolean iterar = true;
+
+		movimientosExplorados++;
+		if (movimientosExplorados >= PROFUNDIDAD) {
+			mejorJugadaMaximo = casilla.getPonderacion();
+			iterar = false;
+		}
+
+		if (contenido.equals("O")) {
+			contenido = "X";
+		} else {
+			contenido = "O";
+		}
 
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
-		while (posicionesLibresIt.hasNext() && movimientosExplorados <= PROFUNDIDAD) {
-
+		while (posicionesLibresIt.hasNext() && iterar) {
 			posibleJugada = posicionesLibresIt.next();
-			movimientosExplorados++;
+			posibleJugada.setContenido(contenido);
+			tableroCopiado = copiarTablero(tablero);
+			tableroCopiado.setPosicion(posibleJugada);
+			posicionesLibresDeLaJugada = tableroCopiado.obtenerPosicionesLibres(tableroCopiado);
+			ponderarPosicionesLibres(posicionesLibresDeLaJugada);
+
 			mejorJugadaMaximo = maximo(mejorJugadaMaximo,
-					valorMinimo(ponderarPosicionesLibres(tablero, posibleJugada), tablero));
+					valorMinimo(posicionesLibresDeLaJugada, tableroCopiado, posibleJugada));
 		}
 
 		return mejorJugadaMaximo;
