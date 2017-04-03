@@ -13,6 +13,7 @@ public class Tablero {
 
 	private Casilla[][] posiciones = new Casilla[6][7];
 	private boolean juegoTerminado = false;
+	private MaxMin maxMin = new MaxMin();
 
 	public Tablero() {
 
@@ -23,9 +24,13 @@ public class Tablero {
 		}
 	}
 
+	public void setPosicion(Casilla casilla) {
+		this.posiciones[casilla.getFila()][casilla.getColumna()] = casilla;
+	}
+
 	public void setPosicion(int i, int j, String ficha) {
 
-		Casilla casilla = new Casilla();
+		Casilla casilla = new Casilla(i, j);
 		casilla.setContenido(ficha);
 		this.posiciones[i][j] = casilla;
 	}
@@ -63,6 +68,12 @@ public class Tablero {
 
 	public void jugarPC(Tablero tablero) {
 
+		Casilla casilla = maxMin.mejorJugadaMax(tablero);
+		int filaMejorJugada = casilla.getFila();
+		int columnaMejorJugada = casilla.getColumna();
+
+		this.posiciones[filaMejorJugada][columnaMejorJugada].setContenido(FICHA_JUGADOR_DOS);
+		ganoElJuego(filaMejorJugada, columnaMejorJugada, FICHA_JUGADOR_DOS);
 	}
 
 	private int obtenerFilaLibre(int columna) {
@@ -118,14 +129,20 @@ public class Tablero {
 
 	public List<Casilla> obtenerPosicionesLibres(Tablero tablero) {
 
+		boolean posicionEncontradaEnColumna = false;
 		List<Casilla> posicionesLibres = new ArrayList<>();
+		int i;
 
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 7; j++) {
+		for (int j = 0; j < 7; j++) {
+			i = 5;
+			while (!posicionEncontradaEnColumna && i >= 0) {
 				if (this.getPosicion(i, j).getContenido() == ESPACIO_LIBRE) {
-					posicionesLibres.add(new Casilla());
+					posicionesLibres.add(new Casilla(i, j));
+					posicionEncontradaEnColumna = true;
 				}
+				i--;
 			}
+			posicionEncontradaEnColumna = false;
 		}
 
 		return posicionesLibres;

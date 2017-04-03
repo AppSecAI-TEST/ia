@@ -81,10 +81,7 @@ public class Program {
 		}
 	}
 
-	private static void jugar1VSPC() {
-
-		int fila = 5;
-		int columna = 0;
+	public static void jugar1VSPC() {
 
 		int columnaJugada = 0;
 
@@ -117,8 +114,8 @@ public class Program {
 
 			}
 
-			tablero.jugarPC(fila, columna);
-			fila--;
+			tablero.jugarPC(tablero);
+
 			if (tablero.elJuegoTermino()) {
 				System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
 				System.out.println("Presione una tecla para continuar...");
