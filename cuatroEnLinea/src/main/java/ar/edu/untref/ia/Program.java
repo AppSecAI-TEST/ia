@@ -111,18 +111,17 @@ public class Program {
 				scanner.nextLine();
 				limpiarPantalla();
 				visualizarMenu();
+			} else {
 
-			}
+				tablero.jugarPC(tablero);
 
-			tablero.jugarPC(tablero);
-
-			if (tablero.elJuegoTermino()) {
-				System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
-				System.out.println("Presione una tecla para continuar...");
-				scanner.nextLine();
-				limpiarPantalla();
-				visualizarMenu();
-
+				if (tablero.elJuegoTermino()) {
+					System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
+					System.out.println("Presione una tecla para continuar...");
+					scanner.nextLine();
+					limpiarPantalla();
+					visualizarMenu();
+				}
 			}
 		}
 	}
