@@ -10,7 +10,7 @@ public class MaxMin {
 	private final String FICHA_JUGADOR_DOS = "X";
 	private final String ESPACIO_LIBRE = "_";
 
-	private final Integer PROFUNDIDAD = 6;
+	private final Integer PROFUNDIDAD = 20;
 
 	int movimientosExplorados = 0;
 	private String contenido = FICHA_JUGADOR_UNO;
@@ -40,14 +40,44 @@ public class MaxMin {
 			}
 		}
 
+		System.out.println(mejorJugada.getPonderacion());
+		return mejorJugada;
+	}
+
+	public Casilla mejorJugadaMin(Tablero tablero) {
+
+		List<Casilla> posicionesLibres = new ArrayList<>();
+		Casilla mejorJugada = null;
+		Casilla posicionLibreAOcupar;
+		int minimaPonderacion = 100;
+		int valorMaximo;
+
+		posicionesLibres = tablero.obtenerPosicionesLibres(tablero);
+		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
+
+		while (posicionesLibresIt.hasNext()) {
+
+			posicionLibreAOcupar = posicionesLibresIt.next();
+
+			ponderarPosicionesLibres(posicionesLibres, tablero);
+
+			valorMaximo = valorMaximo(posicionesLibres, tablero, posicionLibreAOcupar);
+
+			if (valorMaximo < minimaPonderacion) {
+				minimaPonderacion = valorMaximo;
+				mejorJugada = posicionLibreAOcupar;
+			}
+		}
+
+		System.out.println(mejorJugada.getPonderacion());
 		return mejorJugada;
 	}
 
 	private void ponderarPosicionesLibres(List<Casilla> posicionesLibres, Tablero tablero) {
 
-		int cantidadDeO;
-		int cantidadDeX;
-		int cantidadDe_;
+		int cantidadDeO = 0;
+		int cantidadDeX = 0;
+		int cantidadDe_ = 0;
 		Casilla casillaLindante;
 
 		for (int indice = 0; indice < posicionesLibres.size(); indice++) {
@@ -117,11 +147,7 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			posicionesLibres.get(indice).setPonderacion(cantidadDeO + cantidadDe_ - cantidadDeX);
-			// System.out.println("(" + posicionesLibres.get(indice).getFila() +
-			// ", " +
-			// posicionesLibres.get(indice).getColumna() + "): " +
-			// (cantidadDeO + cantidadDe_ - cantidadDeX) + " ");
+			posicionesLibres.get(indice).setPonderacion(cantidadDeO - cantidadDeX + cantidadDe_);
 		}
 
 	}
@@ -151,10 +177,10 @@ public class MaxMin {
 			iterar = false;
 		}
 
-		if (contenido.equals("O")) {
-			contenido = "X";
+		if (contenido.equals(FICHA_JUGADOR_UNO)) {
+			contenido = FICHA_JUGADOR_DOS;
 		} else {
-			contenido = "O";
+			contenido = FICHA_JUGADOR_UNO;
 		}
 
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
@@ -186,10 +212,10 @@ public class MaxMin {
 			iterar = false;
 		}
 
-		if (contenido.equals("O")) {
-			contenido = "X";
+		if (contenido.equals(FICHA_JUGADOR_UNO)) {
+			contenido = FICHA_JUGADOR_DOS;
 		} else {
-			contenido = "O";
+			contenido = FICHA_JUGADOR_UNO;
 		}
 
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();

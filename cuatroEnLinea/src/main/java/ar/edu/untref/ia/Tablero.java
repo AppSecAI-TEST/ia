@@ -68,7 +68,7 @@ public class Tablero {
 
 	public void jugarPC(Tablero tablero) {
 
-		Casilla casilla = maxMin.mejorJugadaMax(tablero);
+		Casilla casilla = maxMin.mejorJugadaMin(tablero);
 		int filaMejorJugada = casilla.getFila();
 		int columnaMejorJugada = casilla.getColumna();
 
