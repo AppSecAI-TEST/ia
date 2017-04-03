@@ -55,18 +55,6 @@ public class MaxMin {
 		return posicionesLibresDeLaJugada;
 	}
 
-	private Tablero copiarTablero(Tablero tablero) {
-
-		Tablero tableroCopiado = new Tablero();
-
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 7; j++) {
-				tableroCopiado.setPosicion(i, j, tablero.getPosicion(i, j).getContenido());
-			}
-		}
-		return tableroCopiado;
-	}
-
 	private int valorMinimo(List<Casilla> posicionesLibres, Tablero tablero) {
 
 		int mejorJugadaMinimo = 11;
@@ -83,19 +71,6 @@ public class MaxMin {
 		}
 
 		return mejorJugadaMinimo;
-	}
-
-	private int minimo(int actual, int nuevo) {
-
-		int minimo;
-
-		if (actual <= nuevo) {
-			minimo = actual;
-		} else {
-			minimo = nuevo;
-		}
-
-		return minimo;
 	}
 
 	private int valorMaximo(List<Casilla> posicionesLibres, Tablero tablero) {
@@ -115,6 +90,19 @@ public class MaxMin {
 		return mejorJugadaMaximo;
 	}
 
+	private int minimo(int actual, int nuevo) {
+
+		int minimo;
+
+		if (actual <= nuevo) {
+			minimo = actual;
+		} else {
+			minimo = nuevo;
+		}
+
+		return minimo;
+	}
+
 	private int maximo(int actual, int nuevo) {
 
 		int maximo;
@@ -126,5 +114,17 @@ public class MaxMin {
 		}
 
 		return maximo;
+	}
+
+	private Tablero copiarTablero(Tablero tablero) {
+
+		Tablero tableroCopiado = new Tablero();
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				tableroCopiado.setPosicion(i, j, tablero.getPosicion(i, j).getContenido());
+			}
+		}
+		return tableroCopiado;
 	}
 }
