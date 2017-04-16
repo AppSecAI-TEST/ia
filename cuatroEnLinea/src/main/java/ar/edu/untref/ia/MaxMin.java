@@ -40,7 +40,6 @@ public class MaxMin {
 			}
 		}
 
-		System.out.println(mejorJugada.getPonderacion());
 		return mejorJugada;
 	}
 
@@ -69,7 +68,6 @@ public class MaxMin {
 			}
 		}
 
-		System.out.println(mejorJugada.getPonderacion());
 		return mejorJugada;
 	}
 
@@ -89,7 +87,7 @@ public class MaxMin {
 			int fila = posicionesLibres.get(indice).getFila();
 			int columna = posicionesLibres.get(indice).getColumna();
 
-			if (fila - 1 > 0 && columna - 1 > 0) {
+			if (fila - 1 >= 0 && columna - 1 >= 0) {
 
 				casillaLindante = tablero.getPosicion(fila - 1, columna - 1);
 				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
@@ -97,7 +95,7 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (fila - 1 > 0) {
+			if (fila - 1 >= 0) {
 
 				casillaLindante = tablero.getPosicion(fila - 1, columna);
 				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
@@ -105,14 +103,14 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (fila - 1 > 0 && columna + 1 < 7) {
+			if (fila - 1 >= 0 && columna + 1 < 7) {
 				casillaLindante = tablero.getPosicion(fila - 1, columna + 1);
 				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
 				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (columna - 1 > 0) {
+			if (columna - 1 >= 0) {
 				casillaLindante = tablero.getPosicion(fila, columna - 1);
 				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
 				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
@@ -126,7 +124,7 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (fila + 1 < 6 && columna - 1 > 0) {
+			if (fila + 1 < 6 && columna - 1 >= 0) {
 				casillaLindante = tablero.getPosicion(fila + 1, columna - 1);
 				cantidadDeO = cantidadDeO + esFicha(casillaLindante, FICHA_JUGADOR_UNO);
 				cantidadDeX = cantidadDeX + esFicha(casillaLindante, FICHA_JUGADOR_DOS);
@@ -147,16 +145,42 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (cantidadDeO > cantidadDeX) {
-				posicionesLibres.get(indice).setPonderacion(10);
-			}
-			if (cantidadDeO < cantidadDeX) {
-				posicionesLibres.get(indice).setPonderacion(1);
-			}
-			if (cantidadDeO == cantidadDeX) {
-				posicionesLibres.get(indice).setPonderacion(5);
+			if (jugarDefensivo(tablero, fila, columna)) {
+				posicionesLibres.get(indice).setPonderacion(-1);
+			} else {
+
+				if (cantidadDeO <= cantidadDeX) {
+					posicionesLibres.get(indice).setPonderacion(10);
+				}
+				if (cantidadDeO < cantidadDeX) {
+					posicionesLibres.get(indice).setPonderacion(1);
+				}
+				if (cantidadDeO == cantidadDeX) {
+					posicionesLibres.get(indice).setPonderacion(5);
+				}
 			}
 		}
+	}
+
+	private boolean jugarDefensivo(Tablero tablero, int fila, int columna) {
+
+		boolean jugarDefensivo = false;
+		int cantidadFichasJugadorUno = 0;
+
+		// Controlar hacia izquierda
+		for (int i = 1; i <= 3; i++) {
+			if (columna - i >= 0) {
+				if (tablero.getPosicion(fila, columna - i).getContenido() == FICHA_JUGADOR_UNO) {
+					cantidadFichasJugadorUno++;
+				}
+			}
+		}
+
+		if (cantidadFichasJugadorUno == 3) {
+			jugarDefensivo = true;
+		}
+
+		return jugarDefensivo;
 
 	}
 
