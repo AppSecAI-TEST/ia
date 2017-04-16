@@ -176,6 +176,15 @@ public class MaxMin {
 			}
 		}
 
+		// Horizontal Derecha
+		for (int i = 1; i <= 3; i++) {
+			if (columna + i < 7) {
+				if (tablero.getPosicion(fila, columna + i).getContenido() == FICHA_JUGADOR_UNO) {
+					cantidadFichasJugadorUno++;
+				}
+			}
+		}
+
 		if (cantidadFichasJugadorUno == 3) {
 			jugarDefensivo = true;
 		}
