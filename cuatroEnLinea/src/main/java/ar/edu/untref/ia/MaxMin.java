@@ -175,6 +175,7 @@ public class MaxMin {
 		int cantidadFichasJugadorUnoHorizontal = 0;
 		int cantidadFichasJugadorUnoVertical = 0;
 		int cantidadFichasJugadorUnoDiagonal1 = 0;
+		int cantidadFichasJugadorUnoDiagonal2 = 0;
 
 		// Horizontal Izquierda
 		for (int i = 1; i <= 3; i++) {
@@ -221,8 +222,17 @@ public class MaxMin {
 			}
 		}
 
+		// Diagonal 2 Abajo
+		for (int i = 1; i <= 3; i++) {
+			if (fila + i < 6 && columna + i < 7) {
+				if (tablero.getPosicion(fila + i, columna + i).getContenido() == FICHA_JUGADOR_UNO) {
+					cantidadFichasJugadorUnoDiagonal2++;
+				}
+			}
+		}
+
 		if (cantidadFichasJugadorUnoHorizontal == 3 || cantidadFichasJugadorUnoVertical == 3
-				|| cantidadFichasJugadorUnoDiagonal1 == 3) {
+				|| cantidadFichasJugadorUnoDiagonal1 == 3 || cantidadFichasJugadorUnoDiagonal2 == 3) {
 			jugarDefensivo = true;
 		}
 
