@@ -203,10 +203,19 @@ public class MaxMin {
 			}
 		}
 
-		// Diagonal
+		// Diagonal 1 Abajo
 		for (int i = 1; i <= 3; i++) {
 			if (fila + i < 6 && columna - i >= 0) {
 				if (tablero.getPosicion(fila + i, columna - i).getContenido() == FICHA_JUGADOR_UNO) {
+					cantidadFichasJugadorUnoDiagonal1++;
+				}
+			}
+		}
+
+		// Diagonal 1 Arriba
+		for (int i = 1; i <= 3; i++) {
+			if (fila - i >= 0 && columna + i < 7) {
+				if (tablero.getPosicion(fila - i, columna + i).getContenido() == FICHA_JUGADOR_UNO) {
 					cantidadFichasJugadorUnoDiagonal1++;
 				}
 			}
