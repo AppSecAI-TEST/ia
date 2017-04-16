@@ -167,7 +167,7 @@ public class MaxMin {
 		boolean jugarDefensivo = false;
 		int cantidadFichasJugadorUno = 0;
 
-		// Controlar hacia izquierda
+		// Horizontal Izquierda
 		for (int i = 1; i <= 3; i++) {
 			if (columna - i >= 0) {
 				if (tablero.getPosicion(fila, columna - i).getContenido() == FICHA_JUGADOR_UNO) {

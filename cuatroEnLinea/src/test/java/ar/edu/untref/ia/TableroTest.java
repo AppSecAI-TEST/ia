@@ -253,4 +253,19 @@ public class TableroTest {
 
 		Assert.assertTrue(tablero.ganoElJuego(4, 4 - 1, FICHA_JUGADOR_DOS));
 	}
+
+	@Test
+	public void juegaDefensivoFila5Columna6() {
+
+		Tablero tablero = new Tablero();
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 1);
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 5);
+
+		tablero.jugarPC(tablero);
+
+		Assert.assertTrue(tablero.getPosicion(5, 6 - 1).getContenido() == FICHA_JUGADOR_DOS);
+	}
 }
