@@ -15,6 +15,8 @@ public class MaxMin {
 	int movimientosExplorados = 0;
 	private String contenido = FICHA_JUGADOR_UNO;
 
+	private boolean jugarDefensivo = false;
+
 	public Casilla mejorJugadaMax(Tablero tablero) {
 
 		List<Casilla> posicionesLibres = new ArrayList<>();
@@ -77,8 +79,9 @@ public class MaxMin {
 		int cantidadDeX = 0;
 		int cantidadDe_ = 0;
 		Casilla casillaLindante;
+		int indice = 0;
 
-		for (int indice = 0; indice < posicionesLibres.size(); indice++) {
+		while (indice < posicionesLibres.size() && !jugarDefensivo) {
 
 			cantidadDeO = 0;
 			cantidadDeX = 0;
@@ -145,7 +148,8 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
-			if (jugarDefensivo(tablero, fila, columna)) {
+			jugarDefensivo = jugarDefensivo(tablero, fila, columna);
+			if (jugarDefensivo) {
 				posicionesLibres.get(indice).setPonderacion(-1);
 			} else {
 
@@ -159,19 +163,21 @@ public class MaxMin {
 					posicionesLibres.get(indice).setPonderacion(5);
 				}
 			}
+			indice++;
 		}
 	}
 
 	private boolean jugarDefensivo(Tablero tablero, int fila, int columna) {
 
 		boolean jugarDefensivo = false;
-		int cantidadFichasJugadorUno = 0;
+		int cantidadFichasJugadorUnoHorizontal = 0;
+		int cantidadFichasJugadorUnoVertical = 0;
 
 		// Horizontal Izquierda
 		for (int i = 1; i <= 3; i++) {
 			if (columna - i >= 0) {
 				if (tablero.getPosicion(fila, columna - i).getContenido() == FICHA_JUGADOR_UNO) {
-					cantidadFichasJugadorUno++;
+					cantidadFichasJugadorUnoHorizontal++;
 				}
 			}
 		}
@@ -180,12 +186,21 @@ public class MaxMin {
 		for (int i = 1; i <= 3; i++) {
 			if (columna + i < 7) {
 				if (tablero.getPosicion(fila, columna + i).getContenido() == FICHA_JUGADOR_UNO) {
-					cantidadFichasJugadorUno++;
+					cantidadFichasJugadorUnoHorizontal++;
 				}
 			}
 		}
 
-		if (cantidadFichasJugadorUno == 3) {
+		// Vertical
+		for (int i = 1; i <= 3; i++) {
+			if (fila + i < 6) {
+				if (tablero.getPosicion(fila + i, columna).getContenido() == FICHA_JUGADOR_UNO) {
+					cantidadFichasJugadorUnoVertical++;
+				}
+			}
+		}
+
+		if (cantidadFichasJugadorUnoHorizontal == 3 || cantidadFichasJugadorUnoVertical == 3) {
 			jugarDefensivo = true;
 		}
 
