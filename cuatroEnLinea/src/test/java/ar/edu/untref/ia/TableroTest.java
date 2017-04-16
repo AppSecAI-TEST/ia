@@ -257,6 +257,7 @@ public class TableroTest {
 	@Test
 	public void juegaDefensivoFila5Columna6() {
 
+		// Condiciones iniciales
 		Tablero tablero = new Tablero();
 		tablero.jugar(JUGADOR_UNO, 3);
 		tablero.jugar(JUGADOR_DOS, 1);
@@ -264,8 +265,36 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 2);
 		tablero.jugar(JUGADOR_UNO, 5);
 
+		// Comprobacion previa
+		Assert.assertTrue(tablero.getPosicion(5, 6 - 1).getContenido() == ESPACIO_LIBRE);
+
+		// Accion
 		tablero.jugarPC(tablero);
 
+		// Comprobacion
 		Assert.assertTrue(tablero.getPosicion(5, 6 - 1).getContenido() == FICHA_JUGADOR_DOS);
+	}
+
+	@Test
+	public void juegaDefensivoFila5Columna4() {
+
+		// Condiciones iniciales
+		Tablero tablero = new Tablero();
+		tablero.jugar(JUGADOR_UNO, 3);
+		tablero.jugar(JUGADOR_DOS, 1);
+		tablero.jugar(JUGADOR_UNO, 6);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 5);
+		System.out.println(tablero.estadoTablero());
+
+		// Comprobacion previa
+		Assert.assertTrue(tablero.getPosicion(5, 4 - 1).getContenido() == ESPACIO_LIBRE);
+
+		// Accion
+		tablero.jugarPC(tablero);
+		System.out.println(tablero.estadoTablero());
+
+		// Comprobacion
+		Assert.assertTrue(tablero.getPosicion(5, 4 - 1).getContenido() == FICHA_JUGADOR_DOS);
 	}
 }
