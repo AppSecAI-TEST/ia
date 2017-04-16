@@ -338,8 +338,5 @@ public class TableroTest {
 
 		// Comprobacion
 		Assert.assertTrue(tablero.getPosicion(2, 1 - 1).getContenido() == FICHA_JUGADOR_DOS);
-		tablero.jugarPC(tablero);
-
-		Assert.assertTrue(tablero.getPosicion(5, 6 - 1).getContenido() == FICHA_JUGADOR_DOS);
 	}
 }
