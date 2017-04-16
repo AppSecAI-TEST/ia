@@ -53,6 +53,8 @@ public class MaxMin {
 		int minimaPonderacion = 100;
 		int valorMaximo;
 
+		jugarDefensivo = false;
+
 		posicionesLibres = tablero.obtenerPosicionesLibres(tablero);
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
 

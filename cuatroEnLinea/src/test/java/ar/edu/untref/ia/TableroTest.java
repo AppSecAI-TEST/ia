@@ -327,16 +327,35 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_UNO, 1);
 		tablero.jugar(JUGADOR_DOS, 2);
 		tablero.jugar(JUGADOR_UNO, 1);
-		System.out.println(tablero.estadoTableroConSubIndices());
 
 		// Comprobacion previa
 		Assert.assertTrue(tablero.getPosicion(2, 1 - 1).getContenido() == ESPACIO_LIBRE);
 
 		// Accion
 		tablero.jugarPC(tablero);
-		System.out.println(tablero.estadoTableroConSubIndices());
 
 		// Comprobacion
 		Assert.assertTrue(tablero.getPosicion(2, 1 - 1).getContenido() == FICHA_JUGADOR_DOS);
+	}
+
+	@Test
+	public void juegaDefensivoFila2Columna5() {
+
+		// Condiciones iniciales
+		Tablero tablero = new Tablero();
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugarPC(tablero);
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugarPC(tablero);
+		tablero.jugar(JUGADOR_UNO, 5);
+
+		// Comprobacion previa
+		Assert.assertTrue(tablero.getPosicion(2, 5 - 1).getContenido() == ESPACIO_LIBRE);
+
+		// Accion
+		tablero.jugarPC(tablero);
+
+		// Comprobacion
+		Assert.assertTrue(tablero.getPosicion(2, 5 - 1).getContenido() == FICHA_JUGADOR_DOS);
 	}
 }
