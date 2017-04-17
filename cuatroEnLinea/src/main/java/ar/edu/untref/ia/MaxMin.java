@@ -16,6 +16,7 @@ public class MaxMin {
 	private String contenido = FICHA_JUGADOR_UNO;
 
 	private boolean jugarDefensivo = false;
+	private boolean jugarOfensivo = false;
 
 	public Casilla mejorJugadaMax(Tablero tablero) {
 
@@ -54,6 +55,7 @@ public class MaxMin {
 		int valorMaximo;
 
 		jugarDefensivo = false;
+		jugarOfensivo = false;
 
 		posicionesLibres = tablero.obtenerPosicionesLibres(tablero);
 		Iterator<Casilla> posicionesLibresIt = posicionesLibres.iterator();
@@ -83,7 +85,7 @@ public class MaxMin {
 		Casilla casillaLindante;
 		int indice = 0;
 
-		while (indice < posicionesLibres.size() && !jugarDefensivo) {
+		while (indice < posicionesLibres.size() && !jugarDefensivo && !jugarOfensivo) {
 
 			cantidadDeO = 0;
 			cantidadDeX = 0;
@@ -150,11 +152,14 @@ public class MaxMin {
 				cantidadDe_ = cantidadDe_ + esFicha(casillaLindante, ESPACIO_LIBRE);
 			}
 
+			jugarOfensivo = jugarOfensivo(tablero, fila, columna);
 			jugarDefensivo = jugarDefensivo(tablero, fila, columna);
-			if (jugarDefensivo) {
+
+			if (jugarOfensivo) {
+				posicionesLibres.get(indice).setPonderacion(-5);
+			} else if (jugarDefensivo) {
 				posicionesLibres.get(indice).setPonderacion(-1);
 			} else {
-
 				if (cantidadDeO <= cantidadDeX) {
 					posicionesLibres.get(indice).setPonderacion(10);
 				}
@@ -246,7 +251,85 @@ public class MaxMin {
 		}
 
 		return jugarDefensivo;
+	}
 
+	private boolean jugarOfensivo(Tablero tablero, int fila, int columna) {
+
+		boolean jugarOfensivo = false;
+		int cantidadFichasJugadorUnoHorizontal = 0;
+		int cantidadFichasJugadorUnoVertical = 0;
+		int cantidadFichasJugadorUnoDiagonal1 = 0;
+		int cantidadFichasJugadorUnoDiagonal2 = 0;
+
+		// Horizontal Izquierda
+		for (int i = 1; i <= 3; i++) {
+			if (columna - i >= 0) {
+				if (tablero.getPosicion(fila, columna - i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoHorizontal++;
+				}
+			}
+		}
+
+		// Horizontal Derecha
+		for (int i = 1; i <= 3; i++) {
+			if (columna + i < 7) {
+				if (tablero.getPosicion(fila, columna + i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoHorizontal++;
+				}
+			}
+		}
+
+		// Vertical
+		for (int i = 1; i <= 3; i++) {
+			if (fila + i < 6) {
+				if (tablero.getPosicion(fila + i, columna).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoVertical++;
+				}
+			}
+		}
+
+		// Diagonal 1 Abajo
+		for (int i = 1; i <= 3; i++) {
+			if (fila + i < 6 && columna - i >= 0) {
+				if (tablero.getPosicion(fila + i, columna - i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoDiagonal1++;
+				}
+			}
+		}
+
+		// Diagonal 1 Arriba
+		for (int i = 1; i <= 3; i++) {
+			if (fila - i >= 0 && columna + i < 7) {
+				if (tablero.getPosicion(fila - i, columna + i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoDiagonal1++;
+				}
+			}
+		}
+
+		// Diagonal 2 Abajo
+		for (int i = 1; i <= 3; i++) {
+			if (fila + i < 6 && columna + i < 7) {
+				if (tablero.getPosicion(fila + i, columna + i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoDiagonal2++;
+				}
+			}
+		}
+
+		// Diagonal 2 Arriba
+		for (int i = 1; i <= 3; i++) {
+			if (fila - i >= 0 && columna - i >= 0) {
+				if (tablero.getPosicion(fila - i, columna - i).getContenido() == FICHA_JUGADOR_DOS) {
+					cantidadFichasJugadorUnoDiagonal2++;
+				}
+			}
+		}
+
+		if (cantidadFichasJugadorUnoHorizontal == 3 || cantidadFichasJugadorUnoVertical == 3
+				|| cantidadFichasJugadorUnoDiagonal1 == 3 || cantidadFichasJugadorUnoDiagonal2 == 3) {
+			jugarOfensivo = true;
+		}
+
+		return jugarOfensivo;
 	}
 
 	private int esFicha(Casilla casillaLindante, String contenidoAComparar) {

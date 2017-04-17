@@ -216,13 +216,13 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 7);
 		tablero.jugar(JUGADOR_UNO, 4);
 		tablero.jugar(JUGADOR_DOS, 1);
-		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugar(JUGADOR_UNO, 6);
 		tablero.jugar(JUGADOR_DOS, 2);
 		tablero.jugar(JUGADOR_UNO, 6);
 		tablero.jugar(JUGADOR_DOS, 6);
-		tablero.jugar(JUGADOR_UNO, 4);
-		tablero.jugar(JUGADOR_DOS, 6);
 		tablero.jugar(JUGADOR_UNO, 6);
+		tablero.jugar(JUGADOR_DOS, 7);
+		tablero.jugar(JUGADOR_UNO, 5);
 
 		Assert.assertTrue(tablero.ganoElJuego(2, 6 - 1, FICHA_JUGADOR_UNO));
 	}
@@ -250,7 +250,6 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 6);
 		tablero.jugar(JUGADOR_UNO, 7);
 		tablero.jugar(JUGADOR_DOS, 4);
-
 		Assert.assertTrue(tablero.ganoElJuego(4, 4 - 1, FICHA_JUGADOR_DOS));
 	}
 
