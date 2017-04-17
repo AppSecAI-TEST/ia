@@ -95,6 +95,16 @@ public class Tablero {
 		return (getPosicion(0, columna).getContenido() == ESPACIO_LIBRE);
 	}
 
+	public boolean juegoEmpatado() {
+		return (getPosicion(0, 0).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 1).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 2).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 3).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 4).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 5).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 6).getContenido() != ESPACIO_LIBRE);
+	}
+
 	public String estadoTablero() {
 
 		String estadoTablero = "";
