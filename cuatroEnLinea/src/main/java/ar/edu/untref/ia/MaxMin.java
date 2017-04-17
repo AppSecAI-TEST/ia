@@ -158,7 +158,7 @@ public class MaxMin {
 			if (jugarOfensivo) {
 				posicionesLibres.get(indice).setPonderacion(-5);
 			} else if (jugarDefensivo) {
-				posicionesLibres.get(indice).setPonderacion(-1);
+				posicionesLibres.get(indice).setPonderacion(-3);
 			} else {
 				if (cantidadDeO <= cantidadDeX) {
 					posicionesLibres.get(indice).setPonderacion(10);
