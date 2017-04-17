@@ -227,7 +227,7 @@ public class Tablero {
 		if (!gano) {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
-			while (filaHaciaArriba < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			while (filaHaciaArriba >= 0 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
 				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha).getContenido();
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
@@ -235,7 +235,7 @@ public class Tablero {
 						gano = true;
 					}
 				}
-				filaHaciaArriba++;
+				filaHaciaArriba--;
 				columnaDerecha++;
 			}
 		}
