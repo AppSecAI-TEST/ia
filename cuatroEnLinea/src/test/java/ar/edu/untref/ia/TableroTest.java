@@ -132,7 +132,6 @@ public class TableroTest {
 		tablero.jugar(JUGADOR_DOS, 7);
 		tablero.jugar(JUGADOR_UNO, 4);
 		tablero.jugar(JUGADOR_DOS, 6);
-		System.out.println(tablero.estadoTablero());
 
 		Assert.assertTrue(tablero.ganoElJuego(3, 6 - 1, FICHA_JUGADOR_DOS));
 	}
