@@ -71,6 +71,9 @@ public class Program {
 			limpiarPantalla();
 
 			if (tablero.elJuegoTermino()) {
+				System.out.println("");
+				System.out.println(tablero.estadoTablero());
+				System.out.println("");
 				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
 				System.out.println("Presione una tecla para continuar...");
 				scanner.nextLine();
@@ -106,6 +109,9 @@ public class Program {
 			limpiarPantalla();
 
 			if (tablero.elJuegoTermino()) {
+				System.out.println("");
+				System.out.println(tablero.estadoTablero());
+				System.out.println("");
 				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
 				System.out.println("Presione una tecla para continuar...");
 				scanner.nextLine();
@@ -116,6 +122,9 @@ public class Program {
 				tablero.jugarPC(tablero);
 
 				if (tablero.elJuegoTermino()) {
+					System.out.println("");
+					System.out.println(tablero.estadoTablero());
+					System.out.println("");
 					System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
 					System.out.println("Presione una tecla para continuar...");
 					scanner.nextLine();
