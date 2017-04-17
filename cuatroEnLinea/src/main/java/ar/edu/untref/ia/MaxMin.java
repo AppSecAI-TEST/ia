@@ -10,7 +10,7 @@ public class MaxMin {
 	private final String FICHA_JUGADOR_DOS = "X";
 	private final String ESPACIO_LIBRE = "_";
 
-	private final Integer PROFUNDIDAD = 20;
+	private final Integer PROFUNDIDAD = 100;
 
 	int movimientosExplorados = 0;
 	private String contenido = FICHA_JUGADOR_UNO;
