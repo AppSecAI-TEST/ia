@@ -95,6 +95,16 @@ public class Tablero {
 		return (getPosicion(0, columna).getContenido() == ESPACIO_LIBRE);
 	}
 
+	public boolean juegoEmpatado() {
+		return (getPosicion(0, 0).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 1).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 2).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 3).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 4).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 5).getContenido() != ESPACIO_LIBRE)
+				&& (getPosicion(0, 6).getContenido() != ESPACIO_LIBRE);
+	}
+
 	public String estadoTablero() {
 
 		String estadoTablero = "";
@@ -227,7 +237,7 @@ public class Tablero {
 		if (!gano) {
 			cantidadFichasIguales--;
 			fichaEncontrada = fichaJugada;
-			while (filaHaciaArriba < 6 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
+			while (filaHaciaArriba >= 0 & columnaDerecha < 7 & !gano & (fichaEncontrada.equals(fichaJugada))) {
 				fichaEncontrada = getPosicion(filaHaciaArriba, columnaDerecha).getContenido();
 				if (fichaEncontrada.equals(fichaJugada)) {
 					cantidadFichasIguales++;
@@ -235,7 +245,7 @@ public class Tablero {
 						gano = true;
 					}
 				}
-				filaHaciaArriba++;
+				filaHaciaArriba--;
 				columnaDerecha++;
 			}
 		}

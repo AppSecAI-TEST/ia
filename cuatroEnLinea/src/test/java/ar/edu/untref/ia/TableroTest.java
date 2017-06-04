@@ -112,6 +112,31 @@ public class TableroTest {
 	}
 
 	@Test
+	public void elJugadorDosGanaEnDiagonal() {
+
+		Tablero tablero = new Tablero();
+
+		tablero.jugar(JUGADOR_UNO, 1);
+		tablero.jugar(JUGADOR_DOS, 2);
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugar(JUGADOR_DOS, 3);
+		tablero.jugar(JUGADOR_UNO, 6);
+		tablero.jugar(JUGADOR_DOS, 4);
+		tablero.jugar(JUGADOR_UNO, 7);
+		tablero.jugar(JUGADOR_DOS, 5);
+		tablero.jugar(JUGADOR_UNO, 5);
+		tablero.jugar(JUGADOR_DOS, 6);
+		tablero.jugar(JUGADOR_UNO, 7);
+		tablero.jugar(JUGADOR_DOS, 7);
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 7);
+		tablero.jugar(JUGADOR_UNO, 4);
+		tablero.jugar(JUGADOR_DOS, 6);
+
+		Assert.assertTrue(tablero.ganoElJuego(3, 6 - 1, FICHA_JUGADOR_DOS));
+	}
+
+	@Test
 	public void elJugadorUnoGanaEnHorizontalConUnaFichaEntreMedio() {
 
 		Tablero tablero = new Tablero();

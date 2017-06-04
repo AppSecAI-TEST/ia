@@ -56,10 +56,12 @@ public class Program {
 
 			columnaJugada = Integer.parseInt(scanner.nextLine());
 			boolean jugadaValida = tablero.jugar(jugadorActual, columnaJugada);
+			boolean juegoEmpatado = tablero.juegoEmpatado();
 
-			while (!jugadaValida) {
+			while (!jugadaValida & !juegoEmpatado) {
 				System.out.println("La jugada ingresada no es valida - Ingrese otra columna: ");
 				jugadaValida = tablero.jugar(jugadorActual, Integer.parseInt(scanner.nextLine()));
+				juegoEmpatado = tablero.juegoEmpatado();
 			}
 
 			if (jugadorActual == JUGADOR_UNO) {
@@ -70,13 +72,26 @@ public class Program {
 
 			limpiarPantalla();
 
-			if (tablero.elJuegoTermino()) {
-				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+			if (juegoEmpatado) {
+				System.out.println("");
+				System.out.println(tablero.estadoTablero());
+				System.out.println("");
+				System.out.println("El juego quedó en empate");
 				System.out.println("Presione una tecla para continuar...");
 				scanner.nextLine();
 				limpiarPantalla();
 				visualizarMenu();
-
+			} else {
+				if (tablero.elJuegoTermino()) {
+					System.out.println("");
+					System.out.println(tablero.estadoTablero());
+					System.out.println("");
+					System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+					System.out.println("Presione una tecla para continuar...");
+					scanner.nextLine();
+					limpiarPantalla();
+					visualizarMenu();
+				}
 			}
 		}
 	}
@@ -97,30 +112,49 @@ public class Program {
 
 			columnaJugada = Integer.parseInt(scanner.nextLine());
 			boolean jugadaValida = tablero.jugar(JUGADOR_UNO, columnaJugada);
+			boolean juegoEmpatado = tablero.juegoEmpatado();
 
-			while (!jugadaValida) {
+			while (!jugadaValida & !juegoEmpatado) {
 				System.out.println("La jugada ingresada no es valida - Ingrese otra columna: ");
 				jugadaValida = tablero.jugar(JUGADOR_UNO, Integer.parseInt(scanner.nextLine()));
+				juegoEmpatado = tablero.juegoEmpatado();
 			}
 
 			limpiarPantalla();
 
-			if (tablero.elJuegoTermino()) {
-				System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
+			if (juegoEmpatado) {
+				System.out.println("");
+				System.out.println(tablero.estadoTablero());
+				System.out.println("");
+				System.out.println("El juego quedó en empate");
 				System.out.println("Presione una tecla para continuar...");
 				scanner.nextLine();
 				limpiarPantalla();
 				visualizarMenu();
 			} else {
-
-				tablero.jugarPC(tablero);
-
 				if (tablero.elJuegoTermino()) {
-					System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
+					System.out.println("");
+					System.out.println(tablero.estadoTablero());
+					System.out.println("");
+					System.out.println("GANO EL JUEGO, FELICITACIONES!!!!");
 					System.out.println("Presione una tecla para continuar...");
 					scanner.nextLine();
 					limpiarPantalla();
 					visualizarMenu();
+				} else {
+
+					tablero.jugarPC(tablero);
+
+					if (tablero.elJuegoTermino()) {
+						System.out.println("");
+						System.out.println(tablero.estadoTablero());
+						System.out.println("");
+						System.out.println("LO SENTIMOS HUMANO, GANO LA IA XD");
+						System.out.println("Presione una tecla para continuar...");
+						scanner.nextLine();
+						limpiarPantalla();
+						visualizarMenu();
+					}
 				}
 			}
 		}

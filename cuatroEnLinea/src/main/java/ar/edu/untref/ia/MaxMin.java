@@ -10,7 +10,7 @@ public class MaxMin {
 	private final String FICHA_JUGADOR_DOS = "X";
 	private final String ESPACIO_LIBRE = "_";
 
-	private final Integer PROFUNDIDAD = 20;
+	private final Integer PROFUNDIDAD = 50;
 
 	int movimientosExplorados = 0;
 	private String contenido = FICHA_JUGADOR_UNO;
@@ -158,7 +158,7 @@ public class MaxMin {
 			if (jugarOfensivo) {
 				posicionesLibres.get(indice).setPonderacion(-5);
 			} else if (jugarDefensivo) {
-				posicionesLibres.get(indice).setPonderacion(-1);
+				posicionesLibres.get(indice).setPonderacion(-3);
 			} else {
 				if (cantidadDeO <= cantidadDeX) {
 					posicionesLibres.get(indice).setPonderacion(10);
