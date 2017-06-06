@@ -28,4 +28,17 @@ public class PlayerTest {
         Assert.assertTrue(hand.isEmpty());
     }
 
+    @Test
+    public void playerDrawCardFromDeck() throws Exception{
+
+        Player player = new Player();
+        Deck deck = new Deck();
+        player.draw(deck);
+        List<String> hand = player.getHand();
+        List<String> deckRemainingCards = deck.getRemainingCards();
+
+        Assert.assertFalse(hand.isEmpty());
+        Assert.assertFalse(deckRemainingCards.contains(hand.get(0)));
+    }
+
 }

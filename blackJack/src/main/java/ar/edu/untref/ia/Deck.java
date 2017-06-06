@@ -1,18 +1,18 @@
 package ar.edu.untref.ia;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by gonzalocozzi on 06/06/17.
  */
 public class Deck {
 
-    private List<String> cards;
+    private List<String> listOfCards;
 
     public Deck(){
-        this.cards = Arrays.asList("2 of Diamonds", "2 of Hearts", "2 of Clubs", "2 of Spades",
+
+        this.listOfCards = new ArrayList<>();
+        String[] cards = {"2 of Diamonds", "2 of Hearts", "2 of Clubs", "2 of Spades",
                 "3 of Diamonds", "3 of Hearts", "3 of Clubs", "3 of Spades",
                 "4 of Diamonds", "4 of Hearts", "4 of Clubs", "4 of Spades",
                 "5 of Diamonds", "5 of Hearts", "5 of Clubs", "5 of Spades",
@@ -24,21 +24,29 @@ public class Deck {
                 "Jack of Diamonds", "Jack of Hearts", "Jack of Clubs", "Jack of Spades",
                 "Queen of Diamonds", "Queen of Hearts", "Queen of Clubs", "Queen of Spades",
                 "King of Diamonds", "King of Hearts", "King of Clubs", "King of Spades",
-                "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades");
+                "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades"};
+
+        for (String item : cards){
+            this.listOfCards.add(item);
+        }
+
 
         this.shuffle();
     }
 
     public List<String> getRemainingCards(){
-        return this.cards;
+        return this.listOfCards;
     }
 
     public String getCard(){
-        return this.cards.get(0);
+
+        String card = this.listOfCards.get(0);
+        this.listOfCards.remove(0);
+        return card;
     }
 
     private void shuffle(){
-        Collections.shuffle(this.cards);
+        Collections.shuffle(this.listOfCards);
     }
 
 }

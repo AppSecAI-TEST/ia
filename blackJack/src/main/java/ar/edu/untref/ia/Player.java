@@ -23,4 +23,10 @@ public class Player {
     public List<String> getHand(){
         return this.hand;
     }
+
+    public void draw(Deck deck){
+        String drewCard = deck.getCard();
+        this.hand.add(drewCard);
+    }
+
 }
