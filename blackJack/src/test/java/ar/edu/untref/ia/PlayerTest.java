@@ -41,4 +41,18 @@ public class PlayerTest {
         Assert.assertFalse(deckRemainingCards.contains(hand.get(0)));
     }
 
+    @Test
+    public void playerCalculatesAndReturnsItsPoints() throws Exception{
+
+        Player player = new Player();
+        Deck deck = new Deck();
+        player.draw(deck);
+        player.draw(deck);
+        player.draw(deck);
+
+        int currentPoints = player.getPoints();
+
+        Assert.assertNotEquals(0, currentPoints);
+    }
+
 }
