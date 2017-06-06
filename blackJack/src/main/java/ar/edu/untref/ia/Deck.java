@@ -7,8 +7,14 @@ import java.util.ArrayList;
  */
 public class Deck {
 
-    public ArrayList<String> getContents(){
-        return new ArrayList<>();
+    private ArrayList<String> cards;
+
+    public Deck(){
+        this.cards = new ArrayList<>();
+    }
+
+    public ArrayList<String> getCards(){
+        return this.cards;
     }
 
 }

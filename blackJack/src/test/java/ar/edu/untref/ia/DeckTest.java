@@ -14,7 +14,7 @@ public class DeckTest {
 
         Deck deck = new Deck();
 
-        Assert.assertNotNull(deck.getContents());
+        Assert.assertNotNull(deck.getCards());
     }
 
 }
