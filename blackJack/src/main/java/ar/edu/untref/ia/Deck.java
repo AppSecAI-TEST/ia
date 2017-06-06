@@ -9,6 +9,7 @@ public class Deck {
 
     private List<String> listOfCards;
 
+    //A deck contains a list of strings representing cards. It's interacted with by the player and the dealer.
     public Deck(){
 
         this.listOfCards = new ArrayList<>();
@@ -38,6 +39,7 @@ public class Deck {
         return this.listOfCards;
     }
 
+    //Remove and returns the top card of the deck
     public String getCard(){
 
         String card = this.listOfCards.get(0);
@@ -45,6 +47,7 @@ public class Deck {
         return card;
     }
 
+    //Randomize the order of the cards in the deck
     private void shuffle(){
         Collections.shuffle(this.listOfCards);
     }

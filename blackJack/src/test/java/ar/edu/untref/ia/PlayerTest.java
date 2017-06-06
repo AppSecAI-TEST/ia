@@ -42,7 +42,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerCalculatesAndReturnsItsPoints() throws Exception{
+    public void playerCalculatesAndReturnsItsCurrentPoints() throws Exception{
 
         Player player = new Player();
         Deck deck = new Deck();

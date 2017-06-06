@@ -10,13 +10,14 @@ public class Player {
     private int points;
     private List<String> hand;
 
+    //A player has a hand and interacts with a deck
     public Player(){
         this.points = 0;
         this.hand = new ArrayList<>();
     }
 
     public int getPoints(){
-        this.updatePoints();
+        this.calculatePoints();
         return this.points;
     }
 
@@ -24,12 +25,14 @@ public class Player {
         return this.hand;
     }
 
+    //Draw a card from deck and tell the deck to remove its top card
     public void draw(Deck deck){
         String drewCard = deck.getCard();
         this.hand.add(drewCard);
     }
 
-    private void updatePoints(){
+    //Figures out how many points the player's hand is worth
+    private void calculatePoints(){
         int tempPoints = 0;
         int numberOfAces = 0;
         for(String card : this.hand){
@@ -43,6 +46,7 @@ public class Player {
                 tempPoints += 10;
             }
         }
+        //If the player exceeds 21 points by choosing aces as 11-point cards, then the score of those cards is reduced to 1 point.
         while(numberOfAces > 0 && tempPoints > 21){
             numberOfAces -= 1;
             tempPoints -= 10;
