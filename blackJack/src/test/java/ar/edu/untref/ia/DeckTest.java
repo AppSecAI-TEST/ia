@@ -39,9 +39,12 @@ public class DeckTest {
                 "King of Diamonds", "King of Hearts", "King of Clubs", "King of Spades",
                 "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades");
 
-        Assert.assertEquals(cardList, completeCardList);
+        for (String card : completeCardList){
+            Assert.assertTrue(cardList.contains(card));
+        }
     }
 
+    /** Shuffling the list of cards makes this test to fail
     @Test
     public void deckDeliversItsFirstCard() throws Exception{
 
@@ -49,6 +52,15 @@ public class DeckTest {
         String firstCard = deck.getCard();
 
         Assert.assertEquals("2 of Diamonds", firstCard);
+    }**/
+
+    @Test
+    public void deckShufflesTheListOfCardsAndDeliversItsFirstCard() throws Exception{
+
+        Deck deck = new Deck();
+        String firstCard = deck.getCard();
+
+        Assert.assertNotEquals("2 of Diamonds", firstCard);
     }
 
 }

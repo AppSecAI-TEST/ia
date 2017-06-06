@@ -1,5 +1,6 @@
 package ar.edu.untref.ia;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
 
@@ -24,6 +25,8 @@ public class Deck {
                 "Queen of Diamonds", "Queen of Hearts", "Queen of Clubs", "Queen of Spades",
                 "King of Diamonds", "King of Hearts", "King of Clubs", "King of Spades",
                 "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades");
+
+        this.shuffle();
     }
 
     public List<String> getRemainingCards(){
@@ -32,6 +35,10 @@ public class Deck {
 
     public String getCard(){
         return this.cards.get(0);
+    }
+
+    private void shuffle(){
+        Collections.shuffle(this.cards);
     }
 
 }
