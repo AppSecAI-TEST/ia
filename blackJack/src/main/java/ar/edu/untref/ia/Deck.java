@@ -26,8 +26,12 @@ public class Deck {
                 "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades");
     }
 
-    public List<String> getCards(){
+    public List<String> getRemainingCards(){
         return this.cards;
+    }
+
+    public String getCard(){
+        return this.cards.get(0);
     }
 
 }

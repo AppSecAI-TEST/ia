@@ -17,14 +17,14 @@ public class DeckTest {
 
         Deck deck = new Deck();
 
-        Assert.assertNotNull(deck.getCards());
+        Assert.assertNotNull(deck.getRemainingCards());
     }
 
     @Test
     public void deckContainsFullListOfStringsRepresentingCards() throws Exception{
 
         Deck deck = new Deck();
-        List<String> cardList = deck.getCards();
+        List<String> cardList = deck.getRemainingCards();
         List<String> completeCardList = Arrays.asList("2 of Diamonds", "2 of Hearts", "2 of Clubs", "2 of Spades",
                 "3 of Diamonds", "3 of Hearts", "3 of Clubs", "3 of Spades",
                 "4 of Diamonds", "4 of Hearts", "4 of Clubs", "4 of Spades",
@@ -40,6 +40,15 @@ public class DeckTest {
                 "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades");
 
         Assert.assertEquals(cardList, completeCardList);
+    }
+
+    @Test
+    public void deckDeliversItsFirstCard() throws Exception{
+
+        Deck deck = new Deck();
+        String firstCard = deck.getCard();
+
+        Assert.assertEquals("2 of Diamonds", firstCard);
     }
 
 }
