@@ -28,23 +28,23 @@ public class Game {
         this.playersList.add(this.croupier);
     }
 
-    public boolean isTerminal() {
+    protected boolean isTerminal() {
         return this.isTerminal;
     }
 
-    public Player getPlayer() {
+    protected Player getPlayer() {
         return this.player;
     }
 
-    public Player getCroupier() {
+    protected Player getCroupier() {
         return this.croupier;
     }
 
-    public List<Player> getPlayersList() {
+    protected List<Player> getPlayersList() {
         return this.playersList;
     }
 
-    public Deck getDeck() {
+    protected Deck getDeck() {
         return this.deck;
     }
 }

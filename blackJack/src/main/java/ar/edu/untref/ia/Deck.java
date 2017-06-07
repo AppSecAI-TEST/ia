@@ -11,7 +11,6 @@ public class Deck {
 
     //A deck contains a list of strings representing cards. It's interacted with by the player and the dealer.
     public Deck(){
-
         this.listOfCards = new ArrayList<>();
         String[] cards = {"2 of Diamonds", "2 of Hearts", "2 of Clubs", "2 of Spades",
                 "3 of Diamonds", "3 of Hearts", "3 of Clubs", "3 of Spades",
@@ -26,22 +25,18 @@ public class Deck {
                 "Queen of Diamonds", "Queen of Hearts", "Queen of Clubs", "Queen of Spades",
                 "King of Diamonds", "King of Hearts", "King of Clubs", "King of Spades",
                 "Ace of Diamonds", "Ace of Hearts", "Ace of Clubs", "Ace of Spades"};
-
         for (String item : cards){
             this.listOfCards.add(item);
         }
-
-
         this.shuffle();
     }
 
-    public List<String> getRemainingCards(){
+    protected List<String> getRemainingCards(){
         return this.listOfCards;
     }
 
     //Remove and returns the top card of the deck
-    public String getCard(){
-
+    protected String getCard(){
         String card = this.listOfCards.get(0);
         this.listOfCards.remove(0);
         return card;

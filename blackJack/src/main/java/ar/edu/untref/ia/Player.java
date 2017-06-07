@@ -16,17 +16,17 @@ public class Player {
         this.hand = new ArrayList<>();
     }
 
-    public int getPoints(){
+    protected int getPoints(){
         this.calculatePoints();
         return this.points;
     }
 
-    public List<String> getHand(){
+    protected List<String> getHand(){
         return this.hand;
     }
 
     //Draw a card from deck and tell the deck to remove its top card
-    public void draw(Deck deck){
+    protected void draw(Deck deck){
         String drewCard = deck.getCard();
         this.hand.add(drewCard);
     }
@@ -54,7 +54,11 @@ public class Player {
         this.points = tempPoints;
     }
 
-    public boolean isInteger(String string) {
+    /**
+     * @param string
+     * @return true if the string represents an integer
+     */
+    private boolean isInteger(String string) {
         if(string == null || string.trim().isEmpty()) {
             return false;
         }
