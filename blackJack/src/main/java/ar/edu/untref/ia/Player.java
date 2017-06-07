@@ -3,7 +3,7 @@ package ar.edu.untref.ia;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Created by gonzalo on 06/06/17.
+ * Created by gonzalocozzi on 06/06/17.
  */
 public class Player {
 
