@@ -24,4 +24,12 @@ public class GameTest {
         Assert.assertNotNull(player);
     }
 
+    @Test
+    public void gameStartsWithCroupier() throws Exception {
+        Game game = new Game();
+        Player croupier = game.getCroupier();
+
+        Assert.assertNotNull(croupier);
+    }
+
 }

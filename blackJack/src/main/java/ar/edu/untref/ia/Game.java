@@ -7,10 +7,12 @@ public class Game {
 
     private boolean isTerminal;
     private Player player;
+    private Player croupier;
 
     public Game() {
         this.isTerminal = false;
         this.player = new Player();
+        this.croupier = new Player();
     }
 
     public boolean isTerminal() {
@@ -19,5 +21,9 @@ public class Game {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public Player getCroupier() {
+        return this.croupier;
     }
 }
