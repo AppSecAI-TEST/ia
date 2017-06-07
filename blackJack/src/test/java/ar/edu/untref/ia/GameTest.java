@@ -50,4 +50,12 @@ public class GameTest {
         Assert.assertNotNull(deck);
     }
 
+    @Test
+        public void gameStartsMakingThePlayerDrawCardFromDeck() throws Exception {
+        Game game = new Game();
+        int playerPoints = game.getPlayerPoints();
+
+        Assert.assertNotEquals(0, playerPoints);
+    }
+
 }

@@ -17,7 +17,6 @@ public class Player {
     }
 
     protected int getPoints(){
-        this.calculatePoints();
         return this.points;
     }
 
@@ -29,6 +28,7 @@ public class Player {
     protected void draw(Deck deck){
         String drewCard = deck.getCard();
         this.hand.add(drewCard);
+        this.calculatePoints();
     }
 
     //Figures out how many points the player's hand is worth
