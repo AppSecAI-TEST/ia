@@ -11,8 +11,7 @@ import java.util.List;
 public class PlayerTest {
 
     @Test
-    public void playerStartsWithZeroPoints() throws Exception{
-
+    public void playerStartsWithZeroPoints() throws Exception {
         Player player = new Player();
         int initialPoints = player.getPoints();
 
@@ -20,8 +19,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerStartsWithEmptyHandOfCards() throws Exception{
-
+    public void playerStartsWithEmptyHandOfCards() throws Exception {
         Player player = new Player();
         List<String> hand = player.getHand();
 
@@ -29,8 +27,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerDrawCardFromDeck() throws Exception{
-
+    public void playerDrawCardFromDeck() throws Exception {
         Player player = new Player();
         Deck deck = new Deck();
         player.draw(deck);
@@ -42,8 +39,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerCalculatesAndReturnsItsCurrentPoints() throws Exception{
-
+    public void playerCalculatesAndReturnsItsCurrentPoints() throws Exception {
         Player player = new Player();
         Deck deck = new Deck();
         player.draw(deck);

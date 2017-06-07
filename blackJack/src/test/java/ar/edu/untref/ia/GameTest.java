@@ -9,11 +9,11 @@ import org.junit.Test;
 public class GameTest {
 
     @Test
-    public void gameStartsWithNoTerminalState(){
-
+    public void gameStartsWithNoTerminalState() throws Exception{
         Game game = new Game();
         boolean isTerminal = game.isTerminal();
 
         Assert.assertFalse(isTerminal);
     }
+
 }

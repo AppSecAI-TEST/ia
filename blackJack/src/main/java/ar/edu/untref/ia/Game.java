@@ -7,7 +7,7 @@ public class Game {
 
     private boolean isTerminal;
 
-    public Game(){
+    public Game() {
         this.isTerminal = false;
     }
 

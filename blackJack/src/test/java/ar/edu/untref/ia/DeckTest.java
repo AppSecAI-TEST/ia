@@ -14,7 +14,6 @@ public class DeckTest {
 
     @Test
     public void deckContainsListOfStringsRepresentingCards() throws Exception{
-
         Deck deck = new Deck();
 
         Assert.assertNotNull(deck.getRemainingCards());
@@ -22,7 +21,6 @@ public class DeckTest {
 
     @Test
     public void deckContainsFullListOfStringsRepresentingCards() throws Exception{
-
         Deck deck = new Deck();
         List<String> cardList = deck.getRemainingCards();
         List<String> completeCardList = Arrays.asList("2 of Diamonds", "2 of Hearts", "2 of Clubs", "2 of Spades",
@@ -47,7 +45,6 @@ public class DeckTest {
     /** Shuffling the list of cards makes this test to fail
     @Test
     public void deckDeliversItsFirstCard() throws Exception{
-
         Deck deck = new Deck();
         String firstCard = deck.getCard();
 
@@ -55,8 +52,7 @@ public class DeckTest {
     }**/
 
     @Test
-    public void deckShufflesTheListOfCardsAndDeliversItsFirstCard() throws Exception{
-
+    public void deckShufflesTheListOfCardsAndDeliversItsFirstCard() throws Exception {
         Deck deck = new Deck();
         String firstCard = deck.getCard();
 
