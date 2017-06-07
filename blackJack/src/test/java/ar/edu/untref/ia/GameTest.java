@@ -66,4 +66,12 @@ public class GameTest {
         Assert.assertNotEquals(0, croupierPoints);
     }
 
+    @Test
+    public void gameReturnsPlayersRewardInNextStepsWhenItsActionIsDraw() throws Exception {
+        Game game = new Game();
+        int reward = game.step(Action.DRAW, 0);
+
+        Assert.assertNotNull(reward);
+    }
+
 }

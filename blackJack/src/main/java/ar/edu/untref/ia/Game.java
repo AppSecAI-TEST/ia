@@ -68,7 +68,19 @@ public class Game {
         return this.playerPoints;
     }
 
-    public int getCroupierPoints() {
+    protected int getCroupierPoints() {
         return this.croupierPoints;
+    }
+
+    protected int step(Action action, int currentPlayerReward) {
+        int reward = currentPlayerReward;
+        if(action == Action.DRAW){
+            this.player.draw(this.deck);
+            this.updatePlayersPoints();
+            if(this.playerPoints > 21){
+                reward = -1;
+            }
+        }
+        return reward;
     }
 }
