@@ -74,4 +74,12 @@ public class GameTest {
         Assert.assertNotNull(reward);
     }
 
+    @Test
+    public void gameReturnsPlayersRewardInNextStepWhenItsActionIsStand() throws Exception {
+        Game game = new Game();
+        int reward = game.step(Action.STAND, 0);
+
+        Assert.assertNotNull(reward);
+    }
+
 }

@@ -77,9 +77,17 @@ public class Game {
         if(action == Action.DRAW){
             this.player.draw(this.deck);
             this.updatePlayersPoints();
-            if(this.playerPoints > 21){
-                reward = -1;
-            }
+            reward += this.calculatePlayerReward();
+        } else if(action == Action.STAND){
+            reward += this.calculatePlayerReward();
+        }
+        return reward;
+    }
+
+    private int calculatePlayerReward(){
+        int reward = 0;
+        if(this.playerPoints > 21){
+            reward = -1;
         }
         return reward;
     }
