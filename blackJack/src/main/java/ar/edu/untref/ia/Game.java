@@ -12,11 +12,13 @@ public class Game {
     private Player player;
     private Player croupier;
     private List<Player> playersList;
+    private Deck deck;
 
     public Game() {
         this.isTerminal = false;
         this.player = new Player();
         this.croupier = new Player();
+        this.deck = new Deck();
         this.playersList = new ArrayList<>();
         this.fillPlayersList();
     }
@@ -40,5 +42,9 @@ public class Game {
 
     public List<Player> getPlayersList() {
         return this.playersList;
+    }
+
+    public Deck getDeck() {
+        return this.deck;
     }
 }

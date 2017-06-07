@@ -42,4 +42,12 @@ public class GameTest {
         Assert.assertEquals(2, playersList.size());
     }
 
+    @Test
+    public void gameStartsWithDeck () throws Exception {
+        Game game = new Game();
+        Deck deck = game.getDeck();
+
+        Assert.assertNotNull(deck);
+    }
+
 }
