@@ -16,4 +16,12 @@ public class GameTest {
         Assert.assertFalse(isTerminal);
     }
 
+    @Test
+    public void gameStartsWithPlayer() throws Exception {
+        Game game = new Game();
+        Player player = game.getPlayer();
+
+        Assert.assertNotNull(player);
+    }
+
 }
