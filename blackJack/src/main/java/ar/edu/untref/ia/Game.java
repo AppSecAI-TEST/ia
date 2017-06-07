@@ -72,22 +72,42 @@ public class Game {
         return this.croupierPoints;
     }
 
-    protected int step(Action action, int currentPlayerReward) {
-        int reward = currentPlayerReward;
+    protected int step(Action action) {
         if(action == Action.DRAW){
             this.player.draw(this.deck);
             this.updatePlayersPoints();
-            reward += this.calculatePlayerReward();
         } else if(action == Action.STAND){
-            reward += this.calculatePlayerReward();
+            this.isTerminal = true;
+            while(this.croupierPoints < 17){
+                this.croupier.draw(this.deck);
+                this.updatePlayersPoints();
+            }
         }
-        return reward;
+        return this.calculatePlayerReward();
     }
 
+    /**
+     * reward 1: player wins
+     * reward 0: tie
+     * reward -1: croupier wins
+     * @return reward
+     */
     private int calculatePlayerReward(){
         int reward = 0;
         if(this.playerPoints > 21){
+            this.isTerminal = true;
             reward = -1;
+        }
+        if(this.croupierPoints > 21){
+            if(this.playerPoints <= 21){
+                reward = 1;
+            }
+        } else if (this.playerPoints < this.croupierPoints) {
+            reward = -1;
+        } else if (this.playerPoints == this.croupierPoints) {
+            reward = 0;
+        } else if (this.playerPoints > this.croupierPoints) {
+            reward = 1;
         }
         return reward;
     }

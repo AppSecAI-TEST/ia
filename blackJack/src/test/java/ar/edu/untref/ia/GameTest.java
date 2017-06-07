@@ -69,7 +69,7 @@ public class GameTest {
     @Test
     public void gameReturnsPlayersRewardInNextStepsWhenItsActionIsDraw() throws Exception {
         Game game = new Game();
-        int reward = game.step(Action.DRAW, 0);
+        int reward = game.step(Action.DRAW);
 
         Assert.assertNotNull(reward);
     }
@@ -77,7 +77,7 @@ public class GameTest {
     @Test
     public void gameReturnsPlayersRewardInNextStepWhenItsActionIsStand() throws Exception {
         Game game = new Game();
-        int reward = game.step(Action.STAND, 0);
+        int reward = game.step(Action.STAND);
 
         Assert.assertNotNull(reward);
     }
