@@ -58,4 +58,12 @@ public class GameTest {
         Assert.assertNotEquals(0, playerPoints);
     }
 
+    @Test
+    public void gameStartsMakingTheCroupierDrawCardFromDeck() throws Exception {
+        Game game = new Game();
+        int croupierPoints = game.getCroupierPoints();
+
+        Assert.assertNotEquals(0, croupierPoints);
+    }
+
 }

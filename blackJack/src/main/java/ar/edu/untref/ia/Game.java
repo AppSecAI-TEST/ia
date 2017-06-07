@@ -14,6 +14,7 @@ public class Game {
     private List<Player> playersList;
     private Deck deck;
     private int playerPoints;
+    private int croupierPoints;
 
     public Game() {
         this.isTerminal = false;
@@ -22,6 +23,7 @@ public class Game {
         this.deck = new Deck();
         this.playersList = new ArrayList<>();
         this.playerPoints = 0;
+        this.croupierPoints = 0;
         this.fillPlayersList();
         this.firstStep();
     }
@@ -33,11 +35,13 @@ public class Game {
 
     private void firstStep() {
         this.player.draw(this.deck);
-        this.updatePlayerPoints();
+        this.croupier.draw(this.deck);
+        this.updatePlayersPoints();
     }
 
-    private void updatePlayerPoints() {
+    private void updatePlayersPoints() {
         this.playerPoints = this.player.getPoints();
+        this.croupierPoints = this.croupier.getPoints();
     }
 
     protected boolean isTerminal() {
@@ -62,5 +66,9 @@ public class Game {
 
     protected int getPlayerPoints() {
         return this.playerPoints;
+    }
+
+    public int getCroupierPoints() {
+        return this.croupierPoints;
     }
 }
