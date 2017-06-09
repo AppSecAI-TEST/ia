@@ -35,6 +35,7 @@ public class Game {
 
 	private void firstStep() {
 		this.player.draw(this.deck);
+		this.player.draw(this.deck);
 		this.croupier.draw(this.deck);
 		updatePlayersPoints();
 	}
@@ -64,6 +65,10 @@ public class Game {
 		return this.deck;
 	}
 
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
+	
 	protected int getPlayerPoints() {
 		return this.playerPoints;
 	}
@@ -87,8 +92,9 @@ public class Game {
 	}
 
 	/**
-	 * reward 1: player wins reward 0: tie reward -1: croupier wins
-	 *
+	 * reward 1: player wins 
+	 * reward 0: tie 
+	 * reward -1: croupier wins
 	 * @return reward
 	 */
 	private int calculatePlayerReward() {

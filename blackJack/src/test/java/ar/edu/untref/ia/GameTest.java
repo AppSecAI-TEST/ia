@@ -1,16 +1,16 @@
 package ar.edu.untref.ia;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * Created by gonzalocozzi on 06/06/17.
  */
 public class GameTest {
-
-    @Test
+	
+	@Test
     public void gameStartsWithNoTerminalState() throws Exception{
         Game game = new Game();
         boolean isTerminal = game.isTerminal();
@@ -81,5 +81,4 @@ public class GameTest {
 
         Assert.assertNotNull(reward);
     }
-
 }

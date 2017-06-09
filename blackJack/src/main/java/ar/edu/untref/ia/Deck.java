@@ -41,7 +41,7 @@ public class Deck {
 	}
 
 	// Randomize the order of the cards in the deck
-	private void shuffle() {
+	public void shuffle() {
 		Collections.shuffle(this.listOfCards);
 	}
 }
