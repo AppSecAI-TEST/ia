@@ -74,7 +74,7 @@ public class BlackJack {
 				}
 				// find an action defined by the policy
 				if (currentAction != Action.STAND && currentReward != -1) {
-					epsilon = (double) (nZero / (nZero + counterState.get(currentSituation)));
+					epsilon = (double) (nZero / (nZero + counterState.getOrDefault(currentSituation, 0)));
 					if (epsilonGreedyPolicy) {
 						currentAction = epsilonGreedyPolicy(epsilon, valueFunction, currentPlayerPoints, currentDealerPoints);
 					}
@@ -107,10 +107,10 @@ public class BlackJack {
 			ListIterator<Situation> situationIterator = observedKeys.listIterator();
 			while (situationIterator.hasNext()) {
 				Situation currentSituation = situationIterator.next();
-				counterState.put(currentSituation, counterState.get(currentSituation) + 1);
-				counterStateAction.put(currentSituation, counterStateAction.get(currentSituation) + 1);
+				counterState.put(currentSituation, counterState.getOrDefault(currentSituation, 0) + 1);
+				counterStateAction.put(currentSituation, counterStateAction.getOrDefault(currentSituation, 0) + 1);
 				double alpha = 1.0 / counterStateAction.get(currentSituation);
-				double old = valueFunction.get(currentSituation);
+				double old = valueFunction.getOrDefault(currentSituation, 0.0);
 				if (situationIterator.hasNext()) {
 					Situation nextSituation = situationIterator.next();
 					Situation drawSituation = new Situation(nextSituation.getPlayerPoints(),
