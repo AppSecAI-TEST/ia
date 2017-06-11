@@ -15,9 +15,7 @@ public class blackJackTest {
 
 	@Test
 	public void randomPolicy() {
-
-		/**boolean random = blackJack.randomPolicy();
-
-		Assert.assertNotNull(random);**/
+		BlackJack bj = new BlackJack();
+		bj.iteration(1,false,true);
 	}
 }

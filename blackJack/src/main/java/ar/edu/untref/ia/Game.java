@@ -87,17 +87,16 @@ public class Game {
 		if (this.playerPoints > 21) {
 			this.isTerminal = true;
 			reward = -1;
-		}
-		if (this.croupierPoints > 21) {
-			if (this.playerPoints <= 21) {
+		} else {
+			if (this.croupierPoints > 21) {
+				reward = 1;
+			} else if (this.playerPoints < this.croupierPoints) {
+				reward = -1;
+			} else if (this.playerPoints == this.croupierPoints) {
+				reward = 0;
+			} else if (this.playerPoints > this.croupierPoints) {
 				reward = 1;
 			}
-		} else if (this.playerPoints < this.croupierPoints) {
-			reward = -1;
-		} else if (this.playerPoints == this.croupierPoints) {
-			reward = 0;
-		} else if (this.playerPoints > this.croupierPoints) {
-			reward = 1;
 		}
 		return reward;
 	}

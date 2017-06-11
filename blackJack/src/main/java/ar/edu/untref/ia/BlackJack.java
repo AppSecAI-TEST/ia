@@ -31,8 +31,8 @@ public class BlackJack {
 		Action bestAction;
 		Situation situationDraw = new Situation(playerPoints, dealerPoints, Action.DRAW);
 		Situation situationStand = new Situation(playerPoints, dealerPoints, Action.STAND);
-		Double valueDraw = valueFunction.get(situationDraw);
-		Double valueStand = valueFunction.get(situationStand);
+		Double valueDraw = valueFunction.getOrDefault(situationDraw, 0.0);
+		Double valueStand = valueFunction.getOrDefault(situationStand, 0.0);
 		if (valueDraw > valueStand) {
 			bestAction = Action.DRAW;
 		} else if (valueStand > valueDraw) {
@@ -123,6 +123,7 @@ public class BlackJack {
 				}
 				currentSituation = situationIterator.previous();
 				valueFunction.put(currentSituation, (1 - alpha) * old + alpha * (reward + newD));
+				situationIterator.next();
 			}
 		}
 	}
