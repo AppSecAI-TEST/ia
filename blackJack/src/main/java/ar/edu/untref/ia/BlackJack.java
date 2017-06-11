@@ -86,6 +86,7 @@ public class BlackJack {
 				} else {
 					currentAction = this.randomPolicy();
 				}
+				currentSituation.setAction(currentAction);
 				if (!observedKeys.contains(currentSituation) && currentPlayerPoints <= 21) {
 					observedKeys.add(currentSituation);
 				}
@@ -100,6 +101,7 @@ public class BlackJack {
 			winRecord.add(currentReward);
 		}
 		System.out.println("Wins: " + (wins / (iterations * 0.2)) * 100);
+
 		System.out.println("Value function: ");
 		for (Situation key : valueFunction.keySet()) {
 			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +

@@ -23,13 +23,17 @@ public class Situation {
 	public Action getAction() {
 		return action;
 	}
-	
+
 	public void setPlayerPoints(int playerPoints) {
-		this.playerPoints = playerPoints;	
+		this.playerPoints = playerPoints;
 	}
-	
+
 	public void setCroupierPoints(int croupierPoints) {
 		this.croupierPoints = croupierPoints;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
 	}
 
 	@Override
@@ -62,5 +66,5 @@ public class Situation {
 		}
 		return hashCode;
 	}
-	
+
 }
