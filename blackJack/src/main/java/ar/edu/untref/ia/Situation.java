@@ -3,12 +3,12 @@ package ar.edu.untref.ia;
 public class Situation {
 
 	private int playerPoints;
-	private int dealerPoints;
+	private int croupierPoints;
 	private Action action;
 
 	public Situation(int player, int dealer, Action action) {
 		this.playerPoints = player;
-		this.dealerPoints = dealer;
+		this.croupierPoints = dealer;
 		this.action = action;
 	}
 
@@ -16,8 +16,8 @@ public class Situation {
 		return playerPoints;
 	}
 
-	public int getDealerPoints() {
-		return dealerPoints;
+	public int getCroupierPoints() {
+		return croupierPoints;
 	}
 
 	public Action getAction() {
@@ -28,8 +28,35 @@ public class Situation {
 		this.playerPoints = playerPoints;	
 	}
 	
-	public void setDealerPoints(int dealerPoints) {
-		this.dealerPoints = dealerPoints;	
+	public void setCroupierPoints(int croupierPoints) {
+		this.croupierPoints = croupierPoints;
+	}
+
+	@Override
+	public boolean equals(Object anotherObject) {
+		boolean equals = false;
+		if (anotherObject == null || !(anotherObject instanceof Situation)) {
+			equals = false;
+		}
+		if (anotherObject == this) {
+			equals = true;
+		}
+		Situation anotherSituation = (Situation) anotherObject;
+		if (anotherSituation.getPlayerPoints() == this.playerPoints &&
+				anotherSituation.getCroupierPoints() == this.croupierPoints &&
+				anotherSituation.getAction() == this.action) {
+			equals = true;
+		}
+		return equals;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = 17;
+		hashCode = 31 * hashCode + this.playerPoints;
+		hashCode = 31 * hashCode + this.croupierPoints;
+		hashCode = 31 * hashCode + this.action.hashCode();
+		return hashCode;
 	}
 	
 }

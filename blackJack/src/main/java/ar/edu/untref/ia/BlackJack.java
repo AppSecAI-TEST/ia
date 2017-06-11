@@ -114,10 +114,10 @@ public class BlackJack {
 				if (situationIterator.hasNext()) {
 					Situation nextSituation = situationIterator.next();
 					Situation drawSituation = new Situation(nextSituation.getPlayerPoints(),
-							nextSituation.getDealerPoints(), nextSituation.getAction());
+							nextSituation.getCroupierPoints(), nextSituation.getAction());
 					drawSituation.setPlayerPoints(nextSituation.getPlayerPoints() + 1);
 					Situation standSituation = new Situation(nextSituation.getPlayerPoints(),
-							nextSituation.getDealerPoints(), nextSituation.getAction());
+							nextSituation.getCroupierPoints(), nextSituation.getAction());
 					Double maxValue = max(valueFunction.get(drawSituation), valueFunction.get(standSituation));
 					newD = maxValue * 0.8;
 				}
