@@ -1,7 +1,5 @@
 package ar.edu.untref.ia;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,14 +30,6 @@ public class GameTest {
         Player croupier = game.getCroupier();
 
         Assert.assertNotNull(croupier);
-    }
-
-    @Test
-    public void gameHasPlayersListAndPlayerAndCroupierAreInIt() throws Exception {
-        Game game = new Game();
-        List<Player> playersList = game.getPlayersList();
-
-        Assert.assertEquals(2, playersList.size());
     }
 
     @Test

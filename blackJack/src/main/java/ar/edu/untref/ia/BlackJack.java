@@ -9,18 +9,15 @@ import java.util.Map;
 public class BlackJack {
 
 	public Action randomPolicy() {
-
-		Action result = Action.DRAW;
-
+		Action randomAction = Action.DRAW;
 		if (Math.random() >= 0.5) {
-			result = Action.STAND;
+			randomAction = Action.STAND;
 		}
-		return result;
+		return randomAction;
 	}
 
 	public Action epsilonGreedyPolicy(Double epsilon, Map<Situation, Double> valueFunction, int playerPoints,
 			int dealerPoints) {
-
 		// Exploration
 		if (Math.random() < epsilon) {
 			return randomPolicy();
@@ -31,144 +28,111 @@ public class BlackJack {
 	}
 
 	private Action bestPolicy(Map<Situation, Double> valueFunction, int playerPoints, int dealerPoints) {
-
-		Action result;
-
-		Situation situationHit = new Situation(playerPoints, dealerPoints, Action.DRAW);
-		Situation situatioStick = new Situation(playerPoints, dealerPoints, Action.STAND);
-
-		Double valueHit = valueFunction.get(situationHit);
-		Double valueStick = valueFunction.get(situatioStick);
-
-		if (valueHit > valueStick) {
-			result = Action.DRAW;
-		} else if (valueStick > valueHit) {
-			result = Action.STAND;
+		Action bestAction;
+		Situation situationDraw = new Situation(playerPoints, dealerPoints, Action.DRAW);
+		Situation situationStand = new Situation(playerPoints, dealerPoints, Action.STAND);
+		Double valueDraw = valueFunction.get(situationDraw);
+		Double valueStand = valueFunction.get(situationStand);
+		if (valueDraw > valueStand) {
+			bestAction = Action.DRAW;
+		} else if (valueStand > valueDraw) {
+			bestAction = Action.STAND;
 		} else {
-			result = randomPolicy();
+			bestAction = randomPolicy();
 		}
-
-		return result;
+		return bestAction;
 	}
 
-	public void iteration(int iterations, boolean epsilonGreedyPolicy, boolean bestPolicy, int nZero) {
-
-		nZero = 100;
+	public void iteration(int iterations, boolean epsilonGreedyPolicy, boolean bestPolicy) {
+		int nZero = 100;
 		// (player, dealer, action) key
 		Map<Situation, Double> valueFunction = new HashMap<>();
 		// (player, dealer) key
-		Map<Situation, Integer> counter_state = new HashMap<>();
+		Map<Situation, Integer> counterState = new HashMap<>();
 		// (player, dealer, action) key
-		Map<Situation, Integer> counter_state_action = new HashMap<>();
+		Map<Situation, Integer> counterStateAction = new HashMap<>();
 		// number of wins
 		int wins = 0;
-		List<Integer> winrecord = new ArrayList<>();
-
-		Double epsilon = 0.0;
+		List<Integer> winRecord = new ArrayList<>();
+		Double epsilon;
 		// Repeating the game a certain number of times
 		for (int i = 0; i <= iterations; i++) {
-
 			// create a new random starting state
 			Game game = new Game();
-			int playerPoints = game.getPlayerPoints();
-			int dealerPoints = game.getCroupierPoints();
-			Action action = null;
-			Integer reward = null;
-			Situation situation = new Situation(playerPoints, dealerPoints, action);
-
+			int currentPlayerPoints = game.getPlayerPoints();
+			int currentDealerPoints = game.getCroupierPoints();
+			Action currentAction = Action.DRAW;
+			Integer currentReward = 0;
+			Situation currentSituation = new Situation(currentPlayerPoints, currentDealerPoints, currentAction);
 			// play a round
-			List<Situation> observed_keys = new ArrayList<>();
-
+			List<Situation> observedKeys = new ArrayList<>();
 			while (!game.isTerminal()) {
-
-				int numberOfCards = game.getDeck().getRemainingCards().size();
-
-				if (numberOfCards < 52 * 0.6) {
+				int numberOfRemainingCards = game.getDeck().getRemainingCards().size();
+				// refill the deck
+				if (numberOfRemainingCards < 52 * 0.6) {
 					game.setDeck(new Deck());
-					game.getDeck().shuffle();
 				}
 				// find an action defined by the policy
-				if (action != Action.STAND && reward != -1) {
-					epsilon = (double) (nZero / (nZero + counter_state.get(situation)));
+				if (currentAction != Action.STAND && currentReward != -1) {
+					epsilon = (double) (nZero / (nZero + counterState.get(currentSituation)));
 					if (epsilonGreedyPolicy) {
-						action = epsilonGreedyPolicy(epsilon, valueFunction, playerPoints, dealerPoints);
+						currentAction = epsilonGreedyPolicy(epsilon, valueFunction, currentPlayerPoints, currentDealerPoints);
 					}
 					if (bestPolicy) {
-						action = bestPolicy(valueFunction, playerPoints, dealerPoints);
+						currentAction = bestPolicy(valueFunction, currentPlayerPoints, currentDealerPoints);
 					}
 				} else {
-					action = Action.STAND;
+					currentAction = Action.STAND;
 				}
-
-				if (!observed_keys.contains(situation) && playerPoints <= 21) {
-					observed_keys.add(situation);
+				if (!observedKeys.contains(currentSituation) && currentPlayerPoints <= 21) {
+					observedKeys.add(currentSituation);
 				}
-
-				reward = game.step(action);
-
+				currentReward = game.step(currentAction);
 			}
-			this.QLearning(reward, observed_keys, counter_state, counter_state_action, valueFunction);
-
+			this.QLearning(currentReward, observedKeys, counterState, counterStateAction, valueFunction);
 			if (i > iterations * 0.8) {
-				if (reward == 1) {
+				if (currentReward == 1) {
 					wins += 1;
 				}
-
 			}
-
-			winrecord.add(reward);
-
+			winRecord.add(currentReward);
 		}
-
 		System.out.println("Wins: " + (wins / (iterations * 0.2)) * 100);
-
 	}
 
-	private void QLearning(Integer reward, List<Situation> observed_keys, Map<Situation, Integer> counter_state,
-			Map<Situation, Integer> counter_state_action, Map<Situation, Double> valueFunction) {
-
+	private void QLearning(Integer reward, List<Situation> observedKeys, Map<Situation, Integer> counterState,
+			Map<Situation, Integer> counterStateAction, Map<Situation, Double> valueFunction) {
 		Double newD = 0.0;
-
 		if (reward != null) {
-
-			ListIterator<Situation> situationIterator = observed_keys.listIterator();
+			ListIterator<Situation> situationIterator = observedKeys.listIterator();
 			while (situationIterator.hasNext()) {
-				Situation situation = situationIterator.next();
-				counter_state.put(situation, counter_state.get(situation) + 1);
-				counter_state_action.put(situation, counter_state_action.get(situation) + 1);
-
-				double alpha = 1.0 / counter_state_action.get(situation);
-				double old = valueFunction.get(situation);
-
+				Situation currentSituation = situationIterator.next();
+				counterState.put(currentSituation, counterState.get(currentSituation) + 1);
+				counterStateAction.put(currentSituation, counterStateAction.get(currentSituation) + 1);
+				double alpha = 1.0 / counterStateAction.get(currentSituation);
+				double old = valueFunction.get(currentSituation);
 				if (situationIterator.hasNext()) {
-
-					Situation situationNext = situationIterator.next();
-
-					Situation situationHit = new Situation(situationNext.getPlayerPoints(),
-							situationNext.getDealerPoints(), situationNext.getAction());
-
-					situationHit.setPlayerPoints(situationNext.getPlayerPoints() + 1);
-
-					Situation situationStick = new Situation(situationNext.getPlayerPoints(),
-							situationNext.getDealerPoints(), situationNext.getAction());
-
-					Double maxValue = max(valueFunction.get(situationHit), valueFunction.get(situationStick));
+					Situation nextSituation = situationIterator.next();
+					Situation drawSituation = new Situation(nextSituation.getPlayerPoints(),
+							nextSituation.getDealerPoints(), nextSituation.getAction());
+					drawSituation.setPlayerPoints(nextSituation.getPlayerPoints() + 1);
+					Situation standSituation = new Situation(nextSituation.getPlayerPoints(),
+							nextSituation.getDealerPoints(), nextSituation.getAction());
+					Double maxValue = max(valueFunction.get(drawSituation), valueFunction.get(standSituation));
 					newD = maxValue * 0.8;
-
 				}
-				situation = situationIterator.previous();
-				valueFunction.put(situation, (1 - alpha) * old + alpha * (reward + newD));
+				currentSituation = situationIterator.previous();
+				valueFunction.put(currentSituation, (1 - alpha) * old + alpha * (reward + newD));
 			}
 		}
 	}
 
 	private Double max(Double double1, Double double2) {
-
 		if (double1 >= double2) {
 			return double1;
 		} else {
 			return double2;
 		}
-
 	}
+
 }
