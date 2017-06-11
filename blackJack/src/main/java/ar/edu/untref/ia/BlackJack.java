@@ -100,6 +100,24 @@ public class BlackJack {
 			winRecord.add(currentReward);
 		}
 		System.out.println("Wins: " + (wins / (iterations * 0.2)) * 100);
+		System.out.println("Value function: ");
+		for (Situation key : valueFunction.keySet()) {
+			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
+					Integer.toString(key.getCroupierPoints()) + " " +
+					key.getAction() + " = " + valueFunction.get(key));
+		}
+		System.out.println("Counter state: ");
+		for (Situation key : counterState.keySet()) {
+			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
+					Integer.toString(key.getCroupierPoints()) + " = " + counterState.get(key));
+		}
+		System.out.println("Counter state action: ");
+		for (Situation key : counterStateAction.keySet()) {
+			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
+					Integer.toString(key.getCroupierPoints()) + " " +
+					key.getAction() + " = " + counterStateAction.get(key));
+		}
+
 	}
 
 	private void QLearning(Integer reward, List<Situation> observedKeys, Map<Situation, Integer> counterState,
