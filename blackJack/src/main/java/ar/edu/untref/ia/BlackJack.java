@@ -56,7 +56,7 @@ public class BlackJack {
 		List<Integer> winRecord = new ArrayList<>();
 		Double epsilon;
 		// Repeating the game a certain number of times
-		for (int i = 0; i <= iterations; i++) {
+		for (int i = 0; i < iterations; i++) {
 			// create a new random starting state
 			Game game = new Game();
 			int currentPlayerPoints = game.getPlayerPoints();

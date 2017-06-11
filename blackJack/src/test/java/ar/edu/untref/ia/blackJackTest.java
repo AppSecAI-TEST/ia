@@ -16,6 +16,6 @@ public class blackJackTest {
 	@Test
 	public void randomPolicy() {
 		BlackJack bj = new BlackJack();
-		bj.iteration(1,false,true);
+		bj.iteration(100,false,true);
 	}
 }
