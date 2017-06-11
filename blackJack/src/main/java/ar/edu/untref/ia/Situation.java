@@ -55,7 +55,11 @@ public class Situation {
 		int hashCode = 17;
 		hashCode = 31 * hashCode + this.playerPoints;
 		hashCode = 31 * hashCode + this.croupierPoints;
-		hashCode = 31 * hashCode + this.action.hashCode();
+		if(this.action == null) {
+			hashCode = 31 * hashCode;
+		} else {
+			hashCode = 31 * hashCode + this.action.hashCode();
+		}
 		return hashCode;
 	}
 	

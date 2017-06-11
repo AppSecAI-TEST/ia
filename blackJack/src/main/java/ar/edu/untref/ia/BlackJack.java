@@ -61,8 +61,8 @@ public class BlackJack {
 			Game game = new Game();
 			int currentPlayerPoints = game.getPlayerPoints();
 			int currentDealerPoints = game.getCroupierPoints();
-			Action currentAction = Action.DRAW;
-			Integer currentReward = 0;
+			Action currentAction = null;
+			Integer currentReward = null;
 			Situation currentSituation = new Situation(currentPlayerPoints, currentDealerPoints, currentAction);
 			// play a round
 			List<Situation> observedKeys = new ArrayList<>();
@@ -73,7 +73,9 @@ public class BlackJack {
 					game.setDeck(new Deck());
 				}
 				// find an action defined by the policy
-				if (currentAction != Action.STAND && currentReward != -1) {
+				if(currentAction == null && currentReward == null){
+					currentAction = this.randomPolicy();
+				} else if (currentAction != Action.STAND && currentReward != -1) {
 					epsilon = (double) (nZero / (nZero + counterState.getOrDefault(currentSituation, 0)));
 					if (epsilonGreedyPolicy) {
 						currentAction = epsilonGreedyPolicy(epsilon, valueFunction, currentPlayerPoints, currentDealerPoints);
@@ -82,7 +84,7 @@ public class BlackJack {
 						currentAction = bestPolicy(valueFunction, currentPlayerPoints, currentDealerPoints);
 					}
 				} else {
-					currentAction = Action.STAND;
+					currentAction = this.randomPolicy();
 				}
 				if (!observedKeys.contains(currentSituation) && currentPlayerPoints <= 21) {
 					observedKeys.add(currentSituation);
