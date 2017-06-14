@@ -14,7 +14,7 @@ public class blackJackTest {
 	}
 
 	@Test
-	public void randomPolicy() {
-		blackJack.iteration(1000000,true,false);
+	public void politicaRandom() {
+		blackJack.iteracion(1000000,true,false);
 	}
 }
