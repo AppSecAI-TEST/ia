@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class blackJackTest {
 
-	private BlackJack blackJack;
+	BlackJack blackJack;
 	
 	@Before
 	public void init() {
@@ -15,7 +15,6 @@ public class blackJackTest {
 
 	@Test
 	public void randomPolicy() {
-		BlackJack bj = new BlackJack();
-		bj.iteration(1000000,true,false);
+		blackJack.iteration(1000000,true,false);
 	}
 }
