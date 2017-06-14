@@ -36,14 +36,4 @@ public class MasoTest {
 			Assert.assertTrue(listaDeCartas.contains(carta));
 		}
 	}
-
-	@Test
-	public void laPrimerCartaSinMezclarEsEl2DeDiamantes() throws Exception {
-
-		Maso maso = new Maso();
-
-		String primerCarta = maso.getCartas();
-
-		Assert.assertNotEquals("2 de diamantes", primerCarta);
-	}
 }
