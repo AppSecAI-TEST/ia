@@ -32,7 +32,7 @@ public class Maso {
 		return this.cartas;
 	}
 
-	protected String getCartas() {
+	protected String getCarta() {
 		String carta = this.cartas.get(0);
 		this.cartas.remove(0);
 		return carta;

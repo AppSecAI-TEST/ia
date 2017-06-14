@@ -22,8 +22,8 @@ public class Jugador {
 	}
 
 	protected void pedir(Maso maso) {
-		String cartas = maso.getCartas();
-		this.mano.add(cartas);
+		String carta = maso.getCarta();
+		this.mano.add(carta);
 		this.calcularPuntuacion();
 	}
 
