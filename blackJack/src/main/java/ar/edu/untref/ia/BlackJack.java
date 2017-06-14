@@ -8,148 +8,159 @@ import java.util.Map;
 
 public class BlackJack {
 
-	public Action randomPolicy() {
-		Action randomAction = Action.DRAW;
+	public Accion politicaRandom() {
+
+		Accion accionRandom = Accion.PEDIR;
+
 		if (Math.random() >= 0.5) {
-			randomAction = Action.STAND;
+			accionRandom = Accion.MANTENERSE;
 		}
-		return randomAction;
+		return accionRandom;
 	}
 
-	public Action epsilonGreedyPolicy(Double epsilon, Map<Situation, Double> valueFunction, int playerPoints,
-			int dealerPoints) {
-		// Exploration
+	public Accion politicaGolosaEpsilon(Double epsilon, Map<Situacion, Double> valueFunction, int puntosJugador,
+			int puntosBanca) {
+
+		// Exploracion
 		if (Math.random() < epsilon) {
-			return randomPolicy();
+			return politicaRandom();
 		} else {
-			// Exploitation
-			return bestPolicy(valueFunction, playerPoints, dealerPoints);
+			// Explotacion
+			return mejorPolitica(valueFunction, puntosJugador, puntosBanca);
 		}
 	}
 
-	private Action bestPolicy(Map<Situation, Double> valueFunction, int playerPoints, int dealerPoints) {
-		Action bestAction;
-		Situation situationDraw = new Situation(playerPoints, dealerPoints, Action.DRAW);
-		Situation situationStand = new Situation(playerPoints, dealerPoints, Action.STAND);
-		Double valueDraw = valueFunction.getOrDefault(situationDraw, 0.0);
-		Double valueStand = valueFunction.getOrDefault(situationStand, 0.0);
-		if (valueDraw > valueStand) {
-			bestAction = Action.DRAW;
-		} else if (valueStand > valueDraw) {
-			bestAction = Action.STAND;
+	private Accion mejorPolitica(Map<Situacion, Double> valueFunction, int puntosJugador, int puntosBanca) {
+
+		Accion mejorAccion;
+		Situacion situacionPedir = new Situacion(puntosJugador, puntosBanca, Accion.PEDIR);
+		Situacion situacionMantenerse = new Situacion(puntosJugador, puntosBanca, Accion.MANTENERSE);
+		Double valorPedir = valueFunction.getOrDefault(situacionPedir, 0.0);
+		Double valorMantenerse = valueFunction.getOrDefault(situacionMantenerse, 0.0);
+		if (valorPedir > valorMantenerse) {
+			mejorAccion = Accion.PEDIR;
+		} else if (valorMantenerse > valorPedir) {
+			mejorAccion = Accion.MANTENERSE;
 		} else {
-			bestAction = randomPolicy();
+			mejorAccion = politicaRandom();
 		}
-		return bestAction;
+		return mejorAccion;
 	}
 
-	public void iteration(int iterations, boolean epsilonGreedyPolicy, boolean bestPolicy) {
-		int nZero = 100;
-		// (player, dealer, action) key
-		Map<Situation, Double> valueFunction = new HashMap<>();
-		// (player, dealer) key
-		Map<Situation, Integer> counterState = new HashMap<>();
-		// (player, dealer, action) key
-		Map<Situation, Integer> counterStateAction = new HashMap<>();
-		// number of wins
-		int wins = 0;
-		List<Integer> winRecord = new ArrayList<>();
+	public void iteracion(int iteraciones, boolean politicaGolosaEpsilon, boolean mejorPolitica) {
+
+		List<Integer> recordGanados = new ArrayList<>();
 		Double epsilon;
-		// Repeating the game a certain number of times
-		for (int i = 0; i < iterations; i++) {
-			// create a new random starting state
-			Game game = new Game();
-			int currentPlayerPoints = game.getPlayerPoints();
-			int currentDealerPoints = game.getCroupierPoints();
-			Action currentAction = null;
-			Integer currentReward = null;
-			Situation currentSituation = new Situation(currentPlayerPoints, currentDealerPoints, currentAction);
-			// play a round
-			List<Situation> observedKeys = new ArrayList<>();
-			while (!game.isTerminal()) {
-				int numberOfRemainingCards = game.getDeck().getRemainingCards().size();
-				// refill the deck
-				if (numberOfRemainingCards < 52 * 0.6) {
-					game.setDeck(new Deck());
+		int nZero = 100;
+		int ganados = 0;
+		// (jugador, banca, accion)
+		Map<Situacion, Double> valueFunction = new HashMap<>();
+		// (jugador, banca)
+		Map<Situacion, Integer> contadorEstado = new HashMap<>();
+		// (jugador, banca, accion)
+		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
+
+		for (int i = 0; i < iteraciones; i++) {
+
+			Juego juego = new Juego();
+			int puntosActualesJugador = juego.getPuntosJugador();
+			int puntosActualesBanca = juego.getPuntosBanca();
+			Accion accionActual = null;
+			Integer recompensaActual = null;
+			Situacion situacionActual = new Situacion(puntosActualesJugador, puntosActualesBanca, accionActual);
+
+			List<Situacion> observadorClaves = new ArrayList<>();
+			while (!juego.estaTerminado()) {
+
+				int numeroCartasRestantes = juego.getMaso().getCartasRestantes().size();
+				if (numeroCartasRestantes < 52 * 0.6) {
+					juego.setMaso(new Maso());
 				}
-				// find an action defined by the policy
-				if(currentAction == null && currentReward == null){
-					currentAction = this.randomPolicy();
-				} else if (currentAction != Action.STAND && currentReward != -1) {
-					epsilon = (double) (nZero / (nZero + counterState.getOrDefault(currentSituation, 0)));
-					if (epsilonGreedyPolicy) {
-						currentAction = epsilonGreedyPolicy(epsilon, valueFunction, currentPlayerPoints, currentDealerPoints);
+
+				if (accionActual == null && recompensaActual == null) {
+					accionActual = this.politicaRandom();
+				} else if (accionActual != Accion.MANTENERSE && recompensaActual != -1) {
+					epsilon = (double) (nZero / (nZero + contadorEstado.getOrDefault(situacionActual, 0)));
+
+					if (politicaGolosaEpsilon) {
+						accionActual = politicaGolosaEpsilon(epsilon, valueFunction, puntosActualesJugador,
+								puntosActualesBanca);
 					}
-					if (bestPolicy) {
-						currentAction = bestPolicy(valueFunction, currentPlayerPoints, currentDealerPoints);
+					if (mejorPolitica) {
+						accionActual = mejorPolitica(valueFunction, puntosActualesJugador, puntosActualesBanca);
 					}
 				} else {
-					currentAction = this.randomPolicy();
+					accionActual = this.politicaRandom();
 				}
-				currentSituation.setAction(currentAction);
-				if (!observedKeys.contains(currentSituation) && currentPlayerPoints <= 21) {
-					observedKeys.add(currentSituation);
+				situacionActual.setAccion(accionActual);
+				if (!observadorClaves.contains(situacionActual) && puntosActualesJugador <= 21) {
+					observadorClaves.add(situacionActual);
 				}
-				currentReward = game.step(currentAction);
+
+				recompensaActual = juego.jugada(accionActual);
 			}
-			this.QLearning(currentReward, observedKeys, counterState, counterStateAction, valueFunction);
-			if (i > iterations * 0.8) {
-				if (currentReward == 1) {
-					wins += 1;
+
+			this.QLearning(recompensaActual, observadorClaves, contadorEstado, contadorEstadoAccion, valueFunction);
+
+			if (i > iteraciones * 0.8) {
+				if (recompensaActual == 1) {
+					ganados += 1;
 				}
 			}
-			winRecord.add(currentReward);
+			recordGanados.add(recompensaActual);
 		}
-		System.out.println("Wins: " + (wins / (iterations * 0.2)) * 100);
+		System.out.println("Ganados: " + (ganados / (iteraciones * 0.2)) * 100);
 
 		System.out.println("Value function: ");
-		for (Situation key : valueFunction.keySet()) {
-			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
-					Integer.toString(key.getCroupierPoints()) + " " +
-					key.getAction() + " = " + valueFunction.get(key));
+		for (Situacion key : valueFunction.keySet()) {
+			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
+					+ " " + key.getAccion() + " = " + valueFunction.get(key));
 		}
-		System.out.println("Counter state: ");
-		for (Situation key : counterState.keySet()) {
-			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
-					Integer.toString(key.getCroupierPoints()) + " = " + counterState.get(key));
+		System.out.println("Contador estado: ");
+		for (Situacion key : contadorEstado.keySet()) {
+			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
+					+ " = " + contadorEstado.get(key));
 		}
-		System.out.println("Counter state action: ");
-		for (Situation key : counterStateAction.keySet()) {
-			System.out.println(Integer.toString(key.getPlayerPoints()) + " " +
-					Integer.toString(key.getCroupierPoints()) + " " +
-					key.getAction() + " = " + counterStateAction.get(key));
+		System.out.println("Contador estado accion: ");
+		for (Situacion key : contadorEstadoAccion.keySet()) {
+			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
+					+ " " + key.getAccion() + " = " + contadorEstadoAccion.get(key));
 		}
 
 	}
 
-	private void QLearning(Integer reward, List<Situation> observedKeys, Map<Situation, Integer> counterState,
-			Map<Situation, Integer> counterStateAction, Map<Situation, Double> valueFunction) {
-		Double newD = 0.0;
-		if (reward != null) {
-			ListIterator<Situation> situationIterator = observedKeys.listIterator();
-			while (situationIterator.hasNext()) {
-				Situation currentSituation = situationIterator.next();
-				counterState.put(currentSituation, counterState.getOrDefault(currentSituation, 0) + 1);
-				counterStateAction.put(currentSituation, counterStateAction.getOrDefault(currentSituation, 0) + 1);
-				double alpha = 1.0 / counterStateAction.get(currentSituation);
-				double old = valueFunction.getOrDefault(currentSituation, 0.0);
-				if (situationIterator.hasNext()) {
-					Situation nextSituation = situationIterator.next();
-					Situation drawSituation = new Situation(nextSituation.getPlayerPoints() + 1,
-							nextSituation.getCroupierPoints(), nextSituation.getAction());
-					Situation standSituation = new Situation(nextSituation.getPlayerPoints(),
-							nextSituation.getCroupierPoints(), nextSituation.getAction());
-					Double maxValue = max(valueFunction.get(drawSituation), valueFunction.get(standSituation));
-					newD = maxValue * 0.8;
+	private void QLearning(Integer recompensa, List<Situacion> observadorClaves, Map<Situacion, Integer> contadorEstado,
+			Map<Situacion, Integer> contadorEstadoAccion, Map<Situacion, Double> valueFunction) {
+
+		Double nuevoD = 0.0;
+
+		if (recompensa != null) {
+			ListIterator<Situacion> situacionIterator = observadorClaves.listIterator();
+
+			while (situacionIterator.hasNext()) {
+				Situacion situacionActual = situacionIterator.next();
+				contadorEstado.put(situacionActual, contadorEstado.getOrDefault(situacionActual, 0) + 1);
+				contadorEstadoAccion.put(situacionActual, contadorEstadoAccion.getOrDefault(situacionActual, 0) + 1);
+				double alpha = 1.0 / contadorEstadoAccion.get(situacionActual);
+				double anterior = valueFunction.getOrDefault(situacionActual, 0.0);
+				if (situacionIterator.hasNext()) {
+					Situacion situacionSiguiente = situacionIterator.next();
+					Situacion situacionPedir = new Situacion(situacionSiguiente.getPuntosJugador() + 1,
+							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
+					Situacion situacionMantenerse = new Situacion(situacionSiguiente.getPuntosJugador(),
+							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
+					Double valorMaximo = maximo(valueFunction.get(situacionPedir),
+							valueFunction.get(situacionMantenerse));
+					nuevoD = valorMaximo * 0.8;
 				}
-				currentSituation = situationIterator.previous();
-				valueFunction.put(currentSituation, (1 - alpha) * old + alpha * (reward + newD));
-				situationIterator.next();
+				situacionActual = situacionIterator.previous();
+				valueFunction.put(situacionActual, (1 - alpha) * anterior + alpha * (recompensa + nuevoD));
+				situacionIterator.next();
 			}
 		}
 	}
 
-	private Double max(Double double1, Double double2) {
+	private Double maximo(Double double1, Double double2) {
 		if (double1 >= double2) {
 			return double1;
 		} else {
