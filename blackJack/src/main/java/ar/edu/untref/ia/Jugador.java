@@ -21,10 +21,13 @@ public class Jugador {
 		return this.mano;
 	}
 
-	protected void pedir(Maso maso) {
+	public String pedir(Maso maso) {
+		
 		String carta = maso.getCarta();
 		this.mano.add(carta);
 		this.calcularPuntuacion();
+		
+		return carta;
 	}
 
 	private void calcularPuntuacion() {
