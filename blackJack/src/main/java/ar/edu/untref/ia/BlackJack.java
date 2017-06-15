@@ -62,7 +62,7 @@ public class BlackJack {
 
 		for (int i = 0; i < iteraciones; i++) {
 
-			Juego juego = new Juego();
+			Juego juego = new Juego(politicaGolosaEpsilon);
 			int puntosActualesJugador = juego.getPuntosJugador();
 			int puntosActualesBanca = juego.getPuntosBanca();
 			Accion accionActual = null;
@@ -109,23 +109,27 @@ public class BlackJack {
 			}
 			recordGanados.add(recompensaActual);
 		}
-//		System.out.println("Ganados: " + (ganados / (iteraciones * 0.2)) * 100);
-//
-//		System.out.println("Value function: ");
-//		for (Situacion key : valueFunction.keySet()) {
-//			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
-//					+ " " + key.getAccion() + " = " + valueFunction.get(key));
-//		}
-//		System.out.println("Contador estado: ");
-//		for (Situacion key : contadorEstado.keySet()) {
-//			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
-//					+ " = " + contadorEstado.get(key));
-//		}
-//		System.out.println("Contador estado accion: ");
-//		for (Situacion key : contadorEstadoAccion.keySet()) {
-//			System.out.println(Integer.toString(key.getPuntosJugador()) + " " + Integer.toString(key.getPuntosBanca())
-//					+ " " + key.getAccion() + " = " + contadorEstadoAccion.get(key));
-//		}
+		// System.out.println("Ganados: " + (ganados / (iteraciones * 0.2)) *
+		// 100);
+		//
+		// System.out.println("Value function: ");
+		// for (Situacion key : valueFunction.keySet()) {
+		// System.out.println(Integer.toString(key.getPuntosJugador()) + " " +
+		// Integer.toString(key.getPuntosBanca())
+		// + " " + key.getAccion() + " = " + valueFunction.get(key));
+		// }
+		// System.out.println("Contador estado: ");
+		// for (Situacion key : contadorEstado.keySet()) {
+		// System.out.println(Integer.toString(key.getPuntosJugador()) + " " +
+		// Integer.toString(key.getPuntosBanca())
+		// + " = " + contadorEstado.get(key));
+		// }
+		// System.out.println("Contador estado accion: ");
+		// for (Situacion key : contadorEstadoAccion.keySet()) {
+		// System.out.println(Integer.toString(key.getPuntosJugador()) + " " +
+		// Integer.toString(key.getPuntosBanca())
+		// + " " + key.getAccion() + " = " + contadorEstadoAccion.get(key));
+		// }
 
 	}
 

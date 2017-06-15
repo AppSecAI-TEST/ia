@@ -8,7 +8,7 @@ public class JuegoTest {
 	@Test
     public void juegoEmpiezaConEstadoNoTerminal() throws Exception{
 
-		Juego juego = new Juego();
+		Juego juego = new Juego(true);
         
 		boolean estaTerminado = juego.estaTerminado();
 
@@ -18,7 +18,7 @@ public class JuegoTest {
     @Test
     public void juegoEmpiezaConJugador() throws Exception {
         
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	Jugador Jugador = juego.getJugador();
 
@@ -28,7 +28,7 @@ public class JuegoTest {
     @Test
     public void juegoEmpiezaConBanca() throws Exception {
         
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	Jugador banca = juego.getBanca();
 
@@ -38,7 +38,7 @@ public class JuegoTest {
     @Test
     public void juegoEmpiezaConMaso () throws Exception {
         
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	Maso maso = juego.getMaso();
 
@@ -48,7 +48,7 @@ public class JuegoTest {
     @Test
     public void elJuegadorEmpiezaElJuegoConUnaCiertaCantidadDePuntos() throws Exception {
         
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	int puntosJugador = juego.getPuntosJugador();
 
@@ -58,7 +58,7 @@ public class JuegoTest {
     @Test
     public void laBancaEmpiezaElJuegoConUnaCiertaCantidadDePuntos() throws Exception {
 
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	int puntosBanca = juego.getPuntosBanca();
 
@@ -68,7 +68,7 @@ public class JuegoTest {
     @Test
     public void elJugadorPideCartaEntoncesSeCalculaLaRecompensa() throws Exception {
     	
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
     	int recompensa = juego.jugada(Accion.PEDIR);
 
@@ -78,7 +78,7 @@ public class JuegoTest {
     @Test
     public void elJugadorSeMantieneEntoncesSeCalculaLaRecompensa() throws Exception {
         
-    	Juego juego = new Juego();
+    	Juego juego = new Juego(true);
         
         int reward = juego.jugada(Accion.MANTENERSE);
 
