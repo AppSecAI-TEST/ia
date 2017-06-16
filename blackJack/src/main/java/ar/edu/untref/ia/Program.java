@@ -6,9 +6,7 @@ public class Program {
 
 		BlackJack blackJack = new BlackJack();
 		
-		blackJack.iteracion(1000000, true, false);
-		System.out.println("FASE DE APLICACION.");
-		blackJack.iteracion(10, false, true);
+		blackJack.jugar(10);
 	}
 
 }

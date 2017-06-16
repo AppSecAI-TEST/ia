@@ -149,6 +149,9 @@ public class Juego {
 				this.imprimirSiCorresponde(!aprendizaje, "Juego terminado, EMPATE");
 			} else if (this.puntosJugador > this.puntosBanca) {
 				recompensa = 1;
+				if(this.terminado){
+					this.imprimirSiCorresponde(!aprendizaje, "GANA EL JUGADOR");
+				}
 			}
 		}
 		return recompensa;
