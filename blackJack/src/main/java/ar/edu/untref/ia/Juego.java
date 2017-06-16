@@ -72,9 +72,7 @@ public class Juego {
 			System.out.println("\n Puntos Jugador:" + this.jugador.getPuntos());
 
 			System.out.println("\n");
-
 		}
-
 	}
 
 	private void actualizarPuntuacion() {
@@ -149,8 +147,9 @@ public class Juego {
 				this.imprimirSiCorresponde(!aprendizaje, "Juego terminado, EMPATE");
 			} else if (this.puntosJugador > this.puntosBanca) {
 				recompensa = 1;
-				if(this.terminado){
-					this.imprimirSiCorresponde(!aprendizaje, "GANA EL JUGADOR");
+				if (this.terminado) {
+					this.imprimirSiCorresponde(!aprendizaje,
+							"El jugador tiene mas puntos que la banca, GANA EL JUGADOR");
 				}
 			}
 		}

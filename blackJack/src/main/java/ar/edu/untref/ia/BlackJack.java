@@ -53,11 +53,8 @@ public class BlackJack {
 		Double epsilon;
 		int nZero = 100;
 		int ganados = 0;
-		// (jugador, banca, accion)
 		Map<Situacion, Double> tablaDeDecisiones = new HashMap<>();
-		// (jugador, banca)
 		Map<Situacion, Integer> contadorEstado = new HashMap<>();
-		// (jugador, banca, accion)
 		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
 
 		for (int i = 0; i < iteraciones; i++) {
@@ -98,26 +95,7 @@ public class BlackJack {
 				}
 
 				recompensaActual = juego.jugada(accionActual);
-				// System.out.println("Value function: ");
-				// for (Situacion key : tablaDeDecisiones.keySet()) {
-				// System.out.println(Integer.toString(key.getPuntosJugador()) +
-				// " " + Integer.toString(key.getPuntosBanca())
-				// + " " + key.getAccion() + " = " +
-				// tablaDeDecisiones.get(key));
-				// }
-				// System.out.println("Contador estado: ");
-				// for (Situacion key : contadorEstado.keySet()) {
-				// System.out.println(Integer.toString(key.getPuntosJugador()) +
-				// " " + Integer.toString(key.getPuntosBanca())
-				// + " = " + contadorEstado.get(key));
-				// }
-				// System.out.println("Contador estado accion: ");
-				// for (Situacion key : contadorEstadoAccion.keySet()) {
-				// System.out.println(Integer.toString(key.getPuntosJugador()) +
-				// " " + Integer.toString(key.getPuntosBanca())
-				// + " " + key.getAccion() + " = " +
-				// contadorEstadoAccion.get(key));
-				// }
+
 				this.QLearning(recompensaActual, situacionesYaOcurridas, contadorEstado, contadorEstadoAccion,
 						tablaDeDecisiones);
 
@@ -130,12 +108,7 @@ public class BlackJack {
 			}
 
 		}
-		// System.out.println("Ganados: " + (ganados / (iteraciones * 0.2)) *
-		// 100);
-		//
-
 		return tablaDeDecisiones;
-
 	}
 
 	private void QLearning(Integer recompensa, List<Situacion> situacionesYaOcurridas,
@@ -179,10 +152,13 @@ public class BlackJack {
 	}
 
 	public void jugar(int partidas) {
-		Map<Situacion, Double> tablaDeDecisiones = this.iteracion(100000, true, false);
+
+		Map<Situacion, Double> tablaDeDecisiones = this.iteracion(500000, true, false);
 
 		for (int i = 0; i <= partidas; i++) {
+
 			Juego juego = new Juego(false);
+
 			while (!juego.estaTerminado()) {
 
 				int numeroCartasRestantes = juego.getMaso().getCartasRestantes().size();
@@ -203,5 +179,4 @@ public class BlackJack {
 			}
 		}
 	}
-
 }
