@@ -153,9 +153,8 @@ public class BlackJack {
 
 	public void jugar(int partidas) {
 
-		/* Aprende a jugar con 500000 juegos*/
+		/* Aprende a jugar con 500000 juegos */
 		Map<Situacion, Double> tablaDeDecisiones = this.iteracion(500000, true, false);
-
 
 		/* Se simulan partidas */
 		for (int i = 0; i <= partidas; i++) {
