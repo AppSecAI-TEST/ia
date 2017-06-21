@@ -12,6 +12,7 @@ public class Juego {
 	private Maso maso;
 	private int puntosJugador;
 	private int puntosBanca;
+	private boolean jugadorSePlanto = false;
 
 	List<String> cartasJugador = new ArrayList<>();
 	List<String> cartasBanca = new ArrayList<>();
@@ -54,6 +55,10 @@ public class Juego {
 			if (pideJugador) {
 				System.out.println("JUGADOR PIDE CARTA \n");
 			} else if (!inicioJuego) {
+				if (!jugadorSePlanto) {
+					System.out.println("EL JUGADOR SE PLANTÓ \n");
+					jugadorSePlanto = true;
+				}
 				System.out.println("BANCA PIDE CARTA \n");
 			}
 
