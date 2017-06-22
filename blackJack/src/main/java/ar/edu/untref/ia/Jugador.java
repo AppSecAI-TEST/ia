@@ -38,7 +38,7 @@ public class Jugador {
 			if (this.isInteger(cartasSplit[0])) {
 				tempPuntos += Integer.parseInt(cartasSplit[0]);
 			} else if (cartasSplit[0] == "As") {
-				tempPuntos += 11;
+				tempPuntos += 10;
 				numeroDeAces += 1;
 			} else {
 				tempPuntos += 10;
