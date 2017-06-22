@@ -173,10 +173,14 @@ public class BlackJack {
 				Double mantenerse = tablaDeDecisiones
 						.get(new Situacion(juego.getPuntosJugador(), juego.getPuntosBanca(), Accion.MANTENERSE));
 
-				if (pedir > mantenerse) {
-					juego.jugada(Accion.PEDIR);
-				} else {
+				if (pedir == null || mantenerse == null) {
 					juego.jugada(Accion.MANTENERSE);
+				} else { 				
+					if (pedir > mantenerse) {
+						juego.jugada(Accion.PEDIR);
+					} else {
+						juego.jugada(Accion.MANTENERSE);
+					}
 				}
 			}
 		}
