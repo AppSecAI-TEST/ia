@@ -50,7 +50,7 @@ public class JuegoTest {
         
     	Juego juego = new Juego(true);
         
-    	int puntosJugador = juego.getPuntosJugador();
+    	int puntosJugador = juego.getPuntosDelJugador();
 
         Assert.assertNotEquals(0, puntosJugador);
     }
@@ -60,7 +60,7 @@ public class JuegoTest {
 
     	Juego juego = new Juego(true);
         
-    	int puntosBanca = juego.getPuntosBanca();
+    	int puntosBanca = juego.getPuntosDeLaBanca();
 
         Assert.assertNotEquals(0, puntosBanca);
     }
