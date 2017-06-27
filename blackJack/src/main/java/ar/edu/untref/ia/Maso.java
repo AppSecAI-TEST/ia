@@ -28,14 +28,14 @@ public class Maso {
 		this.mezclar();
 	}
 
-	protected List<String> getCartasRestantes() {
-		return this.cartas;
-	}
-
 	protected String getCarta() {
 		String carta = this.cartas.get(0);
 		this.cartas.remove(0);
 		return carta;
+	}
+
+	protected List<String> getCartasRestantes() {
+		return this.cartas;
 	}
 
 	public void mezclar() {

@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.edu.untref.ia</groupId>
-    <artifactId>blackJack</artifactId>
+    <artifactId>blackjack</artifactId>
     <version>1.0.0</version>
     <dependencies>
         <dependency>
@@ -37,7 +37,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>blackJack</finalName>
+        <finalName>blackjack</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

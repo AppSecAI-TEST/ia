@@ -21,8 +21,7 @@ public class Jugador {
 		return this.mano;
 	}
 
-	public String pedir(Maso maso) {
-		
+	public String pedirCarta(Maso maso) {
 		String carta = maso.getCarta();
 		this.mano.add(carta);
 		this.calcularPuntuacion();
@@ -30,7 +29,6 @@ public class Jugador {
 	}
 
 	private void calcularPuntuacion() {
-
 		int tempPuntos = 0;
 		int numeroDeAces = 0;
 		for (String cartas : this.mano) {
@@ -63,4 +61,5 @@ public class Jugador {
 		}
 		return true;
 	}
+
 }

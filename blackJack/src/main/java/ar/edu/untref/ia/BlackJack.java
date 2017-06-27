@@ -1,29 +1,24 @@
 package ar.edu.untref.ia;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 
 public class BlackJack {
 
-	public Accion politicaRandom() {
-
-		Accion accionRandom = Accion.PEDIR;
-
-		if (Math.random() >= 0.5) {
-			accionRandom = Accion.MANTENERSE;
+	public Accion politicaAleatoria() {
+		Accion accionAleatoria = Accion.PEDIR;
+		if (Math.random() > 0.666) {
+			accionAleatoria = Accion.PLANTARSE;
+		} else if (Math.random() > 0.333) {
+			accionAleatoria = Accion.DOBLAR;
 		}
-		return accionRandom;
+		return accionAleatoria;
 	}
 
-	public Accion politicaGolosaEpsilon(Double epsilon, Map<Situacion, Double> tablaDeDecisiones, int puntosJugador,
-			int puntosBanca) {
-
+	public Accion politicaEpsilonGreedy(Double epsilon, Map<Situacion, Double> tablaDeDecisiones, int puntosJugador,
+										int puntosBanca) {
 		// Exploracion
 		if (Math.random() < epsilon) {
-			return politicaRandom();
+			return politicaAleatoria();
 		} else {
 			// Explotacion
 			return mejorPolitica(tablaDeDecisiones, puntosJugador, puntosBanca);
@@ -31,158 +26,117 @@ public class BlackJack {
 	}
 
 	private Accion mejorPolitica(Map<Situacion, Double> tablaDeDecisiones, int puntosJugador, int puntosBanca) {
-
-		Accion mejorAccion;
 		Situacion situacionPedir = new Situacion(puntosJugador, puntosBanca, Accion.PEDIR);
-		Situacion situacionMantenerse = new Situacion(puntosJugador, puntosBanca, Accion.MANTENERSE);
-		Double valorPedir = tablaDeDecisiones.getOrDefault(situacionPedir, 0.0);
-		Double valorMantenerse = tablaDeDecisiones.getOrDefault(situacionMantenerse, 0.0);
-		if (valorPedir > valorMantenerse) {
-			mejorAccion = Accion.PEDIR;
-		} else if (valorMantenerse > valorPedir) {
-			mejorAccion = Accion.MANTENERSE;
-		} else {
-			mejorAccion = politicaRandom();
-		}
-		return mejorAccion;
+		Situacion situacionDoblar = new Situacion(puntosJugador, puntosBanca, Accion.DOBLAR);
+		Situacion situacionMantenerse = new Situacion(puntosJugador, puntosBanca, Accion.PLANTARSE);
+		Map<Double, Accion> valorDeLasAcciones = new HashMap<>();
+		valorDeLasAcciones.put(tablaDeDecisiones.getOrDefault(situacionPedir, 0.0), Accion.PEDIR);
+		valorDeLasAcciones.put(tablaDeDecisiones.getOrDefault(situacionDoblar, 0.0), Accion.DOBLAR);
+		valorDeLasAcciones.put(tablaDeDecisiones.getOrDefault(situacionMantenerse, 0.0), Accion.PLANTARSE);
+		return valorDeLasAcciones.get(Collections.max(valorDeLasAcciones.keySet()));
 	}
 
-	public Map<Situacion, Double> iteracion(int iteraciones, boolean politicaGolosaEpsilon, boolean mejorPolitica) {
-
-		List<Integer> recordGanados = new ArrayList<>();
-		Double epsilon;
-		int nZero = 100;
-		int ganados = 0;
-		Map<Situacion, Double> tablaDeDecisiones = new HashMap<>();
-		Map<Situacion, Integer> contadorEstado = new HashMap<>();
-		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
-
-		for (int i = 0; i < iteraciones; i++) {
-
-			Juego juego = new Juego(politicaGolosaEpsilon);
-			int puntosActualesJugador = juego.getPuntosJugador();
-			int puntosActualesBanca = juego.getPuntosBanca();
-			Accion accionActual = null;
-			Integer recompensaActual = null;
-			Situacion situacionActual = new Situacion(puntosActualesJugador, puntosActualesBanca, accionActual);
-
-			List<Situacion> situacionesYaOcurridas = new ArrayList<>();
+	public void jugar(int partidas) {
+		/* Aprende a jugar con 500000 juegos */
+		Map<Situacion, Double> tablaDeDecisiones = this.iteracion(500000, true);
+		/* Se simulan partidas */
+		for (int i = 0; i <= partidas; i++) {
+			Juego juego = new Juego(false);
 			while (!juego.estaTerminado()) {
-
 				int numeroCartasRestantes = juego.getMaso().getCartasRestantes().size();
 				if (numeroCartasRestantes < 52 * 0.6) {
 					juego.setMaso(new Maso());
 				}
-
-				if (accionActual == null && recompensaActual == null) {
-					accionActual = this.politicaRandom();
-				} else if (accionActual != Accion.MANTENERSE && recompensaActual != -1) {
-					epsilon = (double) (nZero / (nZero + contadorEstado.getOrDefault(situacionActual, 0)));
-
-					if (politicaGolosaEpsilon) {
-						accionActual = politicaGolosaEpsilon(epsilon, tablaDeDecisiones, puntosActualesJugador,
-								puntosActualesBanca);
-					}
-					if (mejorPolitica) {
-						accionActual = mejorPolitica(tablaDeDecisiones, puntosActualesJugador, puntosActualesBanca);
-					}
+				Double puntajeDeAccionPedir = tablaDeDecisiones
+						.get(new Situacion(juego.getPuntosDelJugador(), juego.getPuntosDeLaBanca(), Accion.PEDIR));
+				Double puntajeDeAccionDoblar = tablaDeDecisiones
+						.get(new Situacion(juego.getPuntosDelJugador(), juego.getPuntosDeLaBanca(), Accion.DOBLAR));
+				Double puntajeDeAccionMantenerse = tablaDeDecisiones
+						.get(new Situacion(juego.getPuntosDelJugador(), juego.getPuntosDeLaBanca(), Accion.PLANTARSE));
+				Map<Double, Accion> puntajeDeLasAcciones = new HashMap<>();
+				puntajeDeLasAcciones.put(puntajeDeAccionPedir, Accion.PEDIR);
+				puntajeDeLasAcciones.put(puntajeDeAccionDoblar, Accion.DOBLAR);
+				puntajeDeLasAcciones.put(puntajeDeAccionMantenerse, Accion.PLANTARSE);
+				if (puntajeDeAccionPedir == null || puntajeDeAccionDoblar == null || puntajeDeAccionMantenerse == null) {
+					juego.jugada(Accion.PLANTARSE);
 				} else {
-					accionActual = this.politicaRandom();
+					juego.jugada(puntajeDeLasAcciones.get(Collections.max(puntajeDeLasAcciones.keySet())));
 				}
-				situacionActual.setAccion(accionActual);
-				if (!situacionesYaOcurridas.contains(situacionActual) && puntosActualesJugador <= 21) {
-					situacionesYaOcurridas.add(situacionActual);
-				}
-
-				recompensaActual = juego.jugada(accionActual);
-
-				this.QLearning(recompensaActual, situacionesYaOcurridas, contadorEstado, contadorEstadoAccion,
-						tablaDeDecisiones);
-
-				if (i > iteraciones * 0.8) {
-					if (recompensaActual == 1) {
-						ganados += 1;
-					}
-				}
-				recordGanados.add(recompensaActual);
 			}
-
 		}
-		return tablaDeDecisiones;
 	}
 
-	private void QLearning(Integer recompensa, List<Situacion> situacionesYaOcurridas,
-			Map<Situacion, Integer> contadorEstado, Map<Situacion, Integer> contadorEstadoAccion,
-			Map<Situacion, Double> tablaDeDecisiones) {
-
-		Double nuevoD = 0.0;
-
+	private void qLearning(Integer recompensa, List<Situacion> situacionesYaOcurridas,
+						   Map<Situacion, Integer> contadorEstado, Map<Situacion, Integer> contadorEstadoAccion,
+						   Map<Situacion, Double> tablaDeDecisiones) {
+		Double qValorSiguiente = 0.0;
 		if (recompensa != null) {
-			ListIterator<Situacion> situacionIterator = situacionesYaOcurridas.listIterator();
-
-			while (situacionIterator.hasNext()) {
-				Situacion situacionActual = situacionIterator.next();
+			ListIterator<Situacion> situacionesYaOcurridasIterator = situacionesYaOcurridas.listIterator();
+			while (situacionesYaOcurridasIterator.hasNext()) {
+				Situacion situacionActual = situacionesYaOcurridasIterator.next();
 				contadorEstado.put(situacionActual, contadorEstado.getOrDefault(situacionActual, 0) + 1);
 				contadorEstadoAccion.put(situacionActual, contadorEstadoAccion.getOrDefault(situacionActual, 0) + 1);
-				double alpha = 1.0 / contadorEstadoAccion.get(situacionActual);
-				double anterior = tablaDeDecisiones.getOrDefault(situacionActual, 0.0);
-				if (situacionIterator.hasNext()) {
-					Situacion situacionSiguiente = situacionIterator.next();
+				double factorDeAprendizaje = 1.0 / contadorEstadoAccion.get(situacionActual);
+				double qValorPrevio = tablaDeDecisiones.getOrDefault(situacionActual, 0.0);
+				if (situacionesYaOcurridasIterator.hasNext()) {
+					Situacion situacionSiguiente = situacionesYaOcurridasIterator.next();
+					Situacion situacionDoblar = new Situacion(situacionSiguiente.getPuntosJugador() + 1,
+							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
 					Situacion situacionPedir = new Situacion(situacionSiguiente.getPuntosJugador() + 1,
 							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
 					Situacion situacionMantenerse = new Situacion(situacionSiguiente.getPuntosJugador(),
 							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
-					Double valorMaximo = maximo(tablaDeDecisiones.get(situacionPedir),
-							tablaDeDecisiones.get(situacionMantenerse));
-					nuevoD = valorMaximo * 0.8;
+					qValorSiguiente = Math.max(Math.max(tablaDeDecisiones.getOrDefault(situacionDoblar, 0.0), tablaDeDecisiones.getOrDefault(situacionPedir, 0.0)),
+							tablaDeDecisiones.getOrDefault(situacionMantenerse, 0.0)) * 0.8;
 				}
-				situacionActual = situacionIterator.previous();
-				tablaDeDecisiones.put(situacionActual, (1 - alpha) * anterior + alpha * (recompensa + nuevoD));
-				situacionIterator.next();
+				situacionActual = situacionesYaOcurridasIterator.previous();
+				tablaDeDecisiones.put(situacionActual, (1 - factorDeAprendizaje) * qValorPrevio + factorDeAprendizaje * (recompensa + qValorSiguiente));
+				situacionesYaOcurridasIterator.next();
 			}
 		}
 	}
 
-	private Double maximo(Double double1, Double double2) {
-		if (double1 >= double2) {
-			return double1;
-		} else {
-			return double2;
-		}
-	}
-
-	public void jugar(int partidas) {
-
-		/* Aprende a jugar con 500000 juegos */
-		Map<Situacion, Double> tablaDeDecisiones = this.iteracion(500000, true, false);
-
-		/* Se simulan partidas */
-		for (int i = 0; i <= partidas; i++) {
-
-			Juego juego = new Juego(false);
-
+	public Map<Situacion, Double> iteracion(int iteraciones, boolean etapaDeAprendizaje) {
+		int nZero = 100;
+		Map<Situacion, Double> tablaDeDecisiones = new HashMap<>();
+		Map<Situacion, Integer> contadorEstado = new HashMap<>();
+		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
+		//List<Situacion> situacionesYaOcurridas = new ArrayList<>();
+		for (int i = 0; i < iteraciones; i++) {
+			Juego juego = new Juego(etapaDeAprendizaje);
+			int puntosActualesDelJugador = juego.getPuntosDelJugador();
+			int puntosActualesDeLaBanca = juego.getPuntosDeLaBanca();
+			Accion accionActual = null;
+			Integer recompensaActual = null;
+			Situacion situacionActual = new Situacion(puntosActualesDelJugador, puntosActualesDeLaBanca, accionActual);
+			List<Situacion> situacionesYaOcurridas = new ArrayList<>();
 			while (!juego.estaTerminado()) {
-
-				int numeroCartasRestantes = juego.getMaso().getCartasRestantes().size();
-				if (numeroCartasRestantes < 52 * 0.6) {
+				if (juego.getMaso().getCartasRestantes().size() < 31) {
 					juego.setMaso(new Maso());
 				}
-
-				Double pedir = tablaDeDecisiones
-						.get(new Situacion(juego.getPuntosJugador(), juego.getPuntosBanca(), Accion.PEDIR));
-				Double mantenerse = tablaDeDecisiones
-						.get(new Situacion(juego.getPuntosJugador(), juego.getPuntosBanca(), Accion.MANTENERSE));
-
-				if (pedir == null || mantenerse == null) {
-					juego.jugada(Accion.MANTENERSE);
-				} else { 				
-					if (pedir > mantenerse) {
-						juego.jugada(Accion.PEDIR);
+				if (accionActual == null && recompensaActual == null) {
+					accionActual = this.politicaAleatoria();
+				} else if (accionActual != Accion.PLANTARSE && recompensaActual != -1) {
+					Double epsilon = (double) (nZero / (nZero + contadorEstado.getOrDefault(situacionActual, 0)));
+					if (etapaDeAprendizaje) {
+						accionActual = politicaEpsilonGreedy(epsilon, tablaDeDecisiones, puntosActualesDelJugador,
+								puntosActualesDeLaBanca);
 					} else {
-						juego.jugada(Accion.MANTENERSE);
+						accionActual = mejorPolitica(tablaDeDecisiones, puntosActualesDelJugador, puntosActualesDeLaBanca);
 					}
+				} else {
+					accionActual = this.politicaAleatoria();
 				}
+				situacionActual.setAccion(accionActual);
+				if (!situacionesYaOcurridas.contains(situacionActual) && puntosActualesDelJugador < 22) {
+					situacionesYaOcurridas.add(situacionActual);
+				}
+				recompensaActual = juego.jugada(accionActual);
+				this.qLearning(recompensaActual, situacionesYaOcurridas, contadorEstado, contadorEstadoAccion,
+						tablaDeDecisiones);
 			}
 		}
+		return tablaDeDecisiones;
 	}
+
 }
