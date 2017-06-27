@@ -2,22 +2,22 @@ package ar.edu.untref.ia;
 
 public class Situacion {
 
-	private int puntosJugador;
-	private int puntosBanca;
+	private int puntosDelJugador;
+	private int puntosDeLaBanca;
 	private Accion accion;
 
-	public Situacion(int puntosJugador, int puntosBanca, Accion accion) {
-		this.puntosJugador = puntosJugador;
-		this.puntosBanca = puntosBanca;
+	public Situacion(int puntosDelJugador, int puntosDeLaBanca, Accion accion) {
+		this.puntosDelJugador = puntosDelJugador;
+		this.puntosDeLaBanca = puntosDeLaBanca;
 		this.accion = accion;
 	}
 
-	public int getPuntosJugador() {
-		return puntosJugador;
+	public int getPuntosDelJugador() {
+		return puntosDelJugador;
 	}
 
-	public int getPuntosBanca() {
-		return puntosBanca;
+	public int getPuntosDeLaBanca() {
+		return puntosDeLaBanca;
 	}
 
 	public Accion getAccion() {
@@ -38,8 +38,8 @@ public class Situacion {
 			equals = true;
 		}
 		Situacion otraSituacion = (Situacion) otroObjeto;
-		if (otraSituacion.getPuntosJugador() == this.puntosJugador
-				&& otraSituacion.getPuntosBanca() == this.puntosBanca
+		if (otraSituacion.getPuntosDelJugador() == this.puntosDelJugador
+				&& otraSituacion.getPuntosDeLaBanca() == this.puntosDeLaBanca
 				&& otraSituacion.getAccion() == this.accion) {
 			equals = true;
 		}
@@ -49,8 +49,8 @@ public class Situacion {
 	@Override
 	public int hashCode() {
 		int hashCode = 17;
-		hashCode = 31 * hashCode + this.puntosJugador;
-		hashCode = 31 * hashCode + this.puntosBanca;
+		hashCode = 31 * hashCode + this.puntosDelJugador;
+		hashCode = 31 * hashCode + this.puntosDeLaBanca;
 		if (this.accion == null) {
 			hashCode = 31 * hashCode;
 		} else {

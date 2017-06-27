@@ -80,12 +80,12 @@ public class BlackJack {
 				double qValorPrevio = tablaDeDecisiones.getOrDefault(situacionActual, 0.0);
 				if (situacionesYaOcurridasIterator.hasNext()) {
 					Situacion situacionSiguiente = situacionesYaOcurridasIterator.next();
-					Situacion situacionDoblar = new Situacion(situacionSiguiente.getPuntosJugador() + 1,
-							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
-					Situacion situacionPedir = new Situacion(situacionSiguiente.getPuntosJugador() + 1,
-							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
-					Situacion situacionMantenerse = new Situacion(situacionSiguiente.getPuntosJugador(),
-							situacionSiguiente.getPuntosBanca(), situacionSiguiente.getAccion());
+					Situacion situacionDoblar = new Situacion(situacionSiguiente.getPuntosDelJugador() + 1,
+							situacionSiguiente.getPuntosDeLaBanca(), situacionSiguiente.getAccion());
+					Situacion situacionPedir = new Situacion(situacionSiguiente.getPuntosDelJugador() + 1,
+							situacionSiguiente.getPuntosDeLaBanca(), situacionSiguiente.getAccion());
+					Situacion situacionMantenerse = new Situacion(situacionSiguiente.getPuntosDelJugador(),
+							situacionSiguiente.getPuntosDeLaBanca(), situacionSiguiente.getAccion());
 					qValorSiguiente = Math.max(Math.max(tablaDeDecisiones.getOrDefault(situacionDoblar, 0.0), tablaDeDecisiones.getOrDefault(situacionPedir, 0.0)),
 							tablaDeDecisiones.getOrDefault(situacionMantenerse, 0.0)) * 0.8;
 				}
@@ -101,7 +101,7 @@ public class BlackJack {
 		Map<Situacion, Double> tablaDeDecisiones = new HashMap<>();
 		Map<Situacion, Integer> contadorEstado = new HashMap<>();
 		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
-		//List<Situacion> situacionesYaOcurridas = new ArrayList<>();
+		puntosBanca//List<Situacion> situacionesYaOcurridas = new ArrayList<>();
 		for (int i = 0; i < iteraciones; i++) {
 			Juego juego = new Juego(etapaDeAprendizaje);
 			int puntosActualesDelJugador = juego.getPuntosDelJugador();
