@@ -80,7 +80,7 @@ public class JuegoTest {
         
     	Juego juego = new Juego(true);
         
-        int reward = juego.jugada(Accion.MANTENERSE);
+        int reward = juego.jugada(Accion.PLANTARSE);
 
         Assert.assertNotNull(reward);
     }

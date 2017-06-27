@@ -5,30 +5,30 @@ import java.util.List;
 
 public class Juego {
 
-	private boolean aprendizaje;
-	private boolean terminado;
 	private Jugador jugador;
 	private Jugador banca;
 	private Maso maso;
+	private boolean etapaDeAprendizaje;
+	private boolean juegoHaTerminado;
 	private int puntosDelJugador;
 	private int puntosDeLaBanca;
-	private boolean jugadorSePlanto = false;
+	private boolean jugadorSePlanto;
+	private List<String> cartasDelJugador = new ArrayList<>();
+	private List<String> cartasDeLaBanca = new ArrayList<>();
 
-	List<String> cartasDelJugador = new ArrayList<>();
-	List<String> cartasDeLaBanca = new ArrayList<>();
-
-	public Juego(boolean aprendizaje) {
-		this.aprendizaje = aprendizaje;
-		this.terminado = false;
+	public Juego(boolean etapaDeAprendizaje) {
 		this.jugador = new Jugador();
 		this.banca = new Jugador();
 		this.maso = new Maso();
 		this.puntosDelJugador = 0;
 		this.puntosDeLaBanca = 0;
-		comenzar();
+		this.etapaDeAprendizaje = etapaDeAprendizaje;
+		this.juegoHaTerminado = false;
+		this.jugadorSePlanto = false;
+		this.comienzo();
 	}
 
-	public void comenzar() {
+	public void comienzo() {
 		cartasDelJugador.add(this.jugador.pedir(this.maso));
 		cartasDelJugador.add(this.jugador.pedir(this.maso));
 		cartasDeLaBanca.add(this.banca.pedir(this.maso));
@@ -37,7 +37,7 @@ public class Juego {
 	}
 
 	private void imprimirEstadoDelJuego(boolean inicioDelJuego, boolean jugadorPide, boolean jugadorDobla) {
-		if (!aprendizaje) {
+		if (!etapaDeAprendizaje) {
 			if (inicioDelJuego) {
 				System.out.println("\n");
 				System.out.println("****************************");
@@ -51,7 +51,7 @@ public class Juego {
 					System.out.println("Siguiente jugada: JUGADOR PIDE CARTA \n");
 				} else if (jugadorDobla) {
 					System.out.println("\n-------------------------------");
-					System.out.println("Siguiente jugada: JUGADOR DOBLA\n");
+					System.out.println("Siguiente jugada: JUGADOR DOBLA APUESTA\n");
 				} else {
 					if (!jugadorSePlanto) {
 						jugadorSePlanto = true;
@@ -63,18 +63,14 @@ public class Juego {
 					System.out.println("Siguiente jugada: BANCA PIDE CARTA \n");
 				}
 			}
-
 			System.out.println("CARTAS DE LA BANCA: ");
-			for (String cartaBanca : cartasDeLaBanca) {
-				System.out.println(cartaBanca);
+			for (String cartaDeLaBanca : cartasDeLaBanca) {
+				System.out.println(cartaDeLaBanca);
 			}
-			System.out.println("\nPuntaje de la banca: " + this.banca.getPuntos());
-
-			System.out.println("\n");
-
+			System.out.println("\nPuntaje de la banca: " + this.banca.getPuntos() + "\n");
 			System.out.println("CARTAS DEL JUGADOR: ");
-			for (String cartaJugador : cartasDelJugador) {
-				System.out.println(cartaJugador);
+			for (String cartaDelJugador : cartasDelJugador) {
+				System.out.println(cartaDelJugador);
 			}
 			System.out.println("\nPuntaje del jugador: " + this.jugador.getPuntos());
 		}
@@ -85,8 +81,72 @@ public class Juego {
 		this.puntosDeLaBanca = this.banca.getPuntos();
 	}
 
+	protected int jugada(Accion accion) {
+		if (accion == Accion.PEDIR) {
+			cartasDelJugador.add(this.jugador.pedir(this.maso));
+			imprimirEstadoDelJuego(false, true, false);
+			this.actualizarPuntuacion();
+		} else if (accion == Accion.DOBLAR) {
+			cartasDelJugador.add(this.jugador.pedir(this.maso));
+			imprimirEstadoDelJuego(false, false, true);
+			this.actualizarPuntuacion();
+			this.juegoHaTerminado = true;
+			if (this.puntosDelJugador < 22) {
+				while (this.puntosDeLaBanca < 17) {
+					cartasDeLaBanca.add(this.banca.pedir(this.maso));
+					imprimirEstadoDelJuego(false, false, false);
+					this.actualizarPuntuacion();
+				}
+			}
+		} else if (accion == Accion.PLANTARSE) {
+			this.juegoHaTerminado = true;
+			while (this.puntosDeLaBanca < 17) {
+				cartasDeLaBanca.add(this.banca.pedir(this.maso));
+				imprimirEstadoDelJuego(false, false, false);
+				this.actualizarPuntuacion();
+			}
+		}
+		return this.calcularRecompensaJugador();
+	}
+
+	/**
+	 * recompensa 1: jugador gana
+	 * recompensa 0: empate
+	 * recompensa -1: banca gana
+	 */
+	private int calcularRecompensaJugador() {
+		int recompensa = 0;
+		if (this.puntosDelJugador > 21) {
+			this.juegoHaTerminado = true;
+			recompensa = -1;
+			this.imprimirSiCorresponde(!etapaDeAprendizaje, this.juegoHaTerminado, "\nEl jugador supero los 21 puntos: GANA LA BANCA");
+		} else {
+			if (this.puntosDeLaBanca > 21) {
+				recompensa = 1;
+				this.imprimirSiCorresponde(!etapaDeAprendizaje, this.juegoHaTerminado, "\nLa banca supero los 21 puntos: GANA EL JUGADOR");
+			} else if (this.puntosDelJugador < this.puntosDeLaBanca) {
+				recompensa = -1;
+				this.imprimirSiCorresponde(!etapaDeAprendizaje, this.juegoHaTerminado, "\nLa banca tiene mas puntos que el jugador: GANA LA BANCA");
+			} else if (this.puntosDelJugador == this.puntosDeLaBanca) {
+				recompensa = 0;
+				this.imprimirSiCorresponde(!etapaDeAprendizaje, this.juegoHaTerminado, "\nEL juego ha terminado: EMPATE");
+			} else if (this.puntosDelJugador > this.puntosDeLaBanca) {
+				recompensa = 1;
+				this.imprimirSiCorresponde(!etapaDeAprendizaje, this.juegoHaTerminado, "\nEl jugador tiene mas puntos que la banca: GANA EL JUGADOR");
+			}
+		}
+		return recompensa;
+	}
+
+	private void imprimirSiCorresponde(boolean noAprendizaje, boolean terminado, String mensaje) {
+		if (noAprendizaje && terminado) {
+			System.out.println(mensaje);
+		}
+
+	}
+
 	protected boolean estaTerminado() {
-		return this.terminado;
+		return this.juegoHaTerminado;
 	}
 
 	protected Jugador getJugador() {
@@ -111,72 +171,5 @@ public class Juego {
 
 	protected int getPuntosDeLaBanca() {
 		return this.puntosDeLaBanca;
-	}
-
-	protected int jugada(Accion accion) {
-
-		if (accion == Accion.PEDIR) {
-			cartasDelJugador.add(this.jugador.pedir(this.maso));
-			imprimirEstadoDelJuego(false, true, false);
-			this.actualizarPuntuacion();
-		} else if (accion == Accion.DOBLAR) {
-			cartasDelJugador.add(this.jugador.pedir(this.maso));
-			imprimirEstadoDelJuego(false, false, true);
-			this.actualizarPuntuacion();
-			this.terminado = true;
-			if (this.puntosDelJugador < 22) {
-				while (this.puntosDeLaBanca < 17) {
-					cartasDeLaBanca.add(this.banca.pedir(this.maso));
-					imprimirEstadoDelJuego(false, false, false);
-					this.actualizarPuntuacion();
-				}
-			}
-		} else if (accion == Accion.MANTENERSE) {
-			this.terminado = true;
-			while (this.puntosDeLaBanca < 17) {
-				cartasDeLaBanca.add(this.banca.pedir(this.maso));
-				imprimirEstadoDelJuego(false, false, false);
-				this.actualizarPuntuacion();
-			}
-		}
-		return this.calcularRecompensaJugador();
-	}
-
-	/**
-	 * recompensa 1: jugador gana recompensa 0: empate recompensa -1: banca gana
-	 */
-	private int calcularRecompensaJugador() {
-
-		int recompensa = 0;
-		if (this.puntosDelJugador > 21) {
-			this.terminado = true;
-			recompensa = -1;
-			this.imprimirSiCorresponde(!aprendizaje, "\nEl jugador se paso de 21 puntos: GANA LA BANCA");
-		} else {
-			if (this.puntosDeLaBanca > 21) {
-				recompensa = 1;
-				this.imprimirSiCorresponde(!aprendizaje, "\nLa banca se paso de 21 puntos: GANA EL JUGADOR");
-			} else if (this.puntosDelJugador < this.puntosDeLaBanca) {
-				recompensa = -1;
-				this.imprimirSiCorresponde(!aprendizaje, "\nLa banca tiene mas puntos que el jugador: GANA LA BANCA");
-			} else if (this.puntosDelJugador == this.puntosDeLaBanca) {
-				recompensa = 0;
-				this.imprimirSiCorresponde(!aprendizaje, "\nJuego terminado: EMPATE");
-			} else if (this.puntosDelJugador > this.puntosDeLaBanca) {
-				recompensa = 1;
-				if (this.terminado) {
-					this.imprimirSiCorresponde(!aprendizaje,
-							"\nEl jugador tiene mas puntos que la banca: GANA EL JUGADOR");
-				}
-			}
-		}
-		return recompensa;
-	}
-
-	private void imprimirSiCorresponde(boolean imprimir, String mensaje) {
-		if (imprimir) {
-			System.out.println(mensaje);
-		}
-
 	}
 }

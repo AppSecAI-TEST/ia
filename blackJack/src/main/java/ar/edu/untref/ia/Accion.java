@@ -1,8 +1,7 @@
 package ar.edu.untref.ia;
 
 public enum Accion {
-
-	MANTENERSE, 
+	PLANTARSE,
 	PEDIR,
 	DOBLAR,
 	SPLIT
