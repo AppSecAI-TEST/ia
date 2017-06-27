@@ -4,5 +4,4 @@ public enum Accion {
 	PLANTARSE,
 	PEDIR,
 	DOBLAR,
-	SPLIT
 }

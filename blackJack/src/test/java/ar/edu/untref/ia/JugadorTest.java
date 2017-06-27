@@ -33,7 +33,7 @@ public class JugadorTest {
     	Jugador jugador = new Jugador();
         Maso maso = new Maso();
         
-        jugador.pedir(maso);
+        jugador.pedirCarta(maso);
         
         List<String> mano = jugador.getMano();
         List<String> cartasRestantes = maso.getCartasRestantes();
@@ -48,9 +48,9 @@ public class JugadorTest {
     	Jugador jugador = new Jugador();
         Maso mano = new Maso();
         
-        jugador.pedir(mano);
-        jugador.pedir(mano);
-        jugador.pedir(mano);
+        jugador.pedirCarta(mano);
+        jugador.pedirCarta(mano);
+        jugador.pedirCarta(mano);
 
         int puntosActuales = jugador.getPuntos();
 

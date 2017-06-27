@@ -1,8 +1,5 @@
 package ar.edu.untref.ia;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Juego {
 
 	private Jugador jugador;
@@ -13,8 +10,6 @@ public class Juego {
 	private int puntosDelJugador;
 	private int puntosDeLaBanca;
 	private boolean jugadorSePlanto;
-	private List<String> cartasDelJugador = new ArrayList<>();
-	private List<String> cartasDeLaBanca = new ArrayList<>();
 
 	public Juego(boolean etapaDeAprendizaje) {
 		this.jugador = new Jugador();
@@ -29,9 +24,9 @@ public class Juego {
 	}
 
 	public void comienzo() {
-		cartasDelJugador.add(this.jugador.pedir(this.maso));
-		cartasDelJugador.add(this.jugador.pedir(this.maso));
-		cartasDeLaBanca.add(this.banca.pedir(this.maso));
+		this.jugador.pedirCarta(this.maso);
+		this.jugador.pedirCarta(this.maso);
+		this.banca.pedirCarta(this.maso);
 		actualizarPuntuacion();
 		imprimirEstadoDelJuego(true, false, false);
 	}
@@ -64,12 +59,12 @@ public class Juego {
 				}
 			}
 			System.out.println("CARTAS DE LA BANCA: ");
-			for (String cartaDeLaBanca : cartasDeLaBanca) {
+			for (String cartaDeLaBanca : banca.getMano()) {
 				System.out.println(cartaDeLaBanca);
 			}
 			System.out.println("\nPuntaje de la banca: " + this.banca.getPuntos() + "\n");
 			System.out.println("CARTAS DEL JUGADOR: ");
-			for (String cartaDelJugador : cartasDelJugador) {
+			for (String cartaDelJugador : jugador.getMano()) {
 				System.out.println(cartaDelJugador);
 			}
 			System.out.println("\nPuntaje del jugador: " + this.jugador.getPuntos());
@@ -83,17 +78,17 @@ public class Juego {
 
 	protected int jugada(Accion accion) {
 		if (accion == Accion.PEDIR) {
-			cartasDelJugador.add(this.jugador.pedir(this.maso));
+			this.jugador.pedirCarta(this.maso);
 			imprimirEstadoDelJuego(false, true, false);
 			this.actualizarPuntuacion();
 		} else if (accion == Accion.DOBLAR) {
-			cartasDelJugador.add(this.jugador.pedir(this.maso));
+			this.jugador.pedirCarta(this.maso);
 			imprimirEstadoDelJuego(false, false, true);
 			this.actualizarPuntuacion();
 			this.juegoHaTerminado = true;
 			if (this.puntosDelJugador < 22) {
 				while (this.puntosDeLaBanca < 17) {
-					cartasDeLaBanca.add(this.banca.pedir(this.maso));
+					this.banca.pedirCarta(this.maso);
 					imprimirEstadoDelJuego(false, false, false);
 					this.actualizarPuntuacion();
 				}
@@ -101,7 +96,7 @@ public class Juego {
 		} else if (accion == Accion.PLANTARSE) {
 			this.juegoHaTerminado = true;
 			while (this.puntosDeLaBanca < 17) {
-				cartasDeLaBanca.add(this.banca.pedir(this.maso));
+				this.banca.pedirCarta(this.maso);
 				imprimirEstadoDelJuego(false, false, false);
 				this.actualizarPuntuacion();
 			}
