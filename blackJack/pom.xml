@@ -2,7 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.edu.untref.ia</groupId>
+<<<<<<< HEAD
     <artifactId>blackjack</artifactId>
+=======
+    <artifactId>BlackJack</artifactId>
+>>>>>>> 93a58502b57d626f4b7956b496c20493c89ede29
     <version>1.0.0</version>
     <dependencies>
         <dependency>
