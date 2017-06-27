@@ -101,7 +101,7 @@ public class BlackJack {
 		Map<Situacion, Double> tablaDeDecisiones = new HashMap<>();
 		Map<Situacion, Integer> contadorEstado = new HashMap<>();
 		Map<Situacion, Integer> contadorEstadoAccion = new HashMap<>();
-		puntosBanca//List<Situacion> situacionesYaOcurridas = new ArrayList<>();
+		//List<Situacion> situacionesYaOcurridas = new ArrayList<>();
 		for (int i = 0; i < iteraciones; i++) {
 			Juego juego = new Juego(etapaDeAprendizaje);
 			int puntosActualesDelJugador = juego.getPuntosDelJugador();
